@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="wms_project.mapper.OfficeMapper">
+
+	<select id="office_list" resultType="wms_project.dto.OfficeDTO">
+		select oidx, officename, mname, mhp, otel, memail, opost, oroad, oaddress from office where oview = 'Y' order by odate desc
+	</select>
+	
+	<select id="search_office" parameterType="String" resultType="wms_project.dto.OfficeDTO">
+		select oidx, officename, mname, mhp, otel, memail, opost, oroad, oaddress from office where officename like concat('%',#{search},'%') and oview = 'Y' order by odate desc
+	</select>
+	
+	<update id="delete_office" parameterType="String">
+		update office set oview = 'N' where oidx = #{oidx}
+	</update>
+	
+	<select id="check_officename" parameterType="String" resultType="String">
+		select count(*) as cnt from office where officename like concat('%',#{officename},'%') and oview = 'Y';
+	</select>
+	
+	<select id="poplist_member" resultType="wms_project.dto.MemberDTO">
+		select midx, mid, mname, mjob, memail, mhp, approve from member where mpart = '지점' and approve not in ('퇴사', '대기') order by midx desc;
+	</select>
+	
+	<select id="search_member" parameterType="Map" resultType="wms_project.dto.MemberDTO">
+		select * from member 
+		<choose>
+			<when test="part == '이름'">
+				where mname like concat('%',#{search},'%')
+			</when>
+			<when test="part == '아이디'">
+				where mid like concat('%',#{search},'%')
+			</when>
+			<when test="part == '연락처'">
+				where mhp like concat('%',#{search},'%')
+			</when>
+		</choose>
+		order by mdate desc
+	</select>
+	
+	<select id="apply_member" parameterType="String" resultType="wms_project.dto.MemberDTO">
+		select midx, mname, mhp, memail from member where midx = #{midx}
+	</select>
+	
+	<!-- officeInsert 지점 등록하기 버튼 시 적용 -->
+	<insert id="insert_office">
+		insert into office (oidx, officename, mname, mhp, otel, memail, opost, oroad, oaddress, odate) values ('0', #{officename}, #{mname}, #{mhp}, #{otel}, #{memail}, #{opost}, #{oroad}, #{oaddresdd}, now())
+	</insert>
+</mapper>
