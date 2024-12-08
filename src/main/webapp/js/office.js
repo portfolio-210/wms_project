@@ -85,6 +85,11 @@ function officenameCheck(){
 	}
 }
 
+//지점 등록 페이지 아이디 찾기 버튼 클릭 시 적용 함수
+function open_poplist(){
+     window.open("officePopList.do", "popupWindow", "width=560,height=500");
+}
+
 //등록하기 버튼 클릭 시 적용 함수
 function insert_check(){
 	var officename = frm.officename;
@@ -110,9 +115,14 @@ function insert_check(){
 		oaddress.focus();
 	} else {
 		//대표 연락처 "-" 포함 되도록 검사
-		
+		const pattern = /^\d{2,3}-\d{3,4}-\d{4}$/;
+		if(!pattern.test(otel.value)){
+		    alert("대표 연락처는 '-'를 포함하여 입력해주세요.\n 예)02-1212-3333");
+		}
 		//부가 유효 검사 후 submit
-		frm.action="../office/office_insert.do";
+		frm.action="../office/officeInsert.do";
+		frm.method="get";
+		frm.submit();
 	}
 }
 
@@ -167,25 +177,30 @@ function searchAll_member(){
 
 //팝업 관리자 적용 버튼 클릭
 function apply_member(midx){
-	console.log(midx);
-
+console.log(midx);
 	//http : 전송하는 값, result : Back-end에서 받은 응답을 저장하는 값
 	var http, result;
 	http = new XMLHttpRequest();
+
 	http.onreadystatechange = function(){
 		if(http.readyState == 4 && http.status == 200){
-			result = this.response;
-			if(result.length === 0){
-				alert("적용할 수 없는 관리자입니다.\n관리자 현황을 다시 확인해주세요.");
+			result = JSON.parse(http.responseText);
+			if(result.error){
+				alert(result.error);
 			} else {
-				var data = result.split("|");
-				var mname = data[1];
-				alert(mname + "님은 적용 가능한 관리자입니다.");
+			console.log(result.mname);
+			console.log(result.mhp);
+			console.log(result.memail);
+			    window.opener.document.getElementById("mname").value = result.mname;
+			    window.opener.document.getElementById("mhp").value = result.mhp;
+			    window.opener.document.getElementById("memail").value = result.memail;
+
+			    window.close();
 			}
 		}
 	}
 	http.open("post", "../office/officeInsert.do", true);
-	http.setRequestHeader("content-type", "application/x-www-form-urlencoded");
+    http.setRequestHeader("content-type", "application/x-www-form-urlencoded");
 	http.send("midx=" + midx);
 }
 

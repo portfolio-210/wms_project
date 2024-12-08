@@ -28,8 +28,8 @@
 					<ul class="ul-1">
 					    <li class="num_font13_bold">지점 담당자</li>
 					    <li style="width: 85%; display: flex; flex-direction: row;">
-					        <input type="text" name="mname" value="${mname}" style="width: 160px; height: 40px; margin-right: 5px;" class="form-control font12" placeholder="지점 담당자 선택" readonly>
-					        <button type="button" onclick="location.href='./officePopList.do'" class="btn btn-secondary font12" style="width: 100px; height: 40px;">아이디 찾기</button>&nbsp;&nbsp;<font style="font-size: 12px; color: red;">※ 해당 지점 담당자 선택시 추후 변경이 가능 합니다.</font>
+					        <input type="text" name="mname" id="mname" value="" style="width: 160px; height: 40px; margin-right: 5px;" class="form-control font12" placeholder="지점 담당자 선택" readonly>
+					        <button type="button" onclick="open_poplist()" class="btn btn-secondary font12" style="width: 100px; height: 40px;">아이디 찾기</button>&nbsp;&nbsp;<font style="font-size: 12px; color: red;">※ 해당 지점 담당자 선택시 추후 변경이 가능 합니다.</font>
 					    </li>
 					    <li></li>
 					    <li></li>
@@ -37,11 +37,11 @@
 					<ul class="ul-1" style="margin-bottom: 5px;">
 					    <li class="num_font13_bold">담당자 연락처</li>
 					    <li>
-					        <input type="text" name="mhp" value="${mhp}" style="height: 40px;" class="form-control font12" readonly>
+					        <input type="text" name="mhp" id="mhp" value="" style="height: 40px;" class="form-control font12" readonly>
 					    </li>
 					    <li class="num_font13_bold">담당자 이메일</li>
 					    <li>
-					        <input type="text" name="memail" value="${memail}" style="height: 40px;" class="form-control font12" readonly>
+					        <input type="text" name="memail" id="memail" value="" style="height: 40px;" class="form-control font12" readonly>
 					    </li>
 					</ul> 
 					<ul class="ul-1">

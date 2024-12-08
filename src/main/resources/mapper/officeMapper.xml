@@ -35,7 +35,7 @@
 				where mhp like concat('%',#{search},'%')
 			</when>
 		</choose>
-		order by mdate desc
+		and mpart = '지점' and approve not in ('퇴사', '대기') order by mdate desc
 	</select>
 	
 	<select id="apply_member" parameterType="String" resultType="wms_project.dto.MemberDTO">
@@ -43,7 +43,7 @@
 	</select>
 	
 	<!-- officeInsert 지점 등록하기 버튼 시 적용 -->
-	<insert id="insert_office">
-		insert into office (oidx, officename, mname, mhp, otel, memail, opost, oroad, oaddress, odate) values ('0', #{officename}, #{mname}, #{mhp}, #{otel}, #{memail}, #{opost}, #{oroad}, #{oaddresdd}, now())
+	<insert id="insert_office" parameterType="wms_project.dto.OfficeDTO">
+		insert into office (oidx, officename, mname, mhp, otel, memail, opost, oroad, oaddress, odate) values ('0', #{officename}, #{mname}, #{mhp}, #{otel}, #{memail}, #{opost}, #{oroad}, #{oaddress}, now())
 	</insert>
 </mapper>

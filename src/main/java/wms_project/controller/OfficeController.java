@@ -10,10 +10,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import jakarta.annotation.Resource;
 import jakarta.servlet.ServletResponse;
@@ -94,11 +91,14 @@ public class OfficeController {
 	
 	
 //officeInsert.jsp Controller
+	/*
 	//지점 등록 초기 화면 출력
 	@GetMapping("/office/officeInsert.do")
-	public String offict_insert() {
+	public String office_insert() {
 		return null;
 	}
+
+	 */
 	
 	//등록할 지점 중복 검사
 	@CrossOrigin("*")	//AJAX CORS 방지
@@ -126,15 +126,16 @@ public class OfficeController {
 		}
 		return null;
 	}
-	
+
 	//지점 등록
-	@GetMapping("/office/office_insert.do")
-	public String office_insert(@RequestParam("oidx")String oidx, @RequestParam("key")String key, ServletResponse res) {
+	@GetMapping("/office/officeInsert.do")
+	public String office_insert(@ModelAttribute OfficeDTO officeDTO, ServletResponse res) {
 		res.setContentType("text/html;charset=utf-8");
+		System.out.println(officeDTO);
 		try {
 			this.pw = res.getWriter();
 			
-			int result = os.insert_office();
+			int result = os.insert_office(officeDTO);
 			if(result > 0) {
 				this.pw.print("<script>"
 						+ "alert('해당 지점이 등록 되었습니다.');"
@@ -147,15 +148,15 @@ public class OfficeController {
 						+ "history.go(-1);"
 						+ "</script>");
 			}
-			
 		} catch (Exception e) {
-			System.out.println("삭제 실패");
+			System.out.println("지점 등록 실패");
 			System.out.println(e.getMessage());
 		} finally {
 			this.pw.close();
 		}
 		return null;
 	}
+
 	
 	
 //officePopList.jsp Controller
@@ -177,32 +178,33 @@ public class OfficeController {
 		keyword.put("search", search);
 		List<MemberDTO> all = os.search_member(keyword);
 		m.addAttribute("all", all);
+		m.addAttribute("total", all.size());
 		return null;
 	}
-	
-	//지점 등록 버튼 클릭 시 insert
+
+	//관리자 적용 버튼 클릭 시 insert
 	@CrossOrigin("*")
 	@PostMapping("/office/officeInsert.do")
-	public String apply_member(@RequestParam("midx") String midx, HttpServletResponse res) {
-		res.setContentType("text/html;charset=utf-8");
+	@ResponseBody
+	public Map<String, String> apply_member(@RequestParam("midx") String midx) {
+		Map<String, String> response = new HashMap<>();
 		try {
-			this.pw = res.getWriter();
-			List<MemberDTO> result = null;
-			if(midx == "") {
-				System.out.println("midx = 빈 값");
+			if(midx.isEmpty()){
+				response.put("error", "해당 관리자는 적용이 불가능합니다. 다른 관리자를 확인해주세요.");
 			} else {
-				result = os.apply_member(midx);
-				String mname =result.get(0).getMname();
-				this.pw.print(result + "|" + mname);
+				List<MemberDTO> result = os.apply_member(midx);
+				if(result == null){
+					response.put("error", "적용할 수 없는 관리자 입니다. 관리자 현황을 다시 한 번 확인해주세요.");
+				} else {
+					MemberDTO member = result.get(0);
+					response.put("mname", member.getMname());
+					response.put("mhp", member.getMhp());
+					response.put("memail", member.getMemail());
+				}
 			}
 		} catch (Exception e) {
-			this.pw.print("<script>"
-					+ "alert('서버가 불안정합니다. 잠시 후에 다시 시도 해주세요.');"
-					+ "history.go(-1);"
-					+ "</script>");
-		} finally {
-			this.pw.close();
+			response.put("error", "서버가 불안정합니다. 잠시 후 다시 이용해주세요.");
 		}
-		return null;
+		return response;
 	}
 }

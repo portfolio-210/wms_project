@@ -69,8 +69,8 @@ public class OfficeServiceImp implements OfficeService{
 	
 	//officeInsert 지점 등록하기 버튼 시 적용
 	@Override
-	public int insert_office() {
-		int result = om.insert_office();
+	public int insert_office(OfficeDTO odto) {
+		int result = om.insert_office(odto);
 		return result;
 	}
 }

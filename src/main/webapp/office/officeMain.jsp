@@ -104,7 +104,7 @@
         </ul>
       </div>
       <div class="mb-3" style="text-align: right;">
-      	<button type="button" class="btn btn-danger font12" onclick="location.href='../office/officeInsert.do'" style="width: 100px; height: 40px; margin-right: 40px;">지점등록</button> 
+      	<button type="button" class="btn btn-danger font12" onclick="location.href='../office/officeInsert.jsp'" style="width: 100px; height: 40px; margin-right: 40px;">지점등록</button>
       </div>
     </div>
   </div>
