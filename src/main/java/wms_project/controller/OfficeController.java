@@ -44,6 +44,7 @@ public class OfficeController {
 	public String search_ok(@RequestParam("search") String search, Model m) {
 		List<OfficeDTO> searchAll = os.search_office(search);
 		m.addAttribute("all", searchAll);
+		m.addAttribute("total", searchAll.size());
 		return null;
 	}
 	
