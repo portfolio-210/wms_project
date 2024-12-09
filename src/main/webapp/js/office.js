@@ -52,7 +52,7 @@ function delete_office(oidx){
 //officeInsert.jsp
 var officenameCheck = false;
 //지점명 중복체크 버튼 클릭 시 적용 함수
-function officenameCheck(){
+function officenameValidate(){
 	var officename = frm.officename.value;
 	if(officename == ""){
 		alert("등록할 지점을 입력해주세요.");

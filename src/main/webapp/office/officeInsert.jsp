@@ -18,7 +18,7 @@
 	            	<li class="num_font13_bold">지점명</li>
 	            	<li style="width: 85%; display: flex; flex-direction: row;">
 	                	<input type="text" name="officename" style="width: 200px; height: 40px;" class="form-control font12" placeholder="지점명을 입력하세요">
-	                	<button type="button" onclick="officenameCheck()" class="btn btn-secondary font12" style="width: 100px; height: 40px; margin-left:10px;">
+	                	<button type="button" onclick="officenameValidate()" class="btn btn-secondary font12" style="width: 100px; height: 40px; margin-left:10px;">
 							중복체크
 		                </button>   
 		            </li>
