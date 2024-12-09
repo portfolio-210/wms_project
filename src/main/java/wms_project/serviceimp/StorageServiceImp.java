@@ -12,26 +12,36 @@ import wms_project.service.StorageService;
 @Service
 public class StorageServiceImp implements StorageService {
 
-	
-	@Autowired
-	StorageMapper sm;
-	
-	@Override
-	public int insert1(StorageDTO storageDTO) {
-		
-		return sm.insert1(storageDTO);
-	}
-		
-	@Override
-	public int checkCode(String scode) {
-		int count = sm.checkCode(scode);
-        return count;		
-	}
-	
-	@Override
-	public List<StorageDTO> searchall(String mspot) {
-		
-		return sm.searchall(mspot);
-	}
-		
+
+    @Autowired
+    StorageMapper sm;
+
+    @Override
+    public int insert1(StorageDTO storageDTO) {
+
+        return sm.insert1(storageDTO);
+    }
+
+    @Override
+    public int checkCode(String scode) {
+        int count = sm.checkCode(scode);
+        return count;
+    }
+
+    @Override
+    public List<StorageDTO> searchall(String mspot) {
+
+        return sm.searchall(mspot);
+    }
+
+    @Override
+    public StorageDTO getByID(String scode) {
+        return sm.getByID(scode);
+    }
+
+    @Override
+    public int updateByID(StorageDTO storageDTO) {
+        return sm.updateByID(storageDTO);
+    }
+
 }
