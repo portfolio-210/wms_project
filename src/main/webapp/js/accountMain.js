@@ -1,0 +1,8 @@
+function accountModify(){
+	
+}
+
+
+function accountDelete(){
+	
+}

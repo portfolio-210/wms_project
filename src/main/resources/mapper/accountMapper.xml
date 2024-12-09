@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="wms_project.mapper.AccountMapper">
+	
+	<!-- 거래처 등록 -->
+	 <insert id="account_insert" parameterType="wms_project.dto.AccountDTO">
+	    INSERT INTO account (acode, acompany, aname, aindustry, ahp, anum, atype, afax, apost, aroad, addr, approve, adate)
+	    VALUES (#{acode}, #{acompany}, #{aname}, #{aindustry}, #{ahp}, #{anum}, #{atype}, #{afax}, #{apost}, #{aroad}, #{addr}, 'Y', now());
+	</insert>
+
+	<!-- 중복체크 -->
+	<select id="search_company" resultType="String" parameterType="String">
+		SELECT count(*) AS ctn FROM account WHERE acompany=#{acompany} ORDER BY aidx DESC 
+	</select>
+	
+	<!-- 데이터의 총 갯수를 가져오는 - 코드 생성 -->
+	 <select id="account_ctn" resultType="String" parameterType="String">
+	    SELECT count(*) AS ctn FROM account
+	</select>
+	
+	<!-- 리스트 출력 -->
+	<select id="accountList" resultType="wms_project.dto.AccountDTO">
+		SELECT aidx, acompany, acode, anum, aname, ahp, aindustry, atype, apost, aroad, addr FROM account WHERE approve = 'Y' ORDER BY aidx DESC
+	</select>
+	
+	<!-- 글수정 idx값 가져오기 -->
+	<select id="accountIdx" resultType="int" parameterType="wms_project.dto.AccountDTO">
+		SELECT * FROM account WHERE adix=#{aidx}
+	</select>
+ 
+</mapper>

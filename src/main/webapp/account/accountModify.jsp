@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="f" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!-- Header -->
 <%@ include file="../header.jsp"%>
 <!-- Nav -->
@@ -11,12 +13,12 @@
 <form id="f1">
   <div class="container">
     <div>
-    <p class="sub_title font16_bold">거래처 등록</p>
+    <p class="sub_title font16_bold">거래처 수정</p>
     <div class="mb-3" style="position: relative;">
         <ul class="ul-1" style="margin-bottom: 5px;">
             <li class="num_font13_bold">거래처명</li>
             <li style="display: flex; flex-direction: row;">
-                <input type="text" name="acompany" id="acompany" style="width: 200px; height: 40px;" class="form-control font12" placeholder="거래처명을 입력하세요" onclick="re_company(this)">
+                <input type="text" name="acompany" id="acompany" value="${all.acompany}" style="width: 200px; height: 40px;" class="form-control font12" placeholder="거래처명을 입력하세요" onclick="re_company(this)">
                 <button type="button" class="btn btn-secondary font12" style="width: 100px; height: 40px; margin-left:10px;" onclick="company_check()">
                     중복체크
                 </button>   
@@ -95,7 +97,7 @@
  </form> 
 </main>
 
-<script src="../js/account.js?v=<%=sf.format(today)%>"></script>
+<script src="../js/accountModify.js?v=<%=sf.format(today)%>"></script>
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 
 <!-- Footer -->

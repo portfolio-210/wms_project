@@ -25,9 +25,7 @@
     <link rel="stylesheet" href="/css/default.css?v=20241124">  
     <link rel="stylesheet" href="/css/jumbotron.css"> 
     
-    <!-- 스크립트 모아 지정하는 구간!! -->
-     <script src="./js/account.js?v=<%=sf.format(today)%>"></script>
-    
+   
     
     
      

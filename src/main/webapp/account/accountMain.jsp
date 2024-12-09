@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="f" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!-- Header -->
 <%@ include file="../header.jsp"%>
 <!-- Nav -->
@@ -36,28 +38,36 @@
                 <th scope="col" style="width: 120px;">수정 / 삭제</th>
               </tr>
             </thead>
+            
+            
+            <!-- 리스트 출력 파트 -->
             <tbody style="background-color: #f1f1ef;">
+            <c:forEach var="account" items="${all}" varStatus="idx">
                 <tr align="center" style="line-height: 30px;">
-                    <td>1</td>
-                    <td>GS홈쇼핑</td>
-                    <td>ACC123</th>
-                    <td>81-23456-55245</td>
-                    <td>홍길동</td>
-                    <td>02-1234-5678</td>
-                    <td>방송/엔터</td>
-                    <td>전자상거래</td>
-                    <td style="text-align: left;">(05632)서울시 영등포구 문래동 6가 GS타워 3F</td>
+                    <td>${total - idx.index}</td>
+                    <td>${account.acompany}</td>
+                    <td>${account.acode}</th>
+                    <td>${account.anum}</td>
+                    <td>${account.aname}</td>
+                    <td>${account.ahp}</td>
+                    <td>${account.aindustry}</td>
+                    <td>${account.atype}</td>
+                    <td style="text-align: left;">(${account.apost}) ${account.aroad} ${account.addr}</td>
                     <td>
                         <ul class="btn_ul">
-                            <li><button type="button" class="btn btn-dark font12" style="width: 50px; height: 30px; margin-right: 10px;">수정</button>
+                            <li><button type="button" class="btn btn-dark font12"  style="width: 50px; height: 30px; margin-right: 10px;" onclick="location.href='./accountModify.do?aidx=${account.aidx}'">수정</button>
                             </li>
                             <li>
-                            <button type="button" class="btn btn-dark font12" style="width: 50px; height: 30px; margin-right: 10px;">삭제</button> 
+                            <button type="button" class="btn btn-dark font12" style="width: 50px; height: 30px; margin-right: 10px;"onclick="accountDelete(${account.aidx})">삭제</button> 
                             </li>
                             </ul>
                     </td>
                   </tr>
+            </c:forEach>
             </tbody>
+            <!-- 리스트 출력 끝!! -->
+            
+            
           </table>
      </div>
      <div class="mb-3">
@@ -66,11 +76,11 @@
         </ul>
       </div>
       <div class="mb-3" style="text-align: right;">
-      <button type="button" class="btn btn-danger font12" style="width: 100px; height: 40px;" onclick="location.href='./account_upload.jsp'">거래처 등록</button> 
+      <button type="button" class="btn btn-danger font12" style="width: 100px; height: 40px;" onclick="location.href='./accountInsert.do'">거래처 등록</button> 
       </div>
     </div>
   </div>
 </main>  
-
+<script src="../js/accountMain.js?v=<%=sf.format(today)%>"></script>
 <!-- Footer -->
 <%@ include file="../footer.jsp"%>

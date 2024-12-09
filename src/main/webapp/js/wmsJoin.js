@@ -208,6 +208,8 @@ function login_check(){
 
 	else{
 	    f1.mhp.value = hp1.value + hp2.value +  hp3.value;
+		f1.method="post";
+		f1.action="./wmsJoinok.do";
 	    f1.submit();
 	}	
 }

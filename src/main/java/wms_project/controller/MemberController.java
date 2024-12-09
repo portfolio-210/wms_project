@@ -17,15 +17,26 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import wms_project.dto.MemberDTO;
+import wms_project.dto.OfficeDTO;
 import wms_project.service.MemberService;
+import wms_project.service.OfficeService;
 
 @Controller
 public class MemberController implements security {
+	
 	@Resource(name="memberdto")
     MemberDTO dto;
-	
 	@Autowired
 	private MemberService ms;
+	
+	@Resource(name="OfficeDTO")
+	OfficeDTO odto;
+	@Autowired
+    OfficeService os;
+	
+
+	
+	
 	
 	String output = null;
 	javascript js = new javascript();
@@ -34,9 +45,19 @@ public class MemberController implements security {
     @GetMapping("/wmsMain.do")
     public String main(Model m, HttpServletRequest req) {    
 
-    	
         return "wmsMain"; 
     }
+    
+    
+    
+    @GetMapping("wmsJoin.do")
+    public String wmsJoin(Model m) {
+    	List<OfficeDTO> all = os.office_list();
+    	m.addAttribute("all", all);
+    	return null;
+    }
+    
+    
     
  // 회원가입
  	@PostMapping("/wmsJoinok.do")

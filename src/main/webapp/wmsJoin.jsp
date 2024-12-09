@@ -1,6 +1,8 @@
 <!-- 스크립트 자동 업데이트 -->
 <%@page import="java.text.SimpleDateFormat"%>
 <%@page import="java.util.Date"%>
+<%@ taglib prefix="cr" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%
 	Date today = new Date();
 	SimpleDateFormat sf =new SimpleDateFormat("yyyMMddhhmmss");	
@@ -21,7 +23,7 @@
 </head>
 <body style="position: relative;">
 
-    <form id="f1" method="post" action="./wmsJoinok.do" onsubmit="return login_check()" >    
+    <form id="f1" >    
     <div class="container" style="position: relative; top:15vh; width: 750px;">	
         <h6 style="text-align: center; height: 40px; line-height: 40px;">
             <u>ADMINISTRATOR MEMBERSHIP</u>
@@ -38,8 +40,9 @@
                     </select>
                     <select name="mspot" id="mspot" style="width: 180px; height: 40px;" class="form-control font12" hidden>
                         <option value="N">선택해주세요</option>
-                        <option value="수원지점">수원지점</option>
-                        <option value="대전지점">대전지점</option>
+                        <cr:forEach var="office" items="${all}">
+                        	<option value="${office.officename}">${office.officename}</option>
+                    	</cr:forEach>
                     </select>
                 </li>
                 <li></li>
@@ -115,7 +118,7 @@
 
             </div>
             <div class="mb-3" style="display: flex; flex-direction: row; align-items: center; justify-content: center;">
-            <button type="submit" class="btn btn-primary font12" style="width: 30%; height: 40px; margin-right: 10px;">신청하기</button>   
+            <button type="button" class="btn btn-primary font12" style="width: 30%; height: 40px; margin-right: 10px;" onclick="login_check()">신청하기</button>   
             <button type="button" class="btn btn-secondary font12" style="width: 30%; height: 40px;" onclick="location.href='./wmsLogin.jsp'">취소하기</button>  
             </div>   
             <div class="mb-3 font14">
