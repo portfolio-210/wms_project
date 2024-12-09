@@ -50,7 +50,7 @@ function delete_office(oidx){
 
 
 //officeInsert.jsp
-
+var officenameCheck = false;
 //지점명 중복체크 버튼 클릭 시 적용 함수
 function officenameCheck(){
 	var officename = frm.officename.value;
@@ -72,9 +72,11 @@ function officenameCheck(){
 				if(http.readyState == 4 && http.status == 200){
 					result = this.response;
 					if(result == "0"){
+					    officenameCheck = true;
 						alert("등록 가능한 지점입니다.");
+						frm.officename.readOnly = true;
 					} else {
-						alert("해당 지점은 이미 등록되어 있습니다.");
+						alert("해당 지점은 이미 등록되어 있습니다.\n다른 지점을 입력해주세요");
 					}
 				}
 			}
@@ -90,15 +92,19 @@ function open_poplist(){
      window.open("officePopList.do", "popupWindow", "width=560,height=500");
 }
 
-//등록하기 버튼 클릭 시 적용 함수
+//등록하기 버튼 클릭 시 적용 함수 - 지점명 중복 확인 검사
 function insert_check(){
 	var officename = frm.officename;
 	var mname = frm.mname;
 	var otel = frm.otel;
 	var opost = frm.opost;
 	var oaddress = frm.oaddress;
+
+	if(!officenameCheck){
+	    alert("지점명 중복 확인을 해주세요.");
+	}
 	
-	if(officename == ""){
+	if(officename.value == ""){
 		alert("등록할 지점명을 입력해주세요.");
 		officename.focus();
 	} else if(mname.value == ""){
