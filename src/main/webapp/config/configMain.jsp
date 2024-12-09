@@ -8,7 +8,7 @@
 <!-- Nav -->
 <%@ include file="../nav.jsp"%>   
 
-<script src="./config.js?v="<%= sf.format(today) %>></script>
+<script src="../js/config.js?v="<%= sf.format(today) %>></script>
 
 <main role="main" style="height: 850px;">
 

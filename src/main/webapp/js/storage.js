@@ -1,0 +1,154 @@
+
+
+function insert12(){
+	var frm = document.getElementById('frm');
+
+	var scode = frm.scode.value;
+	var mspot = frm.mspot.value;
+	var sname = frm.sname.value;
+	var spost = frm.spost.value;
+	var saddress1 = frm.saddress1.value;
+	var saddress2 = frm.saddress2.value;
+	var smname = frm.smname.value;
+	var smhp = frm.smhp.value;
+	var mid = frm.mid.value;
+	// 선택된 라디오 버튼의 값 가져오기
+	var suse = document.querySelector('input[name="use"]:checked').value === 'true'; // 선택된 라디오 버튼의 값
+	
+	console.log("창고 코드 (scode):", mid);
+	console.log("창고 코드 (scode):", scode);
+	console.log("창고 코드 (spost):", spost);
+	    console.log("지점 위치 (mspot):", mspot);
+	    console.log("창고 이름 (sname):", sname);
+	    console.log("상세 주소 (saddress2):", saddress2);
+	    console.log("담당자 이름 (smname):", smname);
+	    console.log("담당자 연락처 (smhp):", smhp);
+	    console.log("사용 유무 (suse):", suse);
+	
+	
+	if(sname === ""){
+		alert("등록할 창고명을 입력해주세요.");
+		frm.sname.focus();
+		return;
+	} else 
+	if(saddress1 === ""){
+		alert("창고 주소를 입력해주세요.");
+		return;
+	} else if(spost === ""){
+		alert("상세주소를 입력해주세요.");
+		return;
+	} else if(saddress2 === ""){
+		alert("상세주소를 입력해주세요.");
+		frm.saddress2.focus();
+		return;
+	} else if(smname === ""){
+		alert("담당자 이름을 입력해주세요.");
+		frm.smname.focus();
+		return;
+	} else if(smhp === ""){
+		alert("담당자 연락처를 입력해주세요.");
+		frm.smhp.focus();
+		return;
+	} else if(!/^\d{10,11}$/.test(smhp)){
+			alert("올바른 전화번호를 입력해주세요.");
+			frm.smhp.focus();
+			return;
+		}
+		 else {
+				
+		frm.action="/storageInsert.do";  // 폼 전송 URL 설정
+		frm.submit(); // 폼 제출
+	}
+}
+
+async function checkCode(scode){
+	
+	const a = await fetch(`/api/checkCode/${scode}`); // 서버에 요청
+	const b = await a.json(); // JSON으로 변환하여 중복 여부를 얻음
+	console.log(b)
+	return b; // true 또는 false 반환
+	
+	
+}
+
+async function RandomCode() {
+		var scode;
+		var a = true;
+				
+		while (a) {		
+		        scode = Math.floor(10000 + Math.random() * 90000); // 10000부터 99999 범위의 숫자 생성
+		        a = await checkCode(scode); // 중복 체크
+				console.log(scode)
+		    }
+			
+       document.getElementById('scode').value = scode;
+	   
+   }//창고 코드 만들기(랜덤함수이며 5글자 숫자)
+   
+   
+   onload = function() {
+        //scode 입력 필드가 존재하는지 확인
+       if (location.pathname === '/storage/storageInsert.do') {
+           RandomCode(); // scode 필드가 있을 때만 랜덤 코드 생성
+       }
+   };
+
+
+function back1(){
+	if(confirm("입력된 내용은 모두 삭제 됩니다. 취소 하시겠습니까?")){
+		frm.reset();
+		location.href="/storage/storageMain.do";
+	}
+}
+
+// 우편번호 찾기 찾기 화면을 넣을 element
+    var element_wrap = document.getElementById('wrap');
+
+    function foldDaumPostcode() {
+        // iframe을 넣은 element를 안보이게 한다.
+        element_wrap.style.display = 'none';
+    }
+
+    function sample3_execDaumPostcode() {
+        // 현재 scroll 위치를 저장해놓는다.
+        var currentScroll = Math.max(document.body.scrollTop, document.documentElement.scrollTop);
+        new daum.Postcode({
+            oncomplete: function(data) {
+                // 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
+
+                // 각 주소의 노출 규칙에 따라 주소를 조합한다.
+                // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
+                var addr = ''; // 주소 변수
+                var extraAddr = ''; // 참고항목 변수
+
+                //사용자가 선택한 주소 타입에 따라 해당 주소 값을 가져온다.
+                if (data.userSelectedType === 'R') { // 사용자가 도로명 주소를 선택했을 경우
+                    addr = data.roadAddress;
+                } else { // 사용자가 지번 주소를 선택했을 경우(J)
+                    addr = data.jibunAddress;
+                }
+
+                // 우편번호와 주소 정보를 해당 필드에 넣는다.
+                document.getElementById('spost').value = data.zonecode;
+                document.getElementById("saddress1").value = addr;
+                // 커서를 상세주소 필드로 이동한다.
+                document.getElementById("saddress2").focus();
+
+                // iframe을 넣은 element를 안보이게 한다.
+                // (autoClose:false 기능을 이용한다면, 아래 코드를 제거해야 화면에서 사라지지 않는다.)
+                element_wrap.style.display = 'none';
+
+                // 우편번호 찾기 화면이 보이기 이전으로 scroll 위치를 되돌린다.
+                document.body.scrollTop = currentScroll;
+            },
+            // 우편번호 찾기 화면 크기가 조정되었을때 실행할 코드를 작성하는 부분. iframe을 넣은 element의 높이값을 조정한다.
+            onresize : function(size) {
+                element_wrap.style.height = size.height+'px';
+            },
+            width : '100%',
+            height : '100%'
+        }).embed(element_wrap);
+
+        // iframe을 넣은 element를 보이게 한다.
+        element_wrap.style.display = 'block';
+    }

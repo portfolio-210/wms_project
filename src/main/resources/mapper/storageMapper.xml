@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="wms_project.mapper.StorageMapper">
+
+<!-- 등록 -->
+ <insert id="insert1" parameterType="wms_project.dto.StorageDTO">
+        INSERT INTO storage (scode, mspot, sname, spost, saddress1, saddress2, smname, smhp, suse, mid, sdate)
+        VALUES (#{scode}, #{mspot}, #{sname}, #{spost}, #{saddress1}, #{saddress2}, #{smname}, #{smhp}, #{suse}, #{mid}, NOW())
+    </insert>
+
+<!-- 중복체크 -->
+ <select id="checkCode" resultType="int">
+        SELECT COUNT(*) 
+        FROM storage 
+        WHERE scode = #{scode}
+    </select>
+
+
+
+
+
+</mapper>
