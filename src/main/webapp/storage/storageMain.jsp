@@ -8,22 +8,26 @@
 <!-- Nav -->
 <%@ include file="../nav.jsp"%>   
 
-<script src="../storage.js?v="<%= sf.format(today) %>></script>
+
 
 <main role="main" style="height: 850px;">
+
   <div class="container">
     <div>
+    <form id="frm" method="get">
+    <input type="hidden" name="mspot" value="${sessionScope.mspot}" >
     <p class="sub_title font16_bold">창고 리스트 현황</p>
     <div class="mb-3" style="position: relative;">
         <ul class="ul-2">
             <li class="num_font13_bold">검색형식</li>
             <li style="width: 85%; display: flex; flex-direction: row;">
-                <input type="text" style="width: 200px; height: 40px;" class="form-control font12" placeholder="창고명을 입력하세요">
-                <button type="button" class="btn btn-primary font12" style="width: 70px; height: 40px; margin-left:10px; margin-right: 10px;">검색</button>   
-                <button type="button" class="btn btn-dark font12" style="width: 70px; height: 40px; margin-right: 10px;">전체</button> 
+                <input type="text" id="searchKeyword" name="searchKeyword" style="width: 200px; height: 40px;" class="form-control font12" placeholder="창고명을 입력하세요">
+                <button type="button" onclick="searchall1()" class="btn btn-primary font12" style="width: 70px; height: 40px; margin-left:10px; margin-right: 10px;">검색</button>   
+                <button type="button" onclick="searchall1()" class="btn btn-dark font12" style="width: 70px; height: 40px; margin-right: 10px;">전체</button> 
             </li>
         </ul> 
      </div>
+     </form>
      <div class="mb-3">
         <table class="table font12">
             <thead>
@@ -38,16 +42,28 @@
               </tr>
             </thead>
             <tbody style="background-color: #f1f1ef;">
+            <c:if test="${empty members}">
+              <tr align="center" style="line-height: 30px;">
+                <td colspan="7">등록된 창고가 없습니다.</td>
+              </tr>
+            </c:if>
+            <c:forEach var="member" items="${members}" varStatus="status">
                 <tr align="center" style="line-height: 30px;">
-                    <td colspan="7">등록된 창고가 없습니다.</td>
-                </tr>
-                <tr align="center" style="line-height: 30px;">
-                    <td>1</td>
-                    <td>S7391</td>
-                    <td>세종 남구대리점 창고1</th>
-                    <td>(30151) 세종특별자치시 한누리대로 215499-2 1F</td>
-                    <td>홍길동</td>
-                    <td>Y</td>
+                    <td>${status.index + 1}</td>
+                    <td>${member.scode}</td>
+                    <td>${member.sname}</td>
+                    <td>(${member.spost})${member.saddress1} ${member.saddress2}</td>
+                    <td>${member.smname}</td>
+                    <td>
+					    <c:choose>
+					        <c:when test="${member.suse}">
+					            사용가능
+					        </c:when>
+					        <c:otherwise>
+					            사용불가
+					        </c:otherwise>
+					    </c:choose>
+					</td>
                     <td>
                         <ul class="btn_ul">
                             <li>
@@ -59,16 +75,19 @@
                         </ul>
                     </td>
                   </tr>
+                </c:forEach>    
             </tbody>
           </table>
+           
      </div>
+
      <div class="mb-3">
         <ul class="pageing">
           <li>1</li>
         </ul>
       </div>
       <div class="mb-3" style="text-align: right;">
-      <button type="button" class="btn btn-danger font12" style="width: 100px; height: 40px;">창고 등록</button> 
+      <button type="button" class="btn btn-danger font12" style="width: 100px; height: 40px;" onclick="location.href='/storage/storageInsert.do'" >창고 등록</button> 
       </div>
     </div>
   </div>
@@ -76,3 +95,4 @@
 
 <!-- Footer -->
 <%@ include file="../footer.jsp"%>
+<script src="../js/storage.js?v=<%= sf.format(today) %>"></script>

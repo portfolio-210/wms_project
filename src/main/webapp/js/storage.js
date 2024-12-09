@@ -1,10 +1,10 @@
 
+var frm = document.getElementById('frm');
 
 function insert12(){
-	var frm = document.getElementById('frm');
-
+	
 	var scode = frm.scode.value;
-	var mspot = frm.mspot.value;
+	var sspot = frm.sspot.value;
 	var sname = frm.sname.value;
 	var spost = frm.spost.value;
 	var saddress1 = frm.saddress1.value;
@@ -12,19 +12,11 @@ function insert12(){
 	var smname = frm.smname.value;
 	var smhp = frm.smhp.value;
 	var mid = frm.mid.value;
+	var sdeleted = frm.sdeleted.value;
 	// 선택된 라디오 버튼의 값 가져오기
-	var suse = document.querySelector('input[name="use"]:checked').value === 'true'; // 선택된 라디오 버튼의 값
-	
-	console.log("창고 코드 (scode):", mid);
-	console.log("창고 코드 (scode):", scode);
-	console.log("창고 코드 (spost):", spost);
-	    console.log("지점 위치 (mspot):", mspot);
-	    console.log("창고 이름 (sname):", sname);
-	    console.log("상세 주소 (saddress2):", saddress2);
-	    console.log("담당자 이름 (smname):", smname);
-	    console.log("담당자 연락처 (smhp):", smhp);
-	    console.log("사용 유무 (suse):", suse);
-	
+	var susel = document.querySelector('input[name="use"]:checked').value// 선택된 라디오 버튼의 값
+	var suse = (susel === 'true'); //boolen으로 변환
+	document.getElementById('suse').value = suse; // true 또는 false로 설정
 	
 	if(sname === ""){
 		alert("등록할 창고명을 입력해주세요.");
@@ -65,7 +57,6 @@ async function checkCode(scode){
 	
 	const a = await fetch(`/api/checkCode/${scode}`); // 서버에 요청
 	const b = await a.json(); // JSON으로 변환하여 중복 여부를 얻음
-	console.log(b)
 	return b; // true 또는 false 반환
 	
 	
@@ -152,3 +143,21 @@ function back1(){
         // iframe을 넣은 element를 보이게 한다.
         element_wrap.style.display = 'block';
     }
+	
+	
+/////////////////////////////////////////////////////////////////
+//main
+
+function searchall1(){
+						
+			var mspot = frm.mspot.value;
+			console.log("mspot value:", mspot);
+	       //frm.method = "get"; // 폼 메서드 설정
+	       //frm.action = "/storage/storageMain.do"; // 폼 액션 설정
+	       // 폼을 body에 추가
+	       // 폼 제출
+	       //frm.submit();	  	
+		   var url = "/storage/storageMain.do?mspot=" + encodeURIComponent(mspot);
+		   window.location.href = url; // URL로 이동
+}
+	

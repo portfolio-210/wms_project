@@ -4,16 +4,22 @@
 
 <!-- 등록 -->
  <insert id="insert1" parameterType="wms_project.dto.StorageDTO">
-        INSERT INTO storage (scode, mspot, sname, spost, saddress1, saddress2, smname, smhp, suse, mid, sdate)
-        VALUES (#{scode}, #{mspot}, #{sname}, #{spost}, #{saddress1}, #{saddress2}, #{smname}, #{smhp}, #{suse}, #{mid}, NOW())
+        INSERT INTO storage (scode, sspot, sname, spost, saddress1, saddress2, smname, smhp, suse, mid, sdeleted, sdate)
+        VALUES (#{scode}, #{sspot}, #{sname}, #{spost}, #{saddress1}, #{saddress2}, #{smname}, #{smhp}, #{suse}, #{mid}, #{sdeleted}, NOW())
     </insert>
 
-<!-- 중복체크 -->
+<!-- 중복체크(창고코드) -->
  <select id="checkCode" resultType="int">
         SELECT COUNT(*) 
         FROM storage 
         WHERE scode = #{scode}
     </select>
+    
+<select id="searchall" parameterType="String" resultType="wms_project.dto.StorageDTO">
+
+select * from storage where sspot = #{mspot}
+
+</select>
 
 
 

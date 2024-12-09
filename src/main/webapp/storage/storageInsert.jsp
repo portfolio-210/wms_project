@@ -18,7 +18,10 @@
     <div>
     <p class="sub_title font16_bold">창고 등록</p>
     <form id="frm" method="post" onsubmit="return insert12();">
+    <input type="hidden" name="suse" id="suse" value="">
     <input type="hidden" name="mid" value="${sessionScope.id}">
+    <input type="hidden" name="sdeleted" value="1">
+    
     <div class="mb-3" style="position: relative;">
         <ul class="ul-2">
             <li class="num_font13_bold">창고코드</li>
@@ -36,7 +39,7 @@
         <ul class="ul-2" style="margin-bottom: 5px;">
             <li class="num_font13_bold">지점위치</li>
             <li style="width:85%; display: flex; flex-direction: row;">
-                <input type="text" name="mspot" value="${sessionScope.mspot}" style="width: 180px; height: 40px;" class="form-control font12" readonly>
+                <input type="text" name="sspot" value="${sessionScope.mspot}" style="width: 180px; height: 40px;" class="form-control font12" readonly>
             </li>
         </ul>
         </div> 
@@ -80,10 +83,10 @@
                 <li class="num_font13_bold">사용 유/무</li>
                 <li>
                     <label style="margin-right: 40px;">
-                        <input type="radio" id="use" name="use" value="use" style="vertical-align:-2px; width: 15px; height:15px;" checked> 사용중
+                        <input type="radio" id="use" name="use" value="true" style="vertical-align:-2px; width: 15px; height:15px;" checked> 사용중
                     </label>
                     <label>
-                        <input type="radio" id="not" name="use" value="not" style="vertical-align:-2px; width: 15px; height:15px;"> 미사용중
+                        <input type="radio" id="not" name="use" value="false" style="vertical-align:-2px; width: 15px; height:15px;"> 미사용중
                     </label>
                 </li>
                 <li class="num_font13_bold"></li>

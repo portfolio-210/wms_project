@@ -80,10 +80,10 @@
                 <td style="text-align: center;">
                     <button type="button" class="btn btn-dark font12" style="width: 50px; height: 30px; margin-right: 10px;" onclick="change4(${member.midx})">적용</button> 
                 </td>
-              </tr>            
+              </tr>
+              </c:forEach>            
             </tbody>
-            </c:forEach>
-          </table>
+         </table>
      </div>
      <div class="mb-3">
         <ul class="pageing">

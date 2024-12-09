@@ -1,5 +1,7 @@
 package wms_project.controller;
 
+import java.util.List;
+
 import org.eclipse.tags.shaded.org.apache.regexp.recompile;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -9,9 +11,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import wms_project.dto.ConfigDTO;
 import wms_project.dto.StorageDTO;
 import wms_project.service.StorageService;
 
@@ -41,6 +45,7 @@ public class StorageController {
 	public String InsertStorage(StorageDTO storageDTO, Model m) {
 		
 			try {
+			
 			int result = ss.insert1(storageDTO);
 			
 			
@@ -72,6 +77,19 @@ public class StorageController {
             return ResponseEntity.ok(count); // count 값을 HTTP 응답으로 반환
       }
     
+    
+
+    @GetMapping("/storage/storageMain.do")
+    public String showMembers(@RequestParam(value = "mspot", required = false) String mspot, Model m) {
+    	
+        List<StorageDTO> members = ss.searchall(mspot); // 전체 멤버 가져오기
+        
+        
+        m.addAttribute("members", members); // 모델에 추가
+        
+        
+        return null; // JSP 페이지 이름 반환
+    }
 	
 
 }

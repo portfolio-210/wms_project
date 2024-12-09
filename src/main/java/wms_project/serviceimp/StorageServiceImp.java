@@ -1,5 +1,7 @@
 package wms_project.serviceimp;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,6 +26,12 @@ public class StorageServiceImp implements StorageService {
 	public int checkCode(String scode) {
 		int count = sm.checkCode(scode);
         return count;		
+	}
+	
+	@Override
+	public List<StorageDTO> searchall(String mspot) {
+		
+		return sm.searchall(mspot);
 	}
 		
 }
