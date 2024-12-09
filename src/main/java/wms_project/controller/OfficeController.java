@@ -132,7 +132,6 @@ public class OfficeController {
 	@GetMapping("/office/officeInsert.do")
 	public String office_insert(@ModelAttribute OfficeDTO officeDTO, ServletResponse res) {
 		res.setContentType("text/html;charset=utf-8");
-		System.out.println(officeDTO);
 		try {
 			this.pw = res.getWriter();
 			
