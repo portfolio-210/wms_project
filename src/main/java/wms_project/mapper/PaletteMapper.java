@@ -11,4 +11,6 @@ public interface PaletteMapper {
     List<PaletteDTO> palette_list(String mspot);
     //검색한 팔레트 리스트 출력
     List<PaletteDTO> search_palette(String mspot, String search);
+    //팔레트 삭제
+    int delete_palette(String pidx);
 }

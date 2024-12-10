@@ -52,10 +52,10 @@
                     <td>
                         <ul class="btn_ul">
                             <li>
-                            <button type="button" class="btn btn-dark font12" style="width: 50px; height: 30px; margin-right: 10px;">수정</button>
+                            <button type="button" onclick="modify_palette(${palette.pidx})" class="btn btn-dark font12" style="width: 50px; height: 30px; margin-right: 10px;">수정</button>
                             </li>
                             <li>
-                            <button type="button" class="btn btn-dark font12" style="width: 50px; height: 30px; margin-right: 10px;">삭제</button>
+                            <button type="button" onclick="delete_palette(${palette.pidx})" class="btn btn-dark font12" style="width: 50px; height: 30px; margin-right: 10px;">삭제</button>
                             </li>
                         </ul>
                     </td>

@@ -27,10 +27,38 @@ function searchPalette(){
 //전체 버튼 클릭 시
 function searchAllPalette(){
     search.value = "";
-    frm.method="get";
+    frm.method="post";
     frm.action="../palette/paletteMain.do";
     frm.submit();
 }
+
+//수정 버튼 클릭 시
+function modify_palette(pidx){
+
+}
+
+//삭제 버튼 클릭 시
+function delete_palette(pidx){
+    console.log(pidx);
+    if(confirm("해당 게시물을 삭제하시겠습니까?\n삭제된 데이터는 복구하지 못합니다.")){
+        const form = document.createElement("form");
+        form.method="post";
+        form.action="../palette/palette_delete.do";
+
+        const input = document.createElement("input");
+        input.type="hidden";
+        input.name="pidx";
+        input.value=pidx;
+
+        form.appendChild(input);
+        document.body.appendChild(form);
+        form.submit();
+    }
+}
+
+
+
+
 
 //paletteInsert.jsp - 파렛트 등록 페이지 관련 javascript
 

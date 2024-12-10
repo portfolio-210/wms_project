@@ -21,10 +21,17 @@ public class PaletteServiceImp implements PaletteService {
     }
 
     //검색한 팔레트 리스트 출력
-
     @Override
     public List<PaletteDTO> search_palette(String mspot, String search) {
         List<PaletteDTO> result = pm.search_palette(mspot, search);
+        return result;
+    }
+
+    //팔레트 삭제
+
+    @Override
+    public int delete_palette(String pidx) {
+        int result = pm.delete_palette(pidx);
         return result;
     }
 }
