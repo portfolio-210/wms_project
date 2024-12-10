@@ -15,7 +15,7 @@ function insert12(){
 	var sdeleted = frm.sdeleted.value;
 	// 선택된 라디오 버튼의 값 가져오기
 	var susel = document.querySelector('input[name="suse"]:checked').value; // 선택된 라디오 버튼의 값
-	    var suse = parseInt(susel); // int로 변환하여 0 또는 1로 설정
+	    var suse = parseInt(susel); // int로 변환하여 0 또는 1로 설정!
 
 	    // suse를 폼에 설정
 	    document.getElementById('suse').value = suse;
