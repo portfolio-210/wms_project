@@ -62,8 +62,8 @@ if (session == null ||
       <li class="nav-item dropdown" style="width:160px;">
         <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" aria-expanded="false">창고 및 기사배정</a>
         <div class="dropdown-menu">
-          <a class="dropdown-item" href="#">창고리스트</a>
-          <a class="dropdown-item" href="#">창고등록</a>
+          <a class="dropdown-item" href="../storage/storageMain.do">창고리스트</a>
+          <a class="dropdown-item" href="../storage/storageInsert.do">창고등록</a>
           <a class="dropdown-item" href="#">배송기사 배정</a>
         </div>
       </li>

@@ -83,10 +83,10 @@
                 <li class="num_font13_bold">사용 유/무</li>
                 <li>
                     <label style="margin-right: 40px;">
-                        <input type="radio" id="use" name="use" value="true" style="vertical-align:-2px; width: 15px; height:15px;" checked> 사용중
+                        <input type="radio" id="use" name="use" value="1" style="vertical-align:-2px; width: 15px; height:15px;" checked> 사용중
                     </label>
                     <label>
-                        <input type="radio" id="not" name="use" value="false" style="vertical-align:-2px; width: 15px; height:15px;"> 미사용중
+                        <input type="radio" id="not" name="use" value="0" style="vertical-align:-2px; width: 15px; height:15px;"> 미사용중
                     </label>
                 </li>
                 <li class="num_font13_bold"></li>

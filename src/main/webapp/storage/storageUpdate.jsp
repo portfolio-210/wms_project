@@ -16,7 +16,8 @@
     <div class="container">
         <div>
             <p class="sub_title font16_bold">창고 수정</p>
-            <form id="frm" method="post" action="storageUpdate.do">
+            <form id="frm" method="post" action="storageUpdate.do" onsubmit="return validate1()" >
+            	<!--  <input type="hidden" id="suse" value="">-->
                 <div class="mb-3" style="position: relative;">
                     <ul class="ul-2">
                         <li class="num_font13_bold">창고코드</li>
@@ -82,10 +83,10 @@
                             <li class="num_font13_bold">사용 유/무</li>
                             <li>
                                 <label style="margin-right: 40px;">
-                                    <input type="radio" style="vertical-align:-2px; width: 15px; height:15px;" <%= member.isSuse() ? "checked" : "" %>> 사용중
+                                    <input type="radio" name="suse" value="1" style="vertical-align:-2px; width: 15px; height:15px;" onclick="RadioClick(this)" > 사용중
                                 </label>
                                 <label>
-                                    <input type="radio" style="vertical-align:-2px; width: 15px; height:15px;" <%= !member.isSuse() ? "checked" : "" %>> 미사용중
+                                    <input type="radio" name="suse" value="0" style="vertical-align:-2px; width: 15px; height:15px;"  onclick="RadioClick(this)"> 미사용중
                                 </label>
                             </li>
                             <li class="num_font13_bold"></li>
@@ -107,6 +108,15 @@
         </div>
     </div>
 </main>
+<script>
+var checkes = "${member.suse}";
+if(checkes=="1"){
+	frm.suse[0].checked=true;
+}
+else {
+	frm.suse[1].checked=true;
+}
+</script>
 
 <!-- Footer -->
 <%@ include file="../footer.jsp" %>

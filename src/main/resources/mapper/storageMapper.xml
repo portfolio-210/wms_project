@@ -23,6 +23,11 @@
         where sspot = #{mspot}
 
     </select>
+	<select id="all" parameterType="String" resultType="wms_project.dto.StorageDTO">
+
+		select * from storage where sname LIKE CONCAT('%', #{search}, '%')
+               
+	</select>
 
 
     <select id="getByID" parameterType="String" resultType="wms_project.dto.StorageDTO">
@@ -46,4 +51,13 @@
           suse = #{suse}
       where scode = #{scode}
     </update>
+    
+     <update id="deleteByID" parameterType="wms_project.dto.StorageDTO">
+
+      update storage
+      set sdeleted = 0
+      where scode = #{scode}
+    </update>
+    
+    
 </mapper>

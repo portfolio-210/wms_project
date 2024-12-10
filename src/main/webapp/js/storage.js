@@ -69,7 +69,7 @@ async function RandomCode() {
 		while (a) {		
 		        scode = Math.floor(10000 + Math.random() * 90000); // 10000부터 99999 범위의 숫자 생성
 		        a = await checkCode(scode); // 중복 체크
-				console.log(scode)
+				
 		    }
 			
        document.getElementById('scode').value = scode;
@@ -84,6 +84,60 @@ async function RandomCode() {
        }
    };
 
+   //수정시
+   function validate1() {
+       var sname = frm.sname.value.trim();
+       var spost = frm.spost.value.trim();
+       var saddress1 = frm.saddress1.value.trim();
+       var saddress2 = frm.saddress2.value.trim();
+       var smname = frm.smname.value.trim();
+       var smhp = frm.smhp.value.trim();
+
+       if (sname === "") {
+           alert("창고명을 입력해주세요.");
+           frm.sname.focus();
+           return false;
+       } 
+       else if (saddress1 === "") {
+           alert("창고 주소를 입력해주세요.");
+           frm.saddress1.focus();
+           return false;
+       }
+       else if (spost === "") {
+           alert("우편번호를 입력해주세요.");
+           frm.spost.focus();
+           return false;
+       } 
+       else if (saddress2 === "") {
+           alert("상세 주소를 입력해주세요.");
+           frm.saddress2.focus();
+           return false;
+       }
+      else if (smname === "") {
+           alert("담당자명을 입력해주세요.");
+           frm.smname.focus();
+           return false;
+       }
+      else if (smhp === "") {
+           alert("담당자 연락처를 입력해주세요.");
+           frm.smhp.focus();
+           return false;
+       }
+       else if (!/^\d{10,11}$/.test(smhp)) {
+           alert("올바른 연락처를 입력해주세요. 숫자만 입력 가능합니다.");
+           frm.smhp.focus();
+           return false;
+       }
+	else{
+       // 선택된 라디오 버튼의 값 (true/false)을 설정
+       //var suse = (susel.value === 'true');
+       //document.getElementById('suse').value = suse;
+		
+	  // console.log(suse);
+       // 유효성 검사 통과 시 폼 제출 허용
+       return true;
+	   }
+   }
 
 function back1(){
 	if(confirm("입력된 내용은 모두 삭제 됩니다. 취소 하시겠습니까?")){
@@ -159,5 +213,49 @@ function searchall1(){
 	       //frm.submit();	  	
 		   var url = "/storage/storageMain.do?mspot=" + encodeURIComponent(mspot);
 		   window.location.href = url; // URL로 이동
+}
+
+function search1(){
+	var search = document.getElementById("searchKeyword").value.trim();
+	if (search === "") {
+	        alert("검색어를 입력하세요");
+	        return false;
+	}else {
+		 
+		    document.getElementById("hiddenSearch").value = search;
+		     // 폼 제출
+		  }
+		
+	
+}
+
+function RadioClick(radio){
+	if(frm.suse[1].checked==true){
+		alert("미사용중으로 변경시 재고 입고, 출고가 적용되지 않습니다.")
+	}
+	console.log("선택된 값: ", radio.value);
+	/*
+	if(radio.value === "false"){
+	alert("미사용중으로 변경시 재고 입고, 출고가 적용되지 않습니다.");
+	}
+	    console.log("선택된 값: ", radio.value);
+	*/
+
+}
+
+function deleteStorage(scode) {
+	if (confirm("입력된 내용은 모두 삭제 됩니다. 취소 하시겠습니까?")) {
+	       $.ajax({
+	           url: '/storageDelete.do',
+	           type: 'POST',
+	           data: { scode: scode }, // 다른 데이터도 포함할 수 있음
+	           success: function() {
+	               location.reload();
+	           },
+	           error: function() {
+	               alert("삭제에 실패했습니다.");
+	           }
+	       });
+	   }
 }
 	

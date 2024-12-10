@@ -2,20 +2,19 @@ package wms_project.controller;
 
 import java.util.List;
 
-import org.eclipse.tags.shaded.org.apache.regexp.recompile;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.ModelAndView;
 
-import wms_project.dto.ConfigDTO;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import wms_project.dto.StorageDTO;
 import wms_project.service.StorageService;
 
@@ -75,16 +74,30 @@ public class StorageController {
 
 
     @GetMapping("/storage/storageMain.do")
-    public String showMembers(@RequestParam(value = "mspot", required = false) String mspot, Model m) {
-
-        List<StorageDTO> members = ss.searchall(mspot); // 전체 멤버 가져오기
-
-
-        m.addAttribute("members", members); // 모델에 추가
+    public String showMembers(@RequestParam(value = "mspot", required = false) String mspot, Model m, HttpServletRequest req) {
+    	
+    	 HttpSession sess = req.getSession();
+    	 String sessionMspot = (String) sess.getAttribute("mspot");
+    	 mspot = sessionMspot; 
+    	 List<StorageDTO> members = ss.searchall(mspot); // 전체 멤버 가져오기	
+    	 m.addAttribute("members", members); // 모델에 추가
+        
 
 
         return null; // JSP 페이지 이름 반환
     }
+    
+    @PostMapping("/storage/storageMain.do")
+    public String searchmember(@RequestParam("search") String search, Model m) {
+    	
+    	List<StorageDTO> all = ss.all(search);
+    	m.addAttribute("members", all);
+    	
+    	
+    	
+    	return null;
+    }
+        
 
     @GetMapping("/storage/storageUpdate.do")
     public String getMember(@RequestParam(value = "scode") String scode, Model m) {
@@ -94,9 +107,41 @@ public class StorageController {
 
     @PostMapping("/storage/storageUpdate.do")
     public String updateMember(StorageDTO storageDTO, Model m) {
-        ss.updateByID(storageDTO);
+       
+    	try {
+    	ss.updateByID(storageDTO);
+  
+        this.output = this.js.ok("수정 되었습니다.", "/storage/storageMain.do");
+        
+    	}catch (Exception e) {
+    		this.output = this.js.no("변경 실패하였습니다.");
+		}
+        
+    	m.addAttribute("output", output);
         m.addAttribute("member", ss.getByID(storageDTO.getScode()));
-        return null;
+        return "output";
     }
+    
+    @PostMapping("/storageDelete.do")
+    public String deleteStorage(@RequestParam("scode") String scode, Model m) {
+    	 	System.out.println(scode);
+    	try {
+    	int result = ss.deleteByID(scode);
+    	System.out.println(result);
+  
+	    	if(result > 0){
+	    		this.output = this.js.ok("수정 되었습니다.", "/storage/storageMain.do");
+	    	}else {
+	    		this.output = this.js.no("변경 하실 수 없습니다.");
+	    	}
+            
+    	}catch (Exception e) {
+    		this.output = this.js.no("변경 실패하였습니다.");
+		}
+        
+    	m.addAttribute("output", output);
+        return "output";
+    }
+    
 
 }

@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import wms_project.dto.ConfigDTO;
 import wms_project.dto.StorageDTO;
 import wms_project.mapper.StorageMapper;
 import wms_project.service.StorageService;
@@ -42,6 +43,19 @@ public class StorageServiceImp implements StorageService {
     @Override
     public int updateByID(StorageDTO storageDTO) {
         return sm.updateByID(storageDTO);
+    }
+    
+    @Override
+    public List<StorageDTO> all(String search) {
+    	
+    	return sm.all(search);
+    }
+    
+    @Override
+    public int deleteByID(String scode) {
+    	StorageDTO storageDTO = new StorageDTO();
+        storageDTO.setScode(scode);  	
+    	return sm.deleteByID(scode);
     }
 
 }

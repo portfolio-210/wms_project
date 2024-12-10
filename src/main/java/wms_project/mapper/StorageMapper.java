@@ -1,6 +1,7 @@
 package wms_project.mapper;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
@@ -19,4 +20,8 @@ public interface StorageMapper {
     StorageDTO getByID(String scode);
 
     int updateByID(StorageDTO storageDTO);
+    
+    List<StorageDTO> all(String search);
+    
+    int deleteByID(String scode);
 }

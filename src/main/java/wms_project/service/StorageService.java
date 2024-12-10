@@ -16,4 +16,8 @@ public interface StorageService {
     StorageDTO getByID(String scode);
 
     int updateByID(StorageDTO storageDTO);
+    
+    List<StorageDTO> all(String search);
+    
+    int deleteByID(String scode);
 }

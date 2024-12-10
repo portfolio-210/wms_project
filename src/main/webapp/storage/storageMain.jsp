@@ -14,7 +14,9 @@
 
   <div class="container">
     <div>
-    <form id="frm" method="get">
+    <form id="frm" method="post" action="/storage/storageMain.do" onsubmit="return search1()">
+     
+    <input type="hidden" name="search" id="hiddenSearch">
     <input type="hidden" name="mspot" value="${sessionScope.mspot}" >
     <p class="sub_title font16_bold">창고 리스트 현황</p>
     <div class="mb-3" style="position: relative;">
@@ -22,7 +24,7 @@
             <li class="num_font13_bold">검색형식</li>
             <li style="width: 85%; display: flex; flex-direction: row;">
                 <input type="text" id="searchKeyword" name="searchKeyword" style="width: 200px; height: 40px;" class="form-control font12" placeholder="창고명을 입력하세요">
-                <button type="button" onclick="searchall1()" class="btn btn-primary font12" style="width: 70px; height: 40px; margin-left:10px; margin-right: 10px;">검색</button>   
+                <button type="submit" class="btn btn-primary font12" style="width: 70px; height: 40px; margin-left:10px; margin-right: 10px;">검색</button>   
                 <button type="button" onclick="searchall1()" class="btn btn-dark font12" style="width: 70px; height: 40px; margin-right: 10px;">전체</button> 
             </li>
         </ul> 
@@ -48,6 +50,7 @@
               </tr>
             </c:if>
             <c:forEach var="member" items="${members}" varStatus="status">
+            <c:if test="${member.sdeleted}">
                 <tr align="center" style="line-height: 30px;">
                     <td>${status.index + 1}</td>
                     <td>${member.scode}</td>
@@ -56,7 +59,7 @@
                     <td>${member.smname}</td>
                     <td>
 					    <c:choose>
-					        <c:when test="${member.suse}">
+					        <c:when test="${member.suse == 1}">
 					            사용가능
 					        </c:when>
 					        <c:otherwise>
@@ -67,14 +70,15 @@
                     <td>
                         <ul class="btn_ul">
                             <li>
-                            <button type="button" class="btn btn-dark font12" style="width: 50px; height: 30px; margin-right: 10px;">수정</button>
+                            <button type="button" class="btn btn-dark font12" style="width: 50px; height: 30px; margin-right: 10px;" onclick="location.href='/storage/storageUpdate.do?scode=${member.scode}'">수정</button>
                             </li>
                             <li>
-                            <button type="button" class="btn btn-dark font12" style="width: 50px; height: 30px; margin-right: 10px;">삭제</button> 
+                            <button type="button" class="btn btn-dark font12" style="width: 50px; height: 30px; margin-right: 10px;" onclick="deleteStorage(${member.scode})">삭제</button> 
                             </li>
                         </ul>
                     </td>
                   </tr>
+                  </c:if>
                 </c:forEach>    
             </tbody>
           </table>
@@ -95,4 +99,5 @@
 
 <!-- Footer -->
 <%@ include file="../footer.jsp"%>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="../js/storage.js?v=<%= sf.format(today) %>"></script>
