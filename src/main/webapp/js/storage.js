@@ -14,9 +14,12 @@ function insert12(){
 	var mid = frm.mid.value;
 	var sdeleted = frm.sdeleted.value;
 	// 선택된 라디오 버튼의 값 가져오기
-	var susel = document.querySelector('input[name="use"]:checked').value// 선택된 라디오 버튼의 값
-	var suse = (susel === 'true'); //boolen으로 변환
-	document.getElementById('suse').value = suse; // true 또는 false로 설정
+	var susel = document.querySelector('input[name="suse"]:checked').value; // 선택된 라디오 버튼의 값
+	    var suse = parseInt(susel); // int로 변환하여 0 또는 1로 설정
+
+	    // suse를 폼에 설정
+	    document.getElementById('suse').value = suse;
+
 	
 	if(sname === ""){
 		alert("등록할 창고명을 입력해주세요.");
