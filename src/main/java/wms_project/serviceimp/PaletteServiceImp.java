@@ -19,4 +19,12 @@ public class PaletteServiceImp implements PaletteService {
         List<PaletteDTO> result = pm.palette_list(mspot);
         return result;
     }
+
+    //검색한 팔레트 리스트 출력
+
+    @Override
+    public List<PaletteDTO> search_palette(String mspot, String search) {
+        List<PaletteDTO> result = pm.search_palette(mspot, search);
+        return result;
+    }
 }

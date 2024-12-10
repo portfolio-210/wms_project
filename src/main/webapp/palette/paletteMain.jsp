@@ -20,7 +20,7 @@
             <li style="width: 85%; display: flex; flex-direction: row;">
                 <input type="text" name="search" style="width: 200px; height: 40px;" class="form-control font12" placeholder="파렛트명을 입력하세요">
                 <button type="button" onclick="searchPalette()" class="btn btn-primary font12" style="width: 70px; height: 40px; margin-left:10px; margin-right: 10px;">검색</button>
-                <button type="button" onclick="searchAllPalette" class="btn btn-dark font12" style="width: 70px; height: 40px; margin-right: 10px;">전체</button>
+                <button type="button" onclick="searchAllPalette()" class="btn btn-dark font12" style="width: 70px; height: 40px; margin-right: 10px;">전체</button>
             </li>
         </ul>
         </form>
