@@ -28,10 +28,16 @@ public class PaletteServiceImp implements PaletteService {
     }
 
     //팔레트 삭제
-
     @Override
     public int delete_palette(String pidx) {
         int result = pm.delete_palette(pidx);
+        return result;
+    }
+
+    //팔레트명 중복 검사
+    @Override
+    public String pname_check(String pname) {
+        String result = pm.pname_check(pname);
         return result;
     }
 }

@@ -69,11 +69,28 @@ function pname_validate(){
     }else{
         //등록할 파렛트 이름 입력 시
         pname = pname.value.replaceAll(" ", "");
-        if(pname == ""){
+        if(pname.length == 0){
             alert("입력하신 파렛트 이름을 다시 확인해주세요.");
-        }else{
-            console.log(pname);
+        }else {
+            //http : 전송하는 값, result : Back-end에서 받은 응답을 저장하는 값
+            var http, result;
+            http = new XMLHttpRequest();
+            http.onreadystatechange = function(){
+                if(http.readyState == 4 && http.status == 200){
+                    result = this.response;
+                    if(result == "0"){
+                        pnameCheck = true;
+                        alert("등록 가능한 파렛트입니다.");
+                        frm.pname.readOnly = true;
+                    } else {
+                        alert("해당 파렛트는 이미 등록되어 있습니다.\n새로운 파렛트를 입력해주세요");
+                    }
+                }
+            }
         }
+        http.open("post", "../palette/pnameCheckOk.do", true);
+        http.setRequestHeader("content-type", "application/x-www-form-urlencoded");
+        http.send("pname=" + pname);
     }
 }
 

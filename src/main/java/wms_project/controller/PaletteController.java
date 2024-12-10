@@ -38,7 +38,7 @@ public class PaletteController {
         return null;
     }
 
-    //팔레트 검색 후 리스트 페이지 출력
+    //팔레트 검색 리스트 페이지 출력
     @PostMapping("/palette/paletteMain.do")
     public String search_palette(@RequestParam("search") String search, Model m){
         String mspot = (String)this.session.getAttribute("mspot");
@@ -80,4 +80,29 @@ public class PaletteController {
     }
 
 
+    //팔레트 등록 이름 중복 검사
+    @PostMapping("/palette/pnameCheckOk.do")
+    public String pnameCheckOk(@RequestParam("pname") String pname, HttpServletResponse res){
+        res.setContentType("text/html;charset=utf-8");
+        try {
+            this.pw = res.getWriter();
+            String result = "";
+
+            if(pname.equals("")) {
+                System.out.println("빈 값");
+            }
+            else {
+                result = ps.pname_check(pname);
+                this.pw.print(result);
+            }
+        } catch (Exception e) {
+            this.pw.print("<script>"
+                    + "alert('서버가 불안정합니다. 잠시 후에 다시 시도 해주세요.');"
+                    + "history.go(-1);"
+                    + "</script>");
+        } finally {
+            this.pw.close();
+        }
+        return null;
+    }
 }

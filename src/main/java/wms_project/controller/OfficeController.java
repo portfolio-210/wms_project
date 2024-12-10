@@ -92,14 +92,6 @@ public class OfficeController {
 	
 	
 //officeInsert.jsp Controller
-	/*
-	//지점 등록 초기 화면 출력
-	@GetMapping("/office/officeInsert.do")
-	public String office_insert() {
-		return null;
-	}
-
-	 */
 	
 	//등록할 지점 중복 검사
 	@CrossOrigin("*")	//AJAX CORS 방지

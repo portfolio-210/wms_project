@@ -11,4 +11,6 @@ public interface PaletteService {
     List<PaletteDTO> search_palette(String mspot, String search);
     //팔레트 삭제
     int delete_palette(String pidx);
+    //팔레트명 중복 검사
+    String pname_check(String pname);
 }

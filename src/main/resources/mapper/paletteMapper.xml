@@ -17,4 +17,9 @@
         delete from palette where pidx = #{pidx}
     </delete>
 
+    <!-- 팔레트 이름 중복 검사 -->
+    <select id="pname_check" parameterType="String" resultType="String">
+        select count(*) as cnt from palette where pname=#{pname}
+    </select>
+
 </mapper>
