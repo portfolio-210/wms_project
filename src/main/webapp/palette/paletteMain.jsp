@@ -41,14 +41,14 @@
             <tbody style="background-color: #f1f1ef;">
 
             <!-- palette 리스트 출력 시작 -->
-
+            <cr:forEach var="palette" items="${all}" varStatus="idx">
                 <tr align="center" style="line-height: 30px;">
-                    <td>1</td>
-                    <td>T-12</td>
-                    <td>P0002</th>
-                    <td>1300 x 1100 x 3(70R)</td>
-                    <td><div class="palette_box" style="background-color: #000000;"></div></td>
-                    <td>Y</td>
+                    <td>${total - idx.index}</td>
+                    <td>${palette.pname}</td>
+                    <td>${palette.pcode}</th>
+                    <td>${palette.psize}</td>
+                    <td><div class="palette_box" style="background-color: ${palette.pcolor};"></div></td>
+                    <td>${palette.pusing}</td>
                     <td>
                         <ul class="btn_ul">
                             <li>
@@ -60,7 +60,7 @@
                         </ul>
                     </td>
                 </tr>
-
+            </cr:forEach>
             <!-- palette 리스트 출력 시작 -->
 
             </tbody>
