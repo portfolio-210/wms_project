@@ -1,8 +1,8 @@
 //paletteMain.jsp - 파렛트 리스트 페이지 관련 javascript
-var search = frm.search;
 
 //검색 버튼 클릭 시
 function searchPalette(){
+    var search = frm.search;
     if(search.value == ""){
         alert("검색할 파렛트명을 입력해주세요");
         search.focus();
@@ -58,10 +58,24 @@ function delete_palette(pidx){
 
 
 
-
-
 //paletteInsert.jsp - 파렛트 등록 페이지 관련 javascript
 
+//파렛트명 중복체크 검사
+var pnameCheck = false; //중복체크 버튼 클릭 유무
+function pname_validate(){
+    var pname = frm.pname;
+    if(pname.value == ""){
+        alert("등록할 파렛트 이름을 먼저 입력해주세요.");
+    }else{
+        //등록할 파렛트 이름 입력 시
+        pname = pname.value.replaceAll(" ", "");
+        if(pname == ""){
+            alert("입력하신 파렛트 이름을 다시 확인해주세요.");
+        }else{
+            console.log(pname);
+        }
+    }
+}
 
 
 ///paletteModify.jsp - 파렛트 수정 페이지 관련 javascript

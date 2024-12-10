@@ -72,7 +72,7 @@
         </ul>
       </div>
       <div class="mb-3" style="text-align: right;">
-      <button type="button" class="btn btn-danger font12" onclick="" style="width: 100px; height: 40px;">파렛트 등록</button>
+      <button type="button" onclick="location.href='../palette/paletteInsert.jsp'" class="btn btn-danger font12" onclick="" style="width: 100px; height: 40px;">파렛트 등록</button>
       </div>
     </div>
   </div>
