@@ -25,4 +25,10 @@ public class javascript {
 				+ "</script>";
 		return this.output;
 	}
+	public String confirm(String aa) {
+		this.output = "<script>"
+				+ "confirm('"+aa+"');"
+				+ "</script>";
+		return this.output;
+	}
 }

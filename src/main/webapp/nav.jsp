@@ -74,9 +74,9 @@ if (session == null ||
         </div>
       </li>
       <li class="nav-item dropdown" style="width:150px;">
-        <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" aria-expanded="false">배송 기사관리</a>
+        <a class="nav-link dropdown-toggle" href="" data-toggle="dropdown" aria-expanded="false">배송 기사관리</a>
         <div class="dropdown-menu">
-          <a class="dropdown-item" href="#">배송기사 리스트</a>
+          <a class="dropdown-item" href="../delivery/deliveryMain.jsp">배송기사 리스트</a>
           <a class="dropdown-item" href="#">배송 기사별 배송현황</a>
         </div>
       </li>
@@ -93,11 +93,11 @@ if (session == null ||
     
      <!-- <span style="color: white; margin-right: 5px;">[<%=mpart%>]&nbsp;&nbsp;<a href="#"><%=name%> (<%=id%>)</a> 님 환영합니다.</span> --> 
      	<cr:if test="${sessionScope.mpart == '본사'}">
-    		<span style="color: white; margin-right: 5px;">[${mpart}]&nbsp;&nbsp;<a href="#">${name} (${id})</a> 님 환영합니다.</span>
+    		<span style="color: white; margin-right: 5px;">[${mpart}]&nbsp;&nbsp;<a href="../config/configMain.do">${name} (${id})</a> 님 환영합니다.</span>
 		</cr:if>
 
 		<cr:if test="${sessionScope.mpart == '지점'}">
-    		<span style="color: white; margin-right: 5px;">[${mspot}]&nbsp;&nbsp;<a href="#">${name} (${id})</a> 님 환영합니다.</span>
+    		<span style="color: white; margin-right: 5px;">[${mspot}]&nbsp;&nbsp;<a href="../config/configMain.do">${name} (${id})</a> 님 환영합니다.</span>
 		</cr:if>
 	
 	

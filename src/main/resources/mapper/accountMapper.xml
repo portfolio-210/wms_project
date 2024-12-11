@@ -10,22 +10,55 @@
 
 	<!-- 중복체크 -->
 	<select id="search_company" resultType="String" parameterType="String">
-		SELECT count(*) AS ctn FROM account WHERE acompany=#{acompany} ORDER BY aidx DESC 
+		SELECT COUNT(*) AS ctn FROM account WHERE acompany=#{acompany} ORDER BY aidx DESC 
 	</select>
 	
 	<!-- 데이터의 총 갯수를 가져오는 - 코드 생성 -->
 	 <select id="account_ctn" resultType="String" parameterType="String">
-	    SELECT count(*) AS ctn FROM account
+	    SELECT COUNT(*) AS ctn FROM account
 	</select>
 	
-	<!-- 리스트 출력 -->
-	<select id="accountList" resultType="wms_project.dto.AccountDTO">
-		SELECT aidx, acompany, acode, anum, aname, ahp, aindustry, atype, apost, aroad, addr FROM account WHERE approve = 'Y' ORDER BY aidx DESC
+	<!-- 리스트 출력-->
+	<select id="accountList" resultType="wms_project.dto.AccountDTO" parameterType="String">
+		SELECT aidx, acompany, acode, anum, aname, ahp, aindustry, atype, apost, aroad, addr 
+		FROM account 
+		WHERE approve = 'Y' ORDER BY aidx DESC LIMIT ${startno},${endno}
 	</select>
+	
+	<!-- 
+	<select id="accountList" resultType="wms_project.dto.AccountDTO" parameterType="String">
+		SELECT aidx, acompany, acode, anum, aname, ahp, aindustry, atype, apost, aroad, addr FROM account 
+		WHERE acompany like concat('%',#{search},'%') AND approve = 'Y' ORDER BY aidx DESC LIMIT ${startno},${endno}
+	</select>
+	 -->
+	
+	<!-- 리스트 출력  + 페이징	
+	<select id="accountList" resultType="wms_project.dto.AccountDTO" parameterType="Map">
+		SELECT * FROM account ORDER BY aidx DESC LIMIT ${startno},${endno}
+	</select>
+-->
+	
 	
 	<!-- 글수정 idx값 가져오기 -->
-	<select id="accountIdx" resultType="int" parameterType="wms_project.dto.AccountDTO">
-		SELECT * FROM account WHERE adix=#{aidx}
+	<select id="accountIdx" resultType="wms_project.dto.AccountDTO" parameterType="String">
+		SELECT * FROM account WHERE aidx = #{aidx}
 	</select>
+	
+	<update id="accountModify" parameterType="wms_project.dto.AccountDTO">
+		UPDATE account SET acompany = #{acompany}, aname = #{aname}, aindustry = #{aindustry}, ahp = #{ahp}, anum = #{anum}, atype = #{atype}, 
+		afax = #{afax}, apost = #{apost}, aroad = #{aroad}, addr = #{addr}, amodify = now() WHERE aidx = #{aidx}
+	</update>
+
+	<select id="accountSearch" resultType="wms_project.dto.AccountDTO" parameterType="String">
+		SELECT aidx, acompany, acode, anum, aname, ahp, aindustry, atype, apost, aroad, addr 
+		FROM account 
+		WHERE acompany like concat('%',#{search},'%') and approve = 'Y' ORDER BY aidx DESC
+	</select>
+	
+	<update id="accountDelete"  parameterType="String">
+		UPDATE account SET approve ='N' where aidx = #{aidx}
+	</update>
+	
+
  
 </mapper>

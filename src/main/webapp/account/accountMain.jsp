@@ -8,7 +8,9 @@
 <%@ include file="../nav.jsp"%> 
 
 
-<main role="main" style="height: 850px;">
+<main role="main" style="height: auto;">
+
+<form id="f1" onsubmit="return sh(1)">
   <div class="container">
     <div>
     <p class="sub_title font16_bold">거래처 리스트 현황</p>
@@ -16,12 +18,17 @@
         <ul class="ul-2">
             <li class="num_font13_bold">검색형식</li>
             <li style="width: 85%; display: flex; flex-direction: row;">
-                <input type="text" name="" id="" style="width: 200px; height: 40px;" class="form-control font12" placeholder="거래처명을 입력하세요">
-                <button type="button" class="btn btn-primary font12" style="width: 70px; height: 40px; margin-left:10px; margin-right: 10px;">검색</button>   
-                <button type="button" class="btn btn-dark font12" style="width: 70px; height: 40px; margin-right: 10px;">전체</button> 
+            
+                <input type="text" name="search" id="search" style="width: 200px; height: 40px;" class="form-control font12" placeholder="거래처명을 입력하세요">
+               
+                <button type="button" class="btn btn-primary font12" style="width: 70px; height: 40px; margin-left:10px; margin-right: 10px;" onclick="sh(1)">검색</button>   
+                <button type="button" class="btn btn-dark font12" style="width: 70px; height: 40px; margin-right: 10px;" onclick="sh(2)">전체</button> 
             </li>
         </ul> 
      </div>
+</form>
+
+
      <div class="mb-3">
         <table class="table font12">
             <thead>
@@ -39,12 +46,22 @@
               </tr>
             </thead>
             
-            
             <!-- 리스트 출력 파트 -->
             <tbody style="background-color: #f1f1ef;">
+            <c:set var="ino" value="${total - userpage}"/>
+            
+            
+            <!-- 거래처가 없는경우 -->
+             <c:if test="${empty all}">
+		        <tr>
+		            <td colspan="10" height="60px" align="center" style="color: #777; font-size: 14px; ">등록된 거래처가 없습니다.</td>
+		        </tr>
+    		</c:if>
+            
+            
             <c:forEach var="account" items="${all}" varStatus="idx">
                 <tr align="center" style="line-height: 30px;">
-                    <td>${total - idx.index}</td>
+                    <td>${ino - idx.index}</td>
                     <td>${account.acompany}</td>
                     <td>${account.acode}</th>
                     <td>${account.anum}</td>
@@ -52,13 +69,13 @@
                     <td>${account.ahp}</td>
                     <td>${account.aindustry}</td>
                     <td>${account.atype}</td>
-                    <td style="text-align: left;">(${account.apost}) ${account.aroad} ${account.addr}</td>
+                    <td style="text-align: left;">(${account.apost}) ${account.aroad} &nbsp; ${account.addr}</td>
                     <td>
                         <ul class="btn_ul">
-                            <li><button type="button" class="btn btn-dark font12"  style="width: 50px; height: 30px; margin-right: 10px;" onclick="location.href='./accountModify.do?aidx=${account.aidx}'">수정</button>
+                            <li><button type="button" class="btn btn-dark font12"  style="width: 50px; height: 30px; margin-right: 10px;" onclick="accountModify(${account.aidx})">수정</button>
                             </li>
                             <li>
-                            <button type="button" class="btn btn-dark font12" style="width: 50px; height: 30px; margin-right: 10px;"onclick="accountDelete(${account.aidx})">삭제</button> 
+                            <button type="button" class="btn btn-dark font12" style="width: 50px; height: 30px; margin-right: 10px;" onclick="accountDelete(${account.aidx})">삭제</button> 
                             </li>
                             </ul>
                     </td>
@@ -66,21 +83,32 @@
             </c:forEach>
             </tbody>
             <!-- 리스트 출력 끝!! -->
-            
-            
+
           </table>
      </div>
+     
+
      <div class="mb-3">
         <ul class="pageing">
-          <li>1</li>
+        <c:set var="pages" value="${total / 15 + ((1 - (total / 15) % 1) % 1)}"/>
+        <c:forEach var="no" begin="1" end="${pages}" step="1">
+          <li onclick="page_go(${no})" style="cursor: pointer;">${no}</li>
+         </c:forEach>
         </ul>
       </div>
+
+ 
+      
       <div class="mb-3" style="text-align: right;">
       <button type="button" class="btn btn-danger font12" style="width: 100px; height: 40px;" onclick="location.href='./accountInsert.do'">거래처 등록</button> 
       </div>
     </div>
   </div>
 </main>  
+
+
+
+
 <script src="../js/accountMain.js?v=<%=sf.format(today)%>"></script>
 <!-- Footer -->
 <%@ include file="../footer.jsp"%>
