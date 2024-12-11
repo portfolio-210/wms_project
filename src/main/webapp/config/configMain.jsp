@@ -89,7 +89,7 @@
         <ul class="pageing">
         <c:set var="pages" value="${total / 15 + (1-((total/15)%1))}" />
            <c:forEach begin="1" end="${pages}" var="i">
-           <li style="cursor: pointer;" onclick="location.href='configMain.do?pageno=${i}'">
+           <li style="cursor: pointer;" onclick="goToPage(${i}, '${part1}', '${part2}', '${search}')">
       		${i}
             </li>
           </c:forEach>
@@ -98,6 +98,24 @@
     </div>
   </div>
 </main>
+<script>
+function goToPage(i, part1, part2, search) {
+    let url = 'configMain.do?pageno=' + i;
+
+    if (part1) {
+        url += '&part1=' + encodeURIComponent(part1);
+    }
+    if (part2) {
+        url += '&part2=' + encodeURIComponent(part2);
+    }
+    if (search) {
+        url += '&search=' + encodeURIComponent(search);
+    }
+
+    location.href = url; // 페이지 이동
+}
+</script>
+
 
 <!-- Footer -->
 <%@ include file="../footer.jsp"%>

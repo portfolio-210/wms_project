@@ -24,52 +24,51 @@ public class ConfigController {
 	@Autowired
 	ConfigService cs;
 	
-	@PostMapping("/config/configMain.do")
-	public String search(@RequestParam("part1") String part1, @RequestParam("part2") String part2, @RequestParam("search") String search, 
-		 Model m) {
-		Map<String, Object> keycode = new HashMap<>();				
-		keycode.put("part1",part1);
-		keycode.put("part2",part2);
-		keycode.put("search",search);			
-	  			
-		List<ConfigDTO> all = cs.all(keycode);
-		
-		
-						
-		m.addAttribute("members", all); // 'm'을 사용하여 모델에 추가
-		return null;
-	}
 	
 	@GetMapping("/config/configMain.do")
-    public String showMembers(@RequestParam(value = "pageno",required = false) Integer pageno, Model m) {
+    public String showMembers(@RequestParam(value = "pageno",required = false) Integer pageno, @RequestParam(value = "part1",required = false) String part1, @RequestParam(value = "part2",required = false) String part2, @RequestParam(value = "search",required = false) String search, Model m) {
         // 전체 멤버 가져오기
        ConfigDTO configdto = new ConfigDTO();
-       int total = cs.Total(configdto);
+       Map<String, Object> params = new HashMap<>();
+       int total =0;
        int startno = 0;
        int items = 15;
-     
+       List<ConfigDTO> members = null;
+       params.put("items", items);
              
        if(pageno == null) {
     	   startno = 0;
     	   
        }else {
 		startno = (pageno-1) * 15;
-	}
-       Map<String, Object> params = new HashMap<>();
+       }
+      
        params.put("startno", startno);
-       params.put("items", items);
        
-  
+       if(search == null) {
+    	total = cs.Total(configdto);
+                      
+       members = cs.searchall(params);
+       }
+       else {
+    	
+       params.put("part1",part1);
+       params.put("part2",part2);
+       params.put("search",search);
        
-       List<ConfigDTO> members = cs.searchall(params);
-                                                           
+       members = cs.all(params);
+       total = cs.totalsearch(params);
+       }
+       
         m.addAttribute("total", total); // 전체 멤버 수
         m.addAttribute("pageno", pageno); // 현재 페이지 번호
         m.addAttribute("members", members); // 모델에 추가
-        
-        
+                
         return null; // JSP 페이지 이름 반환
     }
+	
+	
+	
 	
 	@PostMapping("/config/update.do")
     public String getMethodName(@RequestParam("part3") String part3, 
@@ -85,7 +84,7 @@ public class ConfigController {
             int result = cs.update1(configDTO);
 
             if (result > 0) {
-                this.output = this.js.ok("변경 되었습니다.", "/config/configMain.do");
+                this.output = this.js.no("변경 되었습니다.");
                
             } else {
                 this.output = this.js.no("변경 실패하였습니다.");

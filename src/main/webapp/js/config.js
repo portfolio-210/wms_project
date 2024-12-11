@@ -14,7 +14,7 @@ function getFormInfo() {
 		frm.innerHTML = ""; // 이전 필드 제거
         // 새로운 폼 요소 생성
        
-        frm.method = "post"; // 폼 메서드 설정
+        frm.method = "get"; // 폼 메서드 설정
         frm.action = "/config/configMain.do"; // 폼 액션 설정
 
         // 소속 (part1) 필드 추가
