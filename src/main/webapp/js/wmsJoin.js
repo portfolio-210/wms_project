@@ -39,16 +39,19 @@ function idcheck() {
 			}
 			else if(f1.mid.value == ""){
 					alert("아이디를 입력해주세요.");
+					f1.mid.focus();
 					return false;
 			}
 
 			else if(f1.mid.value=="admin"||f1.mid.value=="master"||f1.mid.value=="webmaster"||f1.mid.value=="administrator"|| f1.mid.value=="manager"){
 					alert("＂"+f1.mid.value+"＂"+ "의 아이디는 사용이 불가능합니다.");
 					f1.mid.value = "";
+					f1.mid.focus();
 					return false;
 			}
 			else if (f1.mid.value.length < 4) {
 		        	alert("아이디는 최소 4자 이상이어야 합니다.");
+					f1.mid.focus();
 		        	return false;
 		    }
 
@@ -56,6 +59,7 @@ function idcheck() {
 			else if (!idRegex.test(f1.mid.value)) {
 			       alert("아이디는 특수문자 및 대문자를 사용할수 없습니다.");
 				   f1.mid.value = "";
+				   f1.mid.focus();
 			       return false;
 				  
 				
@@ -112,7 +116,7 @@ function login_check(){
    		if(f1.mpart.value == "지점"){
 			
 			if(f1.mspot.value == "N"){
-			       alert("지점을 선택해주세요.");
+			       alert("지점을 선택해 주세요.");
 			       return false;
 			}
 		}
@@ -123,22 +127,24 @@ function login_check(){
 		
 		
 		if(f1.mname.value == ""){
-				alert("담당자명을 입력하세요.");
+				alert("담당자명을 입력해 주세요");
 				f1.mpass.value="";
+				f1.mpass.focus();
 				repw.value="";
 				return false;
 			    }
 				
 		else if (!nameRegex.test(f1.mname.value)) {
-				 alert("이름은 한글로 2~4글자만 입력 가능합니다.");
+				 alert("올바르지 않는 이름입니다. 다시 입력해 주세요.");
 				 f1.mname.value = "";
+				 f1.mname.focus();
 				 f1.mpass.value="";
 				 repw.value="";
 				 return false;
 				}		
 				
 		else if(f1.mjob.value == ""){
-				alert("직책을 선택해주세요.");
+				alert("직책을 선택해 주세요.");
 				f1.mpass.value="";
 				repw.value="";
 				return false;
@@ -150,30 +156,35 @@ function login_check(){
 				  return false;  // 중복 확인이 완료되지 않으면 폼 제출을 막음
 		}
 	    else if(f1.mpass.value == ""){
-	        alert("비밀번호를 입력하세요");
+	        alert("비밀번호를 입력해 주세요");
+			f1.mpass.focus();
 	        return false;
     	}
 		
 	    else if (f1.mpass.value.length < 6) {
 	        alert("비밀번호는 최소 6자 이상이어야 합니다.");
 			f1.mpass.value="";
+			f1.mpass.focus();
 			repw.value="";
 	        return false;
 	    }
 	    else if (!passwordRegex.test(password)) {
 	        alert("비밀번호는 최소 6자 이상, 영문자와 숫자를 포함해야 합니다.");
 			f1.mpass.value="";
+			f1.mpass.focus();
 			repw.value="";
 	        return false;
 	    }	
 	    else if(f1.mpass.value != f1.repw.value){
-	        alert("동일한 비밀번호를 입력하세요.");
+	        alert("동일한 비밀번호를 입력해 주세요.");
 			f1.mpass.value="";
+			f1.mpass.focus();
 			repw.value="";
 	        return false;
 	    }
 	    else if(f1.memail.value == ""){
-	        alert("이메일을 입력해주세요");
+	        alert("이메일을 입력해 주세요.");
+			f1.memail.focus();
 			f1.mpass.value="";
 			repw.value="";
 	        return false;
@@ -181,13 +192,14 @@ function login_check(){
 	  	else if (!emailRegex.test(f1.memail.value)) {
 	       alert("이메일 형식이 올바르지 않습니다.");
 		   f1.memail.value ="";
+		   f1.memail.focus();
 		   f1.mpass.value="";
 		   repw.value="";
 	       return false;
 	   	}
 	    
 	    else if(hp1.value == "" || hp2.value == "" || hp3.value == ""){
-	        alert("올바른 전화번호를 입력해주세요.");
+	        alert("올바른 전화번호를 입력해 주세요.");
 			hp2.value = "";
 			hp3.value = "";
 			f1.mpass.value="";

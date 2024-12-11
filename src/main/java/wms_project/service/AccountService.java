@@ -1,7 +1,7 @@
 package wms_project.service;
 
 import java.util.List;
-
+import java.util.Map;
 
 import wms_project.dto.AccountDTO;
 
@@ -15,6 +15,7 @@ public interface AccountService {
 		public String account_ctn();
 		// 거래처 리스트 출력
 		public List<AccountDTO> accountList();
+		
 		// 거래처 수정 조회
 		public AccountDTO accountIdx(String aidx);
 		// 거래처 수정 (UPDATE)

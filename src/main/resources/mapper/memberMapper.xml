@@ -23,7 +23,7 @@
 	
 	<!-- 로그인 -->
 	 <select id="login_id" resultType="wms_project.dto.MemberDTO">
-		select mpart, mspot, mid, mpass, mname, memail, approve from member where mid=#{mid}
+		select mpart, mspot, mid, mpass, mname, memail, mhp, approve from member where mid=#{mid}
 	</select>
 	 
 

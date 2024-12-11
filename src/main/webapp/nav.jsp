@@ -7,6 +7,7 @@ if (session == null ||
 	session.getAttribute("name") == null || 
 	session.getAttribute("email") == null || 
 	session.getAttribute("mpart") == null || 
+	session.getAttribute("mhp") == null || 
 	session.getAttribute("mspot") == null) {
 	
 %>
@@ -23,6 +24,7 @@ if (session == null ||
 	String email = (String)sess.getAttribute("email");
 	String mpart = (String)sess.getAttribute("mpart");
 	String mspot = (String)sess.getAttribute("mspot");
+	String mhp = (String)sess.getAttribute("mhp");
 	
 	//out.print("　　　--세션값 참고하세요--　　　");
 	//out.print("id("+ sess.getAttribute("id")+ ")　　");	//수원지점
@@ -30,6 +32,7 @@ if (session == null ||
 	//out.print("email("+sess.getAttribute("email")+ ")　　");	//이메일
 	//out.print("mpart("+sess.getAttribute("mpart")+ ")　　"); // 본사
 	//out.print("mspot("+sess.getAttribute("mspot")+ ")　　");	// 지점 이름
+	out.print("전화번호 : mhp("+sess.getAttribute("mhp")+ ")　　");	// 전화번호
 	//out.print("　>> 앞에있는값이 세션 id값입니다!!");
 %>
 
@@ -76,7 +79,7 @@ if (session == null ||
       <li class="nav-item dropdown" style="width:150px;">
         <a class="nav-link dropdown-toggle" href="" data-toggle="dropdown" aria-expanded="false">배송 기사관리</a>
         <div class="dropdown-menu">
-          <a class="dropdown-item" href="../delivery/deliveryMain.jsp">배송기사 리스트</a>
+          <a class="dropdown-item" href="../delivery/deliveryMain.do">배송기사 리스트</a>
           <a class="dropdown-item" href="#">배송 기사별 배송현황</a>
         </div>
       </li>

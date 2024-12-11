@@ -61,7 +61,8 @@ public class MemberController implements security {
     
  // 회원가입
  	@PostMapping("/wmsJoinok.do")
- 	public String joinok(@ModelAttribute("join") MemberDTO dto,Model m)throws Exception {	
+ 	public String joinok(@ModelAttribute("join") MemberDTO dto,
+ 							Model m)throws Exception {	
  	
  		// mspot 값이 "N"이라면 "본사"로 변경
  	    if ("N".equals(dto.getMspot())) {
@@ -100,7 +101,7 @@ public class MemberController implements security {
  		}
  		else {
  			result = ms.search_id(mid);
- 			System.out.println("중복체크"+result);
+ 			//System.out.println("중복체크"+result);
  			pw.print(result);
  			pw.close();
  		}
@@ -121,10 +122,10 @@ public class MemberController implements security {
         
         
         if (member_dto.size() == 0) { 
-        	System.out.println(member_dto.size());	// 아이디로 정보를 가져온다!
+        	//System.out.println(member_dto.size());	// 아이디로 정보를 가져온다!
         	this.output=this.js.ok("아이디 및 패스워드를 다시 확인해주세요.","./wmsLogin.jsp");	// 아이디 로 정보를 못가져올때 체크!!
         } else {
-        	System.out.println("member 사이즈는?" +member_dto.size());	// 로그인 성고이 1이라고 나온다
+        	//System.out.println("member 사이즈는?" +member_dto.size());	// 로그인 성고이 1이라고 나온다
 	       
         	///////////위에서 가져온 아이디 정보들 핸들링 하기!!!
         	try {
@@ -133,14 +134,15 @@ public class MemberController implements security {
 		            if (member_dto.get(0).getMpass().equals(repass.toString())) {   
 		            	
 		            	if(!member_dto.get(0).getApprove().equals("근무")) {
-		        			this.output=this.js.ok("관리자의 승인이 필요합니다. 센터로 문의해주세요. 약오르지!!🤪🤪🤪🤪🤪🤪","./wmsLogin.jsp");
+		        			this.output=this.js.ok("관리자의 승인이 필요합니다. 센터로 문의해주세요.","./wmsLogin.jsp");
 		        		}else {
 		                HttpSession session = req.getSession();
 		                session.setAttribute("id", member_dto.get(0).getMid());
 		                session.setAttribute("name", member_dto.get(0).getMname());
 		                session.setAttribute("email", member_dto.get(0).getMemail());      
 		                session.setAttribute("mpart", member_dto.get(0).getMpart());      
-		                session.setAttribute("mspot", member_dto.get(0).getMspot());      
+		                session.setAttribute("mspot", member_dto.get(0).getMspot());
+		                session.setAttribute("mhp", member_dto.get(0).getMhp());
 
 		                this.output=this.js.ok("로그인되었습니다. 환영합니다","./wmsMain.do");	// 위에서 핸들링한걸로 로그인을 한다!!!
 		        		}
@@ -175,6 +177,7 @@ public class MemberController implements security {
   		session.removeAttribute("email");
   		session.removeAttribute("mpart");
   		session.removeAttribute("mspot");
+  		session.removeAttribute("mhp");
   		
   		
   		//세션없음 로그아웃 안됨!! 이거 핸들링!!!!!!!!!!

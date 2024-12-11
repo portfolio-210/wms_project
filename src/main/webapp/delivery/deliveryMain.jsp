@@ -85,13 +85,13 @@
         </ul>
       </div>
       <div class="mb-3" style="text-align: right;">
-      <button type="button" class="btn btn-danger font12" style="width: 100px; height: 40px;" onclick="location.href='/delivery/deliveryInsert.jsp'">배송기사 등록</button> 
+      <button type="button" class="btn btn-danger font12" style="width: 100px; height: 40px;" onclick="deliveryInsert()">배송기사 등록</button> 
       </div>
     </div>
   </div>
   </form>
 </main>
 
-<script src="../js/accountMain.js?v=<%=sf.format(today)%>"></script>
+<script src="../js/deliveryMain.js?v=<%=sf.format(today)%>"></script>
 <!-- Footer -->
 <%@ include file="../footer.jsp"%>

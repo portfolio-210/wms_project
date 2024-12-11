@@ -16,7 +16,7 @@ import wms_project.mapper.AccountMapper;
 import wms_project.service.AccountService;
 
 @Service
-public class AccountServiceimp implements AccountService {
+public class AccountServiceImp implements AccountService {
 
 
 	
@@ -43,6 +43,7 @@ public class AccountServiceimp implements AccountService {
 			return result;
 		};
 		
+
 		@Override
 		public List<AccountDTO> accountList(){
 			Map<String, String> pg = new HashMap<>();
@@ -51,6 +52,9 @@ public class AccountServiceimp implements AccountService {
 			List<AccountDTO> all = am.accountList(pg);
 			return all;
 		};
+
+		
+		
 
 		// modify 수정페이지
 		@Override

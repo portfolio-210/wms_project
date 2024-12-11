@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="wms_project.mapper.DeliveryMapper">
+	
+	<!-- 배송기사 등록 -->
+	<insert id="deliveryInsert" parameterType="wms_project.dto.DeliveryDTO">
+		INSERT INTO delivery (dcode,dspot,dname,dpass,demail,dhp,didnum,dimgnm,dimgrenm,dimgurl,dimgck,dapprove,ddate)
+		VALUES (#{dcode},#{dspot},#{dname},#{dpass},#{demail},#{dhp},#{didnum},#{dimgnm},'N','N','N','일시정지',now())
+	</insert>
+	
+	<!-- 리스트 출력 -->
+	<select id="deliveryList" resultType="wms_project.dto.DeliveryDTO" parameterType="String">
+		SELECT didx, dcode, dspot, dname, demail, dhp, didnum, dimgck, dapprove
+		FROM delivery ORDER BY didx DESC LIMIT ${startno},${endno}
+	</select>
+	
+	
+
+</mapper>
