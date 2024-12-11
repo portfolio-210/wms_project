@@ -85,7 +85,7 @@
                     </th>
                     <th scope="col" style="height: 40px; line-height: 50px; width: 120px;">
                         <ul class="btn_ul">
-                        <li><button type="button" class="btn btn-dark font12" onclick="modify_office()" style="width: 50px; height: 30px; margin-right: 10px;">수정</button>
+                        <li><button type="button" class="btn btn-dark font12" onclick="modify_office(${office.oidx})" style="width: 50px; height: 30px; margin-right: 10px;">수정</button>
                         </li>
                         <li>
                         <button type="button" class="btn btn-dark font12" onclick="delete_office(${office.oidx})" style="width: 50px; height: 30px; margin-right: 10px;">삭제</button> 

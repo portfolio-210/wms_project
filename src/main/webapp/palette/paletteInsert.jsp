@@ -58,8 +58,8 @@
                 </ul>
             </div>
             <div class="mb-3" style="text-align: right;">
-              <button type="button" class="btn btn-danger font12" style="width: 100px; height: 40px; margin-right: 5px;">등록하기</button>
-              <button type="button" class="btn btn-dark font12" style="width: 100px; height: 40px;">취소하기</button>
+              <button type="button" onclick="complete_insert()" class="btn btn-danger font12" style="width: 100px; height: 40px; margin-right: 5px;">등록하기</button>
+              <button type="button" onclick="cancel_insert()" class="btn btn-dark font12" style="width: 100px; height: 40px;">취소하기</button>
             </div>
         </form>
         </div>

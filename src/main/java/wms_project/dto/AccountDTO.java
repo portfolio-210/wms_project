@@ -8,5 +8,5 @@ import lombok.Data;
 @Repository("accountdto")
 public class AccountDTO {
 	int aidx;
-	String acode, acompany, aname, aindustry, ahp, anum, atype, afax, apost, aroad, addr, approve, adate;
+	String acode, acompany, aname, aindustry, ahp, anum, atype, afax, apost, aroad, addr, approve, adate, amodify;
 }

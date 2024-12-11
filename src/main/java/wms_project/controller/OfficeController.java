@@ -150,7 +150,6 @@ public class OfficeController {
 	}
 
 	
-	
 //officePopList.jsp Controller
 	//지점 관리자 목록 출력
 	@GetMapping("/office/officePopList.do")
@@ -198,5 +197,43 @@ public class OfficeController {
 			response.put("error", "서버가 불안정합니다. 잠시 후 다시 이용해주세요.");
 		}
 		return response;
+	}
+
+
+//officeModify.jsp
+	@GetMapping("/office/officeModify.do")
+	public String office_modify(@RequestParam("oidx") String oidx, Model m){
+		OfficeDTO officeDTO = os.modify_office(oidx);
+		m.addAttribute("officeDTO", officeDTO);
+		return null;
+	}
+
+	@PostMapping("/office/office_modifyok.do")
+	public String update_office(@ModelAttribute OfficeDTO officeDTO, HttpServletResponse res){
+		res.setContentType("text/html;charset=utf-8");
+		try {
+			this.pw = res.getWriter();
+			int result = os.update_office(officeDTO);
+			if(result > 0){
+				this.pw.print("<script>" +
+						"alert('지점 정보 수정이 완료되었습니다.');" +
+						"location.href='/office/officeMain.do';" +
+						"</script>");
+			}
+			else{
+				this.pw.print("<script>" +
+						"alert('지점 정보 수정에 실패했습니다.\n입력하신 정보를 다시 한 번 확인해주세요.');" +
+						"history.go(-1);" +
+						"</script>");
+			}
+		} catch (Exception e) {
+			this.pw.print("<script>" +
+					"alert('시스템 오류로 인해 지점 수정에 실패했습니다.\n잠시 후 다시 시도해주세요.');" +
+					"history.go(-1);" +
+					"</script>");
+		} finally {
+			this.pw.close();
+		}
+		return null;
 	}
 }

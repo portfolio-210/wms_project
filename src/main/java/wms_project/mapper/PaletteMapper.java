@@ -4,6 +4,7 @@ import org.apache.ibatis.annotations.Mapper;
 import wms_project.dto.PaletteDTO;
 
 import java.util.List;
+import java.util.Map;
 
 @Mapper
 public interface PaletteMapper {
@@ -11,8 +12,14 @@ public interface PaletteMapper {
     List<PaletteDTO> palette_list(String mspot);
     //검색한 팔레트 리스트 출력
     List<PaletteDTO> search_palette(String mspot, String search);
+    //팔레트 수정 페이지 출력
+    PaletteDTO modify_palette(String pidx);
+    //팔레트 수정 완료
+    int update_palette(PaletteDTO paletteDTO);
     //팔레트 삭제
     int delete_palette(String pidx);
     //팔레트명 중복 검사
     String pname_check(String pname);
+    //신규 팔레트 등록
+    int insert_palette(Map<String, Object> paramValue);
 }
