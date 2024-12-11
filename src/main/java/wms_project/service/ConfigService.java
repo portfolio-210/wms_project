@@ -10,5 +10,6 @@ public interface ConfigService {
 	List<ConfigDTO> all(Map<String, Object> keycode);
 	List<ConfigDTO> searchall();
 	int update1(ConfigDTO configDTO);
+	Integer Total(ConfigDTO configDTO);
 	
 }

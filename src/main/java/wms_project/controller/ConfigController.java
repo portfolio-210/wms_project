@@ -16,6 +16,8 @@ import wms_project.service.ConfigService;
 
 @Controller
 public class ConfigController {
+	
+	public static int startno = 1;
 
 	String output = null;
 	javascript js = new javascript();
@@ -33,15 +35,25 @@ public class ConfigController {
 	  			
 		List<ConfigDTO> all = cs.all(keycode);
 		
+		
 						
 		m.addAttribute("members", all); // 'm'을 사용하여 모델에 추가
 		return null;
 	}
 	
 	@GetMapping("/config/configMain.do")
-    public String showMembers(Model m) {
+    public String showMembers(@RequestParam(value = "pageno",required = false) Integer pageno, Model m) {
         List<ConfigDTO> members = cs.searchall(); // 전체 멤버 가져오기
+        ConfigDTO configDTO = new ConfigDTO();
+        
+        Integer total = null;
+        total=cs.Total(configDTO);
+        
+               
+        
         m.addAttribute("members", members); // 모델에 추가
+        
+        
         return null; // JSP 페이지 이름 반환
     }
 	

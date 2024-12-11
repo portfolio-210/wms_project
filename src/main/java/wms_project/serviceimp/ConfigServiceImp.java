@@ -31,6 +31,12 @@ public class ConfigServiceImp implements ConfigService {
 	return cm.searchall();
 	}
 	
+	@Override
+	public Integer Total(ConfigDTO configDTO) {
+		Integer total = cm.Total(configDTO);
+		return total;
+	}
+	
 	
 	@Override
 	public int update1(ConfigDTO configDTO) {

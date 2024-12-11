@@ -20,7 +20,7 @@ select * from member
             </choose>
   
         ORDER BY midx DESC
-     
+     	
 </select>
 
 
@@ -30,6 +30,14 @@ select * from member
 select * from member ORDER BY midx DESC
 
 </select>
+
+<select id="Total" parameterType="wms_project.dto.ConfigDTO" resultType="Integer">
+    SELECT COUNT(*) 
+    FROM member 
+       
+</select>   
+
+
 
 <select id="Totals" parameterType="Map" resultType="int">
     SELECT COUNT(*) 
@@ -46,7 +54,8 @@ select * from member ORDER BY midx DESC
             AND mhp LIKE CONCAT('%', #{search}, '%') <!-- 이메일 검색 -->
         </when>
     </choose>
-</select>
+</select>     
+
  
  
  <update id="update1" parameterType="wms_project.dto.ConfigDTO">
