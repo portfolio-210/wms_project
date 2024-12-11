@@ -26,9 +26,9 @@ public class ConfigServiceImp implements ConfigService {
 	}
 	
 	@Override
-	public List<ConfigDTO> searchall() {
+	public List<ConfigDTO> searchall(Map<String, Object>params) {
 	
-	return cm.searchall();
+	return cm.searchall(params);
 	}
 	
 	@Override

@@ -17,7 +17,6 @@ import wms_project.service.ConfigService;
 @Controller
 public class ConfigController {
 	
-	public static int startno = 1;
 
 	String output = null;
 	javascript js = new javascript();
@@ -43,14 +42,29 @@ public class ConfigController {
 	
 	@GetMapping("/config/configMain.do")
     public String showMembers(@RequestParam(value = "pageno",required = false) Integer pageno, Model m) {
-        List<ConfigDTO> members = cs.searchall(); // 전체 멤버 가져오기
-        ConfigDTO configDTO = new ConfigDTO();
-        
-        Integer total = null;
-        total=cs.Total(configDTO);
-        
-               
-        
+        // 전체 멤버 가져오기
+       ConfigDTO configdto = new ConfigDTO();
+       int total = cs.Total(configdto);
+       int startno = 0;
+       int items = 15;
+     
+             
+       if(pageno == null) {
+    	   startno = 0;
+    	   
+       }else {
+		startno = (pageno-1) * 15;
+	}
+       Map<String, Object> params = new HashMap<>();
+       params.put("startno", startno);
+       params.put("items", items);
+       
+  
+       
+       List<ConfigDTO> members = cs.searchall(params);
+                                                           
+        m.addAttribute("total", total); // 전체 멤버 수
+        m.addAttribute("pageno", pageno); // 현재 페이지 번호
         m.addAttribute("members", members); // 모델에 추가
         
         
@@ -84,4 +98,6 @@ public class ConfigController {
         m.addAttribute("output", output);
 		return "output";
     }
+	
+	
 }

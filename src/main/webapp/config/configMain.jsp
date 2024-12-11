@@ -87,7 +87,12 @@
      </div>
      <div class="mb-3">
         <ul class="pageing">
-          <li>1</li>
+        <c:set var="pages" value="${total / 15 + (1-((total/15)%1))}" />
+           <c:forEach begin="1" end="${pages}" var="i">
+           <li style="cursor: pointer;" onclick="location.href='configMain.do?pageno=${i}'">
+      		${i}
+            </li>
+          </c:forEach>
         </ul>
       </div>
     </div>
