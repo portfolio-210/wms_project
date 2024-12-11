@@ -10,7 +10,7 @@
 
 <script src="../js/config.js?v="<%= sf.format(today) %>></script>
 
-<main role="main" style="height: 850px;">
+<main role="main" style="height: auto;">
 
   <div class="container">
     <div>

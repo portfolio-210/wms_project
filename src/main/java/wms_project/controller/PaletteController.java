@@ -30,24 +30,30 @@ public class PaletteController {
 
     //팔레트 메인 페이지 출력 - 로그인한 관리자의 소속 지점에 따른 팔레트 전체 리스트 출력
     @GetMapping("/palette/paletteMain.do")
-    public String palette_list(Model m){
+    public String palette_list(Model m, @RequestParam(value = "search", required = false) String search){
+        System.out.println(search);
         String mspot = (String)this.session.getAttribute("mspot");
-        List<PaletteDTO> result = ps.palette_list(mspot);
+        List<PaletteDTO> result = null;
+        if(search == null || search.isEmpty()){
+            result = ps.palette_list(mspot);
+        } else {
+            result = ps.search_palette(mspot, search);
+        }
         m.addAttribute("all", result);
         m.addAttribute("total", result.size());
         return null;
     }
-
+/*
     //팔레트 검색 리스트 페이지 출력
     @PostMapping("/palette/paletteMain.do")
     public String search_palette(@RequestParam("search") String search, Model m){
         String mspot = (String)this.session.getAttribute("mspot");
-        List<PaletteDTO> result = ps.search_palette(mspot, search);
+        List<PaletteDTO>
         m.addAttribute("all", result);
         m.addAttribute("total", result.size());
         return null;
     }
-
+*/
     //팔레트 수정 페이지 출력
     @GetMapping("/palette/paletteModify.do")
     public String palette_modify(@RequestParam("pidx") String pidx, Model m){

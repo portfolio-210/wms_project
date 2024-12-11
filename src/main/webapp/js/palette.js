@@ -17,7 +17,7 @@ function searchPalette(){
     			search.focus();
     		}
     		else {
-    			frm.method="post";
+    			frm.method="get";
     			frm.action="../palette/paletteMain.do";
     			frm.submit();
     		}
@@ -26,10 +26,7 @@ function searchPalette(){
 
 //전체 버튼 클릭 시
 function searchAllPalette(){
-    frm.search.value = "";
-    frm.method="post";
-    frm.action="../palette/paletteMain.do";
-    frm.submit();
+    location.href="../palette/paletteMain.do";
 }
 
 //수정 버튼 클릭 시
