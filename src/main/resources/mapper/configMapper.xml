@@ -25,9 +25,9 @@ select * from member
 
 
 
-<select id="searchall" parameterType="String" resultType="wms_project.dto.ConfigDTO">
+<select id="searchall" parameterType="Map" resultType="wms_project.dto.ConfigDTO">
 
-select * from member ORDER BY midx DESC
+select * from member ORDER BY midx DESC LIMIT #{startno}, #{items}
 
 </select>
 
@@ -39,7 +39,7 @@ select * from member ORDER BY midx DESC
 
 
 
-<select id="Totals" parameterType="Map" resultType="int">
+<select id="totalsearch" parameterType="Map" resultType="Integer">
     SELECT COUNT(*) 
     FROM member 
     WHERE mpart = #{part1} 

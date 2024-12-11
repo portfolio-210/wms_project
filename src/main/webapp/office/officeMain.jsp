@@ -17,7 +17,7 @@
         <ul class="ul-2">
             <li class="num_font13_bold">검색형식</li>
             <li style="width: 85%; display: flex; flex-direction: row;">
-                <input type="text" id="search" name="search" style="width: 200px; height: 40px;" class="form-control font12" placeholder="지점명을 입력하세요">
+                <input type="text" name="search" style="width: 200px; height: 40px;" class="form-control font12" placeholder="지점명을 입력하세요">
                 <button type="button" class="btn btn-primary font12" onclick="search_office()" style="width: 70px; height: 40px; margin-left:10px; margin-right: 10px;">검색</button>   
                 <button type="button" class="btn btn-dark font12" onclick="searchAll_office()" style="width: 70px; height: 40px; margin-right: 10px;">전체</button>
             </li>
@@ -85,7 +85,7 @@
                     </th>
                     <th scope="col" style="height: 40px; line-height: 50px; width: 120px;">
                         <ul class="btn_ul">
-                        <li><button type="button" class="btn btn-dark font12" onclick="modify_office()" style="width: 50px; height: 30px; margin-right: 10px;">수정</button>
+                        <li><button type="button" class="btn btn-dark font12" onclick="modify_office(${office.oidx})" style="width: 50px; height: 30px; margin-right: 10px;">수정</button>
                         </li>
                         <li>
                         <button type="button" class="btn btn-dark font12" onclick="delete_office(${office.oidx})" style="width: 50px; height: 30px; margin-right: 10px;">삭제</button> 

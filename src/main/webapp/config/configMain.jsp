@@ -10,7 +10,7 @@
 
 <script src="../js/config.js?v="<%= sf.format(today) %>></script>
 
-<main role="main" style="height: 850px;">
+<main role="main" style="height: auto;">
 
   <div class="container">
     <div>
@@ -87,12 +87,35 @@
      </div>
      <div class="mb-3">
         <ul class="pageing">
-          <li>1</li>
+        <c:set var="pages" value="${total / 15 + (1-((total/15)%1))}" />
+           <c:forEach begin="1" end="${pages}" var="i">
+           <li style="cursor: pointer;" onclick="goToPage(${i}, '${part1}', '${part2}', '${search}')">
+      		${i}
+            </li>
+          </c:forEach>
         </ul>
       </div>
     </div>
   </div>
 </main>
+<script>
+function goToPage(i, part1, part2, search) {
+    let url = 'configMain.do?pageno=' + i;
+
+    if (part1) {
+        url += '&part1=' + encodeURIComponent(part1);
+    }
+    if (part2) {
+        url += '&part2=' + encodeURIComponent(part2);
+    }
+    if (search) {
+        url += '&search=' + encodeURIComponent(search);
+    }
+
+    location.href = url; // 페이지 이동
+}
+</script>
+
 
 <!-- Footer -->
 <%@ include file="../footer.jsp"%>

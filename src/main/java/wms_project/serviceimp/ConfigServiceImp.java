@@ -18,23 +18,29 @@ public class ConfigServiceImp implements ConfigService {
 
 
 	@Override
-	public List<ConfigDTO> all(Map<String, Object> keycode) {
+	public List<ConfigDTO> all(Map<String, Object> params) {
 			
-		List<ConfigDTO> all = cm.all(keycode);
+		List<ConfigDTO> all = cm.all(params);
 		
 		return all;
 	}
 	
 	@Override
-	public List<ConfigDTO> searchall() {
+	public List<ConfigDTO> searchall(Map<String, Object>params) {
 	
-	return cm.searchall();
+	return cm.searchall(params);
 	}
 	
 	@Override
 	public Integer Total(ConfigDTO configDTO) {
 		Integer total = cm.Total(configDTO);
 		return total;
+	}
+	
+	@Override
+	public Integer totalsearch(Map<String, Object> params) {
+		Integer totalsearch = cm.totalsearch(params);
+		return totalsearch;
 	}
 	
 	

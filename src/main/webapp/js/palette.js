@@ -17,7 +17,7 @@ function searchPalette(){
     			search.focus();
     		}
     		else {
-    			frm.method="post";
+    			frm.method="get";
     			frm.action="../palette/paletteMain.do";
     			frm.submit();
     		}
@@ -26,20 +26,17 @@ function searchPalette(){
 
 //전체 버튼 클릭 시
 function searchAllPalette(){
-    search.value = "";
-    frm.method="post";
-    frm.action="../palette/paletteMain.do";
-    frm.submit();
+    location.href="../palette/paletteMain.do";
 }
 
 //수정 버튼 클릭 시
 function modify_palette(pidx){
-
+    console.log(pidx);
+    location.href="/palette/paletteModify.do?pidx=" + pidx;
 }
 
 //삭제 버튼 클릭 시
 function delete_palette(pidx){
-    console.log(pidx);
     if(confirm("해당 게시물을 삭제하시겠습니까?\n삭제된 데이터는 복구하지 못합니다.")){
         const form = document.createElement("form");
         form.method="post";
@@ -62,6 +59,7 @@ function delete_palette(pidx){
 
 //파렛트명 중복체크 검사
 var pnameCheck = false; //중복체크 버튼 클릭 유무
+
 function pname_validate(){
     var pname = frm.pname;
     if(pname.value == ""){
@@ -94,5 +92,90 @@ function pname_validate(){
     }
 }
 
+//팔레트 등록 유효성 검사
+function complete_insert(){
+    var pname = frm.pname;
+    var pcode = frm.pcode;
+    var psize = frm.psize;
+    var pcolor = frm.pcolor;
+    var pusing = frm.pusing;
+
+    if(pname.value == ""){
+        alert("등록할 파렛트 명을 입력하셔야 합니다.");
+        pname.focus();
+    } else if(pcode.value == ""){
+        alert("등록할 파렛트의 코드를 입력하셔야 합니다.");
+        pcode.focus();
+    } else if(psize.value == ""){
+        alert("등록할 파렛트의 사이즈를 입력하셔야 합니다.");
+        psize.focus();
+    } else if(pcolor.value == ""){
+        alert("등록할 파렛트의 색상을 지정해주셔야 합니다.");
+        pcolor.focus();
+    } else if(pusing.value == ""){
+        alert("사용 유/무를 선택하셔야 합니다.");
+        pusing.focus();
+    } else {
+        if(!pnameCheck){
+            alert("파렛트명 중복 확인을 해주세요.");
+        }
+        else{
+            frm.method="post";
+            frm.action="/palette/palette_insertok.do";
+            frm.submit();
+        }
+    }
+}
+
+//신규 팔레트 등록 취소
+function cancel_insert(){
+    if(confirm("해당 팔레트 등록을 취소 하시겠습니까?\n입력하신 내용은 저장되지 않습니다.")){
+        frm.reset();
+        location.href="../palette/paletteMain.do";
+    }
+}
 
 ///paletteModify.jsp - 파렛트 수정 페이지 관련 javascript
+
+//사용중 -> 미사용중으로 체크 변경 시
+document.addEventListener('DOMContentLoaded', function(){
+    const radioY = document.querySelector('input[name="pusing"][value="Y"]');
+    const radioN = document.querySelector('input[name="pusing"][value="N"]');
+
+    radioN.addEventListener('change', function(){
+        if(radioN.checked){
+            alert("해당 파렛트 미사용 시 재고 관련 사항의 제약을 받습니다.");
+        }
+    });
+});
+
+//내용 수정한 팔레트 수정완료 버튼
+function complete_modify(){
+    var psize = frm.psize;
+    var pcolor = frm.pcolor;
+    if(psize.value == ""){
+        alert("수정하실 파렛트의 사이즈를 입력해주세요.");
+        psize.focus();
+    } else if(pcolor.value == ""){
+        alert("수정하실 파렛트의 색상을 선택해주세요.");
+        pcolor.focus();
+    } else {
+        console.log(frm.pidx.value);
+        frm.method="post";
+        frm.action="/palette/palette_modifyok.do";
+        frm.submit();
+    }
+
+}
+
+//팔레트 수정 취소
+function cancel_modify(){
+    if(confirm("해당 팔레트 등록을 취소 하시겠습니까?\n입력하신 내용은 저장되지 않습니다.")){
+            frm.reset();
+            location.href="../palette/paletteMain.do";
+        }
+}
+
+
+
+
