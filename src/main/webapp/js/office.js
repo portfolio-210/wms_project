@@ -1,26 +1,23 @@
 //officeMain.jsp
-var search_word = document.getElementById("search");
 
 //검색 버튼 클릭 시 적용 함수
 function search_office(){
-	console.log(search_word);
-	if(search_word.value == ""){
+    var search = frm.search;
+	if(search.value == ""){
 		//검색어를 입력하지 않은 경우
 		alert("검색할 지점명을 입력해주세요.");
-		search_word.focus();
+		search.focus();
 	}
 	else {
 		//검색어를 입력한 경우
-		var search = search_word.value.trim();
+		search = search.value.trim();
 		search = search.replaceAll(" ", "");
-		
 		if(search.length == 0){
 			alert("검색어를 다시 한 번 확인해주세요.");
-			search_word.focus();
+			search.focus();
 		}
-
 		else {
-			frm.method="post";
+			frm.method="get";
 			frm.action="../office/officeMain.do";
 			frm.submit();
 		}
@@ -29,10 +26,7 @@ function search_office(){
 
 //전체 버튼 클릭 시 적용 함수
 function searchAll_office(){
-	search_word.value = "";
-	frm.method="post";
-	frm.action="../office/officeMain.do";
-	frm.submit();
+    location.href="../office/officeMain.do";
 }
 
 //수정 버튼 클릭 시 적용 함수
