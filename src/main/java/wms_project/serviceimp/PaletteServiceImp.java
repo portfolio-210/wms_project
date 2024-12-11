@@ -7,6 +7,7 @@ import wms_project.mapper.PaletteMapper;
 import wms_project.service.PaletteService;
 
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class PaletteServiceImp implements PaletteService {
@@ -27,6 +28,20 @@ public class PaletteServiceImp implements PaletteService {
         return result;
     }
 
+    //팔레트 수정 페이지 출력
+    @Override
+    public PaletteDTO modify_palette(String pidx) {
+        PaletteDTO paletteDTO = pm.modify_palette(pidx);
+        return paletteDTO;
+    }
+
+    //팔레트 수정 완료
+    @Override
+    public int update_palette(PaletteDTO paletteDTO) {
+        int result = pm.update_palette(paletteDTO);
+        return result;
+    }
+
     //팔레트 삭제
     @Override
     public int delete_palette(String pidx) {
@@ -38,6 +53,13 @@ public class PaletteServiceImp implements PaletteService {
     @Override
     public String pname_check(String pname) {
         String result = pm.pname_check(pname);
+        return result;
+    }
+
+    //신규 팔레트 등록
+    @Override
+    public int insert_palette(Map<String, Object> paramValue) {
+        int result = pm.insert_palette(paramValue);
         return result;
     }
 }

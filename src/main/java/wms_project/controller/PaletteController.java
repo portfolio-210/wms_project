@@ -5,15 +5,15 @@ import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import wms_project.dto.PaletteDTO;
 import wms_project.service.PaletteService;
 
 import jakarta.servlet.http.HttpSession;
 import java.io.PrintWriter;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 public class PaletteController {
@@ -45,6 +45,44 @@ public class PaletteController {
         List<PaletteDTO> result = ps.search_palette(mspot, search);
         m.addAttribute("all", result);
         m.addAttribute("total", result.size());
+        return null;
+    }
+
+    //팔레트 수정 페이지 출력
+    @GetMapping("/palette/paletteModify.do")
+    public String palette_modify(@RequestParam("pidx") String pidx, Model m){
+        PaletteDTO paletteDTO = ps.modify_palette(pidx);
+        m.addAttribute("paletteDTO", paletteDTO);
+        return null;
+    }
+
+    //팔레트 수정 완료
+    @PostMapping("/palette/palette_modifyok.do")
+    public String palette_modifyok(@ModelAttribute PaletteDTO pdto, HttpServletResponse res){
+        res.setContentType("text/html;charset=utf-8");
+        try {
+            this.pw = res.getWriter();
+            int result = ps.update_palette(pdto);
+            if(result > 0){
+                this.pw.print("<script>" +
+                        "alert('팔레트 수정이 완료되었습니다.');" +
+                        "location.href='/palette/paletteMain.do';" +
+                        "</script>");
+            }
+            else{
+                this.pw.print("<script>" +
+                        "alert('팔레트 수정에 실패했습니다.\n입력하신 정보를 다시 한 번 확인해주세요.');" +
+                        "history.go(-1);" +
+                        "</script>");
+            }
+        } catch (Exception e) {
+            this.pw.print("<script>" +
+                    "alert('시스템 오류로 인해 수정에 실패했습니다.\n잠시 후 다시 시도해주세요.');" +
+                    "history.go(-1);" +
+                    "</script>");
+        } finally {
+            this.pw.close();
+        }
         return null;
     }
 
@@ -81,6 +119,7 @@ public class PaletteController {
 
 
     //팔레트 등록 이름 중복 검사
+    @CrossOrigin("*")
     @PostMapping("/palette/pnameCheckOk.do")
     public String pnameCheckOk(@RequestParam("pname") String pname, HttpServletResponse res){
         res.setContentType("text/html;charset=utf-8");
@@ -105,4 +144,41 @@ public class PaletteController {
         }
         return null;
     }
+
+    //팔레트 등록
+    @PostMapping("/palette/palette_insertok.do")
+    public String insert_ok(@ModelAttribute PaletteDTO pdto, HttpServletResponse res){
+        res.setContentType("text/html;charset=utf-8");
+        String mspot = (String)this.session.getAttribute("mspot");
+        try {
+            this.pw = res.getWriter();
+            Map<String, Object> paramValue = new HashMap<>();
+            paramValue.put("pdto", pdto);
+            paramValue.put("mspot", mspot);
+            int result = ps.insert_palette(paramValue);
+            if(result > 0){
+                this.pw.print("<script>" +
+                        "alert('신규 팔레트가 성공적으로 등록되었습니다.');" +
+                        "location.href='/palette/paletteMain.do';" +
+                        "</script>");
+            }
+            else{
+                this.pw.print("<script>" +
+                        "alert('팔레트 등록에 실패하였습니다.\n입력하신 정보를 다시 한 번 확인해주세요.');" +
+                        "history.go(-1);" +
+                        "</script>");
+            }
+        } catch (Exception e) {
+            this.pw.print("<script>" +
+                    "alert('시스템 오류로 인해 정상적으로 등록되지 않았습니다.\n잠시 후에 다시 시도해주세요.');" +
+                    "history.go(-1);" +
+                    "</script>");
+        } finally {
+            this.pw.close();
+        }
+        return null;
+    }
+
+
+
 }
