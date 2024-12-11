@@ -18,6 +18,8 @@ public interface OfficeMapper {
 	public List<MemberDTO> poplist_member();
 	public List<MemberDTO> search_member(Map<String, String> keyword);
 	public List<MemberDTO> apply_member(String midx);
-	//officeInsert 지점 등록하기 버튼 시 적용
 	public int insert_office(OfficeDTO odto);
+	OfficeDTO modify_office(String oidx);
+	//지점 정보 수정
+	int update_office(OfficeDTO officeDTO);
 }

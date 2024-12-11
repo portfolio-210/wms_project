@@ -73,4 +73,19 @@ public class OfficeServiceImp implements OfficeService{
 		int result = om.insert_office(odto);
 		return result;
 	}
+
+	//지점 수정 페이지 출력
+	@Override
+	public OfficeDTO modify_office(String oidx) {
+		OfficeDTO officeDTO = om.modify_office(oidx);
+		return officeDTO;
+	}
+
+	//지점 정보 수정
+
+	@Override
+	public int update_office(OfficeDTO officeDTO) {
+		int result = om.update_office(officeDTO);
+		return result;
+	}
 }

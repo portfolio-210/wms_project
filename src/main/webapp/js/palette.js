@@ -26,7 +26,7 @@ function searchPalette(){
 
 //전체 버튼 클릭 시
 function searchAllPalette(){
-    search.value = "";
+    frm.search.value = "";
     frm.method="post";
     frm.action="../palette/paletteMain.do";
     frm.submit();
@@ -96,7 +96,7 @@ function pname_validate(){
 }
 
 //팔레트 등록 유효성 검사
-function insert_validate(){
+function complete_insert(){
     var pname = frm.pname;
     var pcode = frm.pcode;
     var psize = frm.psize;
@@ -131,7 +131,7 @@ function insert_validate(){
 }
 
 //신규 팔레트 등록 취소
-function cancel(){
+function cancel_insert(){
     if(confirm("해당 팔레트 등록을 취소 하시겠습니까?\n입력하신 내용은 저장되지 않습니다.")){
         frm.reset();
         location.href="../palette/paletteMain.do";

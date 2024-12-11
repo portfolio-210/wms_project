@@ -36,8 +36,8 @@ function searchAll_office(){
 }
 
 //수정 버튼 클릭 시 적용 함수
-function modify_office(){
-	
+function modify_office(oidx){
+	location.href="/office/officeModify.do?oidx=" + oidx;
 }
 
 //삭제 버튼 클릭 시 적용 함수
@@ -50,9 +50,10 @@ function delete_office(oidx){
 
 
 //officeInsert.jsp
+
 var officenameCheck = false;
 //지점명 중복체크 버튼 클릭 시 적용 함수
-function officenameValidate(){
+function officename_validate(){
 	var officename = frm.officename.value;
 	if(officename == ""){
 		alert("등록할 지점을 입력해주세요.");
@@ -92,8 +93,8 @@ function open_poplist(){
      window.open("officePopList.do", "popupWindow", "width=560,height=500");
 }
 
-//등록하기 버튼 클릭 시 적용 함수 - 지점명 중복 확인 검사
-function insert_check(){
+//등록하기 버튼 클릭 시 적용 함수
+function complete_insert(){
 	var officename = frm.officename;
 	var mname = frm.mname;
 	var otel = frm.otel;
@@ -133,7 +134,7 @@ function insert_check(){
 }
 
 //취소하기 버튼 클릭 시 적용 함수
-function cancel(){
+function cancel_insert(){
 	if(confirm("해당 지점 등록을 취소 하시겠습니까?")){
 		frm.reset();
 		location.href="../office/officeMain.do";
@@ -194,9 +195,6 @@ console.log(midx);
 			if(result.error){
 				alert(result.error);
 			} else {
-			console.log(result.mname);
-			console.log(result.mhp);
-			console.log(result.memail);
 			    window.opener.document.getElementById("mname").value = result.mname;
 			    window.opener.document.getElementById("mhp").value = result.mhp;
 			    window.opener.document.getElementById("memail").value = result.memail;
@@ -210,6 +208,52 @@ console.log(midx);
 	http.send("midx=" + midx);
 }
 
+
+//officeModify.jsp
+
+//지점 수정 유효성 검사 및 완료
+function complete_modify(){
+    var officename = frm.officename;
+    var mname = frm.mname;
+    var otel = frm.otel;
+    var opost = frm.opost;
+    var oaddress = frm.oaddress;
+
+    if(officename.value == ""){
+        alert("등록할 지점명을 입력해주세요.");
+        officename.focus();
+    } else if(mname.value == ""){
+        alert("해당 지점 담당자를 선택해주세요.");
+        mname.focus();
+    } else if(otel.value == ""){
+        alert("등록할 지점의 대표 연락처를 입력해주세요.");
+        otel.focus();
+    } else if(opost.value == ""){
+        alert("해당 지점의 주소를 입력해주세요.");
+        opost.focus();
+    } else if(oaddress.value == ""){
+        alert("상세 주소를 입력해주세요.");
+        oaddress.focus();
+    } else {
+        //대표 연락처 "-" 포함 되도록 검사
+        const pattern = /^\d{2,3}-\d{3,4}-\d{4}$/;
+        if(!pattern.test(otel.value)){
+            alert("대표 연락처는 '-'를 포함하여 입력해주세요.\n 예)02-1212-3333");
+        }
+        //부가 유효 검사 후 submit
+        frm.action="../office/office_modifyok.do";
+        frm.method="post";
+        frm.submit();
+    }
+}
+
+//지점 수정 취소
+function cancel_modify(){
+    if(confirm("해당 지점 수정을 취소 하시겠습니까?")){
+		frm.reset();
+		location.href="../office/officeMain.do";
+	}
+}
 
 
 //주소 찾기 카카오 API 연동
