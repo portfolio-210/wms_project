@@ -9,7 +9,7 @@
 <cr:import url="../nav.jsp"/>
 
 
-<main role="main" style="height: 850px;">
+<main role="main" style="height: auto;">
   <div class="container">
     <div>
     <p class="sub_title font16_bold">파렛트 리스트 현황</p>
