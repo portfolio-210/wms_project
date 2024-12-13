@@ -35,4 +35,11 @@ public class DeliveryServiceImp implements DeliveryService{
 		return all;
 	}
 	
+	// 사원번호 자동생성 (DB카운트)
+	@Override
+	public String deliveryCtn() {
+		String result = dm.deliveryCtn();
+		return result;
+	};
+	
 }

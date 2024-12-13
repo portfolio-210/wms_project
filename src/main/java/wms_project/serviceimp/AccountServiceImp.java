@@ -55,6 +55,11 @@ public class AccountServiceImp implements AccountService {
 
 		
 		
+		
+		
+		
+		
+		
 
 		// modify 수정페이지
 		@Override
@@ -78,6 +83,12 @@ public class AccountServiceImp implements AccountService {
 		@Override
 		public int accountDelete(String aidx) {
 			int result = am.accountDelete(aidx);
+			return result;
+		}
+		//페이징 카운트
+		@Override
+		public int accountListCtn() {
+			int result = am.accountListCtn();
 			return result;
 		}
 		

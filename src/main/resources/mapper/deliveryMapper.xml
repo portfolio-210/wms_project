@@ -5,14 +5,27 @@
 	<!-- 배송기사 등록 -->
 	<insert id="deliveryInsert" parameterType="wms_project.dto.DeliveryDTO">
 		INSERT INTO delivery (dcode,dspot,dname,dpass,demail,dhp,didnum,dimgnm,dimgrenm,dimgurl,dimgck,dapprove,ddate)
-		VALUES (#{dcode},#{dspot},#{dname},#{dpass},#{demail},#{dhp},#{didnum},#{dimgnm},'N','N','N','일시정지',now())
+		VALUES (#{dcode},#{dspot},#{dname},#{dpass},#{demail},#{dhp},#{didnum},#{dimgnm},#{dimgrenm},#{dimgurl},#{dimgck},'근무중',now())
 	</insert>
 	
 	<!-- 리스트 출력 -->
 	<select id="deliveryList" resultType="wms_project.dto.DeliveryDTO" parameterType="String">
 		SELECT didx, dcode, dspot, dname, demail, dhp, didnum, dimgck, dapprove
-		FROM delivery ORDER BY didx DESC LIMIT ${startno},${endno}
+		FROM delivery 
+		ORDER BY didx DESC LIMIT ${startno},${endno}
 	</select>
+	
+	<!-- 사원번호 자동생성 - DB카운드 -->
+	<select id="deliveryCtn" resultType="String" parameterType="String">
+		SELECT COUNT(*) AS ctn FROM delivery
+	</select>
+	
+	 <update id="deliveryApprove" parameterType="wms_project.dto.DeliveryDTO">
+	 	UPDATE delivery
+   	 	SET dapprove = #{approve}
+    	WHERE didx = #{didx}
+ 	</update>
+	
 	
 	
 

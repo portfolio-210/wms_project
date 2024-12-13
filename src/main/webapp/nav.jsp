@@ -57,9 +57,6 @@ if (session == null ||
         <div class="dropdown-menu">
           <a class="dropdown-item" href="#">오더등록 및 현황</a>
           <a class="dropdown-item" href="#">배송선택(본사,지점)</a>
-          <a class="dropdown-item" href="#">반품처리</a>
-          <a class="dropdown-item" href="#">취소처리</a>
-          <a class="dropdown-item" href="#">교환반품/취소리스트</a>
         </div>
       </li>
       <li class="nav-item dropdown" style="width:160px;">

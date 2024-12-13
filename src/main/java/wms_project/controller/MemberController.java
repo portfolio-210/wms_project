@@ -117,7 +117,7 @@ public class MemberController implements security {
     						Model m) {
         
         List<MemberDTO> member_dto = ms.login_id(mid);
-        System.out.println(member_dto);
+        //System.out.println(member_dto);
         
         
         

@@ -15,7 +15,12 @@ public interface AccountService {
 		public String account_ctn();
 		// 거래처 리스트 출력
 		public List<AccountDTO> accountList();
+
 		
+		
+		
+		// 페이징 카운트
+		public int accountListCtn();
 		// 거래처 수정 조회
 		public AccountDTO accountIdx(String aidx);
 		// 거래처 수정 (UPDATE)
@@ -24,4 +29,5 @@ public interface AccountService {
 		public List<AccountDTO> accountSearch (String search);
 		// 삭제 UPDATE
 		public int accountDelete (String aidx);
+		
 }
