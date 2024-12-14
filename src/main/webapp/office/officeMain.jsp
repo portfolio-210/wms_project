@@ -58,7 +58,7 @@
                 <!-- 지점 현황 리스트 출력 반복문 시작 -->
                 <cr:forEach var="office" items="${all}" varStatus="idx">
                     <tr align="center" style="border-bottom: 1px solid #ccc;" class="trcss">
-                        <th scope="col" style="height: 40px; line-height: 50px;">${total - idx.index}</th>
+                        <th scope="col" style="height: 40px; line-height: 50px;">${total - ((pageno-1) * 15 + idx.index)}</th>
                         <th scope="col" style="width: 200px;">
                             <table style="text-align: center;" style="height: 40px;">
                                 <tr>
@@ -98,14 +98,16 @@
                 </tbody>
             </table>
         </div>
+        <!-- 페이징 시작 -->
         <div class="mb-3">
             <ul class="pageing">
-            <c:set var="page" value="${total / 15 + (1-((total/15)%1))}"/>
-            <c:forEach begin="1" end="${page}" var="i">
-                <li style="cursor: pointer;" onclick="go_page('${i}', '${search}')">${i}</li>
-            </c:forEach>
+            <cr:set var="page" value="${total / 15 + (1-((total/15)%1))}"/>
+            <cr:forEach begin="1" end="${page}" var="i">
+                <li style="cursor: pointer;" onclick="go_page(${i}, '${search}')">${i}</li>
+            </cr:forEach>
             </ul>
         </div>
+        <!-- 페이징 끝 -->
         <div class="mb-3" style="text-align: right;">
             <button type="button" class="btn btn-danger font12" onclick="location.href='../office/officeInsert.jsp'" style="width: 100px; height: 40px; margin-right: 40px;">지점등록</button>
         </div>
