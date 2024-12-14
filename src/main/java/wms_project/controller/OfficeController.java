@@ -36,6 +36,7 @@ public class OfficeController {
         int total = os.count_office(search);      //전체 글 개수
         int startno = 0;    //글 시작 번호
         int items = 15;     //한 페이지에 출력될 행 개수
+       
         if(pageno != null){
             startno = (pageno-1) * 15;
         }
@@ -46,7 +47,7 @@ public class OfficeController {
         paramValue.put("search", search);
 
         List<OfficeDTO> all = os.office_list_paging(paramValue);
-
+        
         m.addAttribute("all", all);
         m.addAttribute("total", total);
         m.addAttribute("pageno", pageno);
