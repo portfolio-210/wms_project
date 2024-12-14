@@ -102,7 +102,7 @@
             <ul class="pageing">
             <c:set var="page" value="${total / 15 + (1-((total/15)%1))}"/>
             <c:forEach begin="1" end="${page}" var="i">
-                <li style="cursor: pointer;" onclick="go_page(${i}, ${search})">${i}</li>
+                <li style="cursor: pointer;" onclick="go_page('${i}', '${search}')">${i}</li>
             </c:forEach>
             </ul>
         </div>

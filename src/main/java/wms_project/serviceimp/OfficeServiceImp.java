@@ -31,7 +31,21 @@ public class OfficeServiceImp implements OfficeService{
 		List<OfficeDTO> result = om.search_office(search);
 		return result;
 	}
-	
+
+	//페이징 + 리스트 조회
+	@Override
+	public List<OfficeDTO> office_list_paging(Map<String, Object> paramValue) {
+		List<OfficeDTO> result = om.office_list_paging(paramValue);
+		return result;
+	}
+
+	//지점 개수 조회
+	@Override
+	public Integer count_office(String search) {
+		Integer result = om.count_office(search);
+		return result;
+	}
+
 	//지점 삭제
 	@Override
 	public int delete_office(String oidx) {
@@ -82,7 +96,6 @@ public class OfficeServiceImp implements OfficeService{
 	}
 
 	//지점 정보 수정
-
 	@Override
 	public int update_office(OfficeDTO officeDTO) {
 		int result = om.update_office(officeDTO);

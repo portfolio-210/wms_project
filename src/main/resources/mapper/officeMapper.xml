@@ -4,13 +4,52 @@
 
 	<!-- 지점 전체 리스트 출력 -->
 	<select id="office_list" resultType="wms_project.dto.OfficeDTO">
-		select oidx, officename, mname, mhp, otel, memail, opost, oroad, oaddress from office where oview = 'Y' order by odate desc
+		select oidx, officename, mname, mhp, otel, memail, opost, oroad, oaddress from office
+		where oview = 'Y' order by odate desc
 	</select>
 
 	<!-- 지점 검색 리스트 출력 -->
 	<select id="search_office" parameterType="String" resultType="wms_project.dto.OfficeDTO">
-		select oidx, officename, mname, mhp, otel, memail, opost, oroad, oaddress from office where officename like concat('%',#{search},'%') and oview = 'Y' order by odate desc
+		select oidx, officename, mname, mhp, otel, memail, opost, oroad, oaddress from office
+		where officename like concat('%',#{search},'%') and oview = 'Y' order by odate desc
 	</select>
+
+	<!-- 페이징 + 지점 리스트 출력 / 검색 리스트 출력 -->
+	<select id="office_list_paging" parameterType="Map" resultType="wms_project.dto.OfficeDTO">
+		select oidx, officename, mname, mhp, otel, memail, opost, oroad, oaddress from office
+		where oview = 'Y'
+		<if test="search != null">
+			and officename like concat('%',#{search},'%')
+		</if>
+		order by odate desc
+		limit #{startno}, #{items}
+	</select>
+
+<!--	-->
+<!--	&lt;!&ndash; 페이징 + 지점 전체 리스트 출력 &ndash;&gt;-->
+<!--	<select id="office_list_paging" parameterType="Map" resultType="wms_project.dto.OfficeDTO">-->
+<!--		select oidx, officename, mname, mhp, otel, memail, opost, oroad, oaddress from office-->
+<!--		where oview = 'Y' order by odate desc-->
+<!--		limit #{startno}, #{items}-->
+<!--	</select>-->
+
+<!--	&lt;!&ndash; 페이징 + 지점 검색 리스트 출력 &ndash;&gt;-->
+<!--	<select id="search_office_paging" parameterType="Map" resultType="wms_project.dto.OfficeDTO">-->
+<!--		select oidx, officename, mname, mhp, otel, memail, opost, oroad, oaddress from office-->
+<!--		where officename like concat('%',#{search},'%') and oview = 'Y' order by odate desc-->
+<!--		limit #{startno}, #{items}-->
+<!--	</select>-->
+
+
+	<!-- 지점 개수 구하기 -->
+	<select id="count_office" parameterType="String" resultType="Integer">
+		select count(*) from office where
+		<if test="search != null">
+			officename like concat('%',#{search},'%') and
+		</if>
+		oview = 'Y' order by odate desc
+	</select>
+
 
 	<!-- 지점 삭제 - 데이터베이스에서는 삭제되지 않는다 -->
 	<update id="delete_office" parameterType="String">
@@ -64,4 +103,5 @@
 		update office set officename=#{officename}, mname=#{mname}, mhp=#{mhp}, memail=#{memail}, otel=#{otel}, opost=#{opost},
 		oroad=#{oroad}, oaddress=#{oaddress} where oidx = #{oidx}
 	</update>
+
 </mapper>

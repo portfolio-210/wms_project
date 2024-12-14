@@ -13,6 +13,9 @@ public interface OfficeMapper {
 
 	public List<OfficeDTO> office_list();
 	public List<OfficeDTO> search_office(String search);
+	List<OfficeDTO> office_list_paging(Map<String, Object> paramValue);
+
+	Integer count_office(String search);	//전체 지점 개수 / 검색한 지점 개수
 	public int delete_office(String oidx);
 	public String check_officename(String officename);
 	public List<MemberDTO> poplist_member();

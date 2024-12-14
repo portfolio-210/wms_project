@@ -32,15 +32,24 @@ public class OfficeController {
     @GetMapping("/office/officeMain.do")
     public String office_main(Model m, @RequestParam(value = "search", required = false) String search,
                               @RequestParam(value = "pageno", required = false) Integer pageno) {
-        List<OfficeDTO> all = null;
-        if(search == null || search.isEmpty()){
-            all = os.office_list();
+        Map<String, Object> paramValue = new HashMap<>();
+        int total = os.count_office(search);      //전체 글 개수
+        int startno = 0;    //글 시작 번호
+        int items = 15;     //한 페이지에 출력될 행 개수
+        if(pageno != null){
+            startno = (pageno-1) * 15;
         }
-        else{
-            all = os.search_office(search);
-        }
+
+        //mapper로 보내기 위한 글 시작 번호, 한 페이지에 출력할 글 개수, 검색어 Map에 추가
+        paramValue.put("startno", startno);
+        paramValue.put("items", items);
+        paramValue.put("search", search);
+
+        List<OfficeDTO> all = os.office_list_paging(paramValue);
+
         m.addAttribute("all", all);
-        m.addAttribute("total", all.size());
+        m.addAttribute("total", total);
+        m.addAttribute("pageno", pageno);
         return null;
     }
 
