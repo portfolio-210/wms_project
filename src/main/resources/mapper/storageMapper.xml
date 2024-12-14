@@ -59,5 +59,12 @@
       where scode = #{scode}
     </update>
     
+    <!-- 거래처 입력 시 거래처 코드 자동기입하기 위해 필요 -->
+    <select id="getAcode" parameterType="String" resultType="String">
+    SELECT acode
+    FROM account
+    WHERE acompany = #{acompany}
+	</select>
+    
     
 </mapper>

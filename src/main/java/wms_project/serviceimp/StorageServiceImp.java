@@ -57,5 +57,10 @@ public class StorageServiceImp implements StorageService {
         storageDTO.setScode(scode);  	
     	return sm.deleteByID(scode);
     }
+    
+    @Override
+    public String getAcode(String acompany) {
+        return sm.getAcode(acompany);
+    }
 
 }

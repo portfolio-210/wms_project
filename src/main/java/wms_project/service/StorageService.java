@@ -20,4 +20,6 @@ public interface StorageService {
     List<StorageDTO> all(String search);
     
     int deleteByID(String scode);
+    //거래처 이름으로 거래처 코드 찾기
+    String getAcode(String acompany);
 }

@@ -44,17 +44,33 @@ public class StorageController {
     @Autowired
     StorageService ss;
 
+    
+    @GetMapping("/account/getAccountCode")
+    @ResponseBody // JSON 응답을 반환하기 위해 추가
+    public String getAccountCode(@RequestParam("acompany") String acompany) {
+    	
+    	String acode = null;
+        if (acompany != null && !acompany.isEmpty()) {
+            acode = ss.getAcode(acompany); // 거래처 코드 조회
+        }
+    	
+        return acode;
+    }
+    
+    //
     @GetMapping("/storage/storageInstore.do")
-    public String storageInstore1(StorageDTO storageDTO,HttpServletRequest req, Model m) {
+    public String storageInstore1(@RequestParam(value = "acompany", required = false) String acompany, StorageDTO storageDTO,HttpServletRequest req, Model m) {
     	HttpSession sess = req.getSession();
    	 String mspot = (String) sess.getAttribute("mspot");   	 
    	 List<StorageDTO> members = ss.searchall(mspot);
    	 List<PaletteDTO> palette = ps.palette_list(mspot);
 	 
+
 	 
-	 
+    
 	 m.addAttribute("palette",palette);//사용자와 맞는 팔레트 리스트
    	 m.addAttribute("members",members);
+   	
 
         return null;
     }
@@ -74,20 +90,7 @@ public class StorageController {
         
         return null;
     }
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+      
     
     @GetMapping("/storage/storageInsert.do")
     public String storageInsert(StorageDTO storageDTO) {
@@ -153,12 +156,6 @@ public class StorageController {
         return null; // JSP 페이지 이름 반환
     }
     
-  
-    	
-    	
-    	
-    	
-  
         
 
     @GetMapping("/storage/storageUpdate.do")

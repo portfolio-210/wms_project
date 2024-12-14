@@ -261,4 +261,59 @@ function deleteStorage(scode) {
 	       });
 	   }
 }
+
+//////////////////////////////////////////////////////////////////////////////
+//Instore
+
+document.getElementById("storage").addEventListener("change", function () {
+    const storage = this.options[this.selectedIndex];
+    const sname = storage.value; // 창고명
+    const scode = storage.getAttribute("data-scode"); // 창고코드
+
+    // 창고명 및 창고코드 필드에 값 설정
+    document.getElementById("sname").value = sname;
+    document.getElementById("scode").value = scode;
+	document.getElementById("sname").readOnly = true;
+	document.getElementById("scode").readOnly = true;
+});
+
+// 파렛트 선택 시 이벤트 처리
+document.getElementById("palette").addEventListener("change", function () {
+    const pname = this.value; // 파렛트 이름
+
+    // 파렛트 이름 필드에 값 설정
+    document.getElementById("pname").value = pname;
+	document.getElementById("pname").readOnly = true;
+});
+
+
+const acompanyInput = document.getElementById("acompany");
+const acodeInput = document.getElementById("acode");
+
+// 거래처 이름 입력 이벤트 처리
+acompanyInput.addEventListener("input", function () {
+    const acompany = acompanyInput.value.trim(); // 입력된 거래처 이름
+
+    if (acompany !== "") {
+        // AJAX 요청
+        fetch(`/account/getAccountCode?acompany=${encodeURIComponent(acompany)}`)
+            .then(response => {
+               if (!response.ok) {
+               throw new Error("네트워크 응답 실패");
+                }
+                return response.text();
+            })
+            .then(acode => {
+                acodeInput.value = acode; // 거래처 코드 입력
+				acodeInput.readOnly = true; // 읽기 전용으로 설정
+            })
+            .catch(error => {
+                console.error("오류 발생:", error);
+                acodeInput.value = ""; // 오류 시 빈 값 처리
+            });
+    } else {
+        acodeInput.value = ""; // 입력값이 비어 있을 경우 초기화
+		acodeInput.readOnly = false; // 오류 발생 시 읽기 전용 해제
+    }
+});
 	
