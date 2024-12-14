@@ -13,21 +13,82 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
+import wms_project.dto.AccountDTO;
+import wms_project.dto.PaletteDTO;
 import wms_project.dto.StorageDTO;
+import wms_project.service.AccountService;
+import wms_project.service.PaletteService;
 import wms_project.service.StorageService;
 
 @Controller
 public class StorageController {
 
+	@Resource(name="accountdto")
+	AccountDTO dto;
+	
+	@Resource(name="PaletteDTO")
+	PaletteDTO pdto;
+	
+	@Autowired
+	AccountService as;
+	
+	@Autowired
+	PaletteService ps;
+	
     String output = null;
     javascript js = new javascript();
 
     @Autowired
     StorageService ss;
 
+    @GetMapping("/storage/storageInstore.do")
+    public String storageInstore1(StorageDTO storageDTO,HttpServletRequest req, Model m) {
+    	HttpSession sess = req.getSession();
+   	 String mspot = (String) sess.getAttribute("mspot");   	 
+   	 List<StorageDTO> members = ss.searchall(mspot);
+   	 List<PaletteDTO> palette = ps.palette_list(mspot);
+	 
+	 
+	 
+	 m.addAttribute("palette",palette);//사용자와 맞는 팔레트 리스트
+   	 m.addAttribute("members",members);
 
+        return null;
+    }
+    
+    
+    @PostMapping("/storage/storageInstore.do")
+    public String storageInstore(StorageDTO storageDTO,HttpServletRequest req, Model m) {
+    	HttpSession sess = req.getSession();
+    	 String mspot = (String) sess.getAttribute("mspot");
+    	 List<StorageDTO> members = ss.searchall(mspot);
+    	 List<PaletteDTO> palette = ps.palette_list(mspot);
+    	 System.out.println("palette"+palette);
+    	 
+    	 
+    	 m.addAttribute("palette",palette);//사용자와 맞는 팔레트 리스트
+    	 m.addAttribute("members",members);//사용자와 맞는 창고 리스트
+        
+        return null;
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     @GetMapping("/storage/storageInsert.do")
     public String storageInsert(StorageDTO storageDTO) {
 
@@ -74,29 +135,30 @@ public class StorageController {
 
 
     @GetMapping("/storage/storageMain.do")
-    public String showMembers(@RequestParam(value = "mspot", required = false) String mspot, Model m, HttpServletRequest req) {
-    	
+    public String showMembers(@RequestParam(value = "mspot", required = false) String mspot,@RequestParam(value ="search", required = false) String search, Model m, HttpServletRequest req) {
     	 HttpSession sess = req.getSession();
     	 String sessionMspot = (String) sess.getAttribute("mspot");
     	 mspot = sessionMspot; 
+    	 
+    	 if(!(search == null)) {
     	 List<StorageDTO> members = ss.searchall(mspot); // 전체 멤버 가져오기	
     	 m.addAttribute("members", members); // 모델에 추가
-        
-
+    	 }
+    	 
+    	 
+    	 List<StorageDTO> all = ss.all(search);
+     	 m.addAttribute("members", all);
+     	
 
         return null; // JSP 페이지 이름 반환
     }
     
-    @PostMapping("/storage/storageMain.do")
-    public String searchmember(@RequestParam("search") String search, Model m) {
-    	
-    	List<StorageDTO> all = ss.all(search);
-    	m.addAttribute("members", all);
+  
     	
     	
     	
-    	return null;
-    }
+    	
+  
         
 
     @GetMapping("/storage/storageUpdate.do")

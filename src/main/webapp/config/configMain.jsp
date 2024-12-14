@@ -59,9 +59,10 @@
               </tr>
             </thead>
             <tbody>
+            <c:set var="ino" value="${total}"/>
             <c:forEach var="member" items="${members}" varStatus="status">
               <tr align="center">
-                <td>${status.index + 1}</td>
+                <td>${total - ((pageno - 1)*15 + status.index)}</td>
                 <td>${member.mpart}</td>
                 <td>${member.mid}</td>
                 <td>${member.mname}</td>
@@ -99,7 +100,10 @@
   </div>
 </main>
 <script>
+
 function goToPage(i, part1, part2, search) {
+	
+	
     let url = 'configMain.do?pageno=' + i;
 
     if (part1) {
@@ -112,8 +116,17 @@ function goToPage(i, part1, part2, search) {
         url += '&search=' + encodeURIComponent(search);
     }
 
+    
     location.href = url; // 페이지 이동
 }
+
+window.onload = function() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const search = urlParams.get('search');
+    if (search) {
+        document.querySelector('input[name="search"]').value = search;
+    }
+};
 </script>
 
 

@@ -3,15 +3,25 @@ var frm = document.createElement("form");
 
 function getFormInfo() {
     var a = document.getElementById("searchKeyword").value.trim();
-    
+	var urlcheck = window.location.search;
+	var urlarr1 = urlcheck.split("&part1=");
+	var pg = "";
+	if(urlarr1[0] == ""){
+		pg = 1;
+	}
+	else{
+		var urlarr2 = urlarr1[0].split("?pageno=");
+		pg = urlarr2[1];
+	}
+	
     if (a === "") {
-        alert("검색어를 입력하세요");
+        alert("검색어를 입력하세요!!");
         return false;
     } else {
         // 검색어를 비우기
         //document.getElementById("searchKeyword").value = "";
 		
-		frm.innerHTML = ""; // 이전 필드 제거
+		frm.innerHTML = "<input type='hidden' name='pageno' value='"+pg+"'>"; // 이전 필드 제거
         // 새로운 폼 요소 생성
        
         frm.method = "get"; // 폼 메서드 설정
@@ -53,6 +63,7 @@ function searchall(){
 	
 	       frm.method = "get"; // 폼 메서드 설정
 	       frm.action = "/config/configMain.do"; // 폼 액션 설정
+		 
 	       // 폼을 body에 추가
 	       document.body.appendChild(frm);
 

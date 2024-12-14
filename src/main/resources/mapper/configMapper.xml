@@ -20,6 +20,7 @@ select * from member
             </choose>
   
         ORDER BY midx DESC
+        LIMIT #{startno}, #{items}
      	
 </select>
 
