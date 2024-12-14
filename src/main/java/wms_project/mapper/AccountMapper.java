@@ -18,6 +18,9 @@ public interface AccountMapper {
 	public String account_ctn();
 	// 거래처 리스트 출력 + 페이징
 	public List<AccountDTO> accountList(Map<String, String> pg);
+	
+	// 페이징 카운트
+	public int accountListCtn();
 	// 거래처 수정 조회
 	public AccountDTO accountIdx(String aidx);
 	// 거래처 수정 (UPDATE)

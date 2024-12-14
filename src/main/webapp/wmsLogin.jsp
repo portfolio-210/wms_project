@@ -34,7 +34,7 @@
                     <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6"></path>
                     </svg>
                   </span>
-                  <input type="text" name="mid" style="height: 40px;" class="form-control font12" placeholder="아이디를 입력하세요">
+                  <input type="text" name="mid" style="height: 40px;" value="admin" class="form-control font12" placeholder="아이디를 입력하세요">
                </div>
             </div>
             <div class="mb-3">
@@ -45,7 +45,7 @@
                             <path d="M4 8a1 1 0 1 1-2 0 1 1 0 0 1 2 0"/>
                         </svg>
                       </span>
-                      <input type="password" name="mpass" style="height: 40px;" class="form-control font12" placeholder="패스워드를 입력하세요">
+                      <input type="password" name="mpass" value="admin" style="height: 40px;" class="form-control font12" placeholder="패스워드를 입력하세요">
                    </div>
             </div>
             <div class="mb-3">

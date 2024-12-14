@@ -12,7 +12,11 @@
     
 
 <main role="main" style="height: auto;">
-<form id="frm">
+<form id="f1">
+<input type="hidden" name="dapprove" id="dapprove" value="">
+<input type="hidden" name="didx" id="didx" value="">
+
+</form>
   <div class="container">
     <div>
     <p class="sub_title font16_bold">배송기사 리스트[근무현황]</p>
@@ -56,42 +60,74 @@
                 <th scope="col" style="width: 70px;">수정</th>
               </tr>
             </thead>
+            
+            
             <tbody style="background-color: #f1f1ef;">
+            
+            
+            <!-- 거래처가 없는경우 -->
+             <c:if test="${empty all}">
+		        <tr>
+		            <td colspan="10" height="60px" align="center" style="color: #777; font-size: 14px; ">등록된 배송기사 리스트가 없습니다.</td>
+		        </tr>
+    		</c:if>
+            
+                    
+            <c:forEach var="delivery" items="${all}" varStatus="idx">
                 <tr align="center" style="line-height: 30px;">
-                    <td>인천지점</td>
-                    <td>홍길동</td>
-                    <td>M2024120901</td>
-                    <td>01023451123</td>
-                    <td>hong_gildong@hanmail.net</td>
-                    <td>830906-1******</td>
-                    <td>등록완료</td>
+                    <td>${delivery.dspot}</td>
+                    <td>${delivery.dname}</td>
+                    <td>${delivery.dcode}</td>
+                    <td>${delivery.dhp}</td>
+                    <td>${delivery.demail}</td>
+                    <td>${delivery.didnum}******</td>
                     <td>
-                        <select style="width: 100px; height: 40px; margin-right: 5px;" class="form-control font12">
-                            <option>근무중</option>
-                            <option>일시정지</option>
-                            <option>퇴사</option>
+                    	<c:choose>
+        					<c:when test="${delivery.dimgck == 'N'}">미등록</c:when>
+        					<c:otherwise>등록완료</c:otherwise>
+    					</c:choose>
+                    </td>
+                    
+          
+                    <td>
+                        <select name="approve" id="approve" style="width: 100px; height: 40px; margin-right: 5px;" class="form-control font12" onchange="approveCk(this, ${delivery.didx})">
+                            <option value="근무중"<c:if test="${delivery.dapprove == '근무중'}">selected</c:if>>근무중</option>
+                            <option value="일시정지"<c:if test="${delivery.dapprove == '일시정지'}">selected</c:if>>일시정지</option>
+                            <option value="퇴사"<c:if test="${delivery.dapprove == '퇴사'}">selected</c:if>>퇴사</option>
                         </select>
                     </td>
+                    
                     <td>
                         <button type="button" class="btn btn-success font12" style="width: 60px; height: 30px;">수정</button> 
                     </td>
                   </tr>
+              </c:forEach>
+  					
             </tbody>
           </table>
      </div>
+     
      <div class="mb-3">
         <ul class="pageing">
-          <li>1</li>
+        <c:set var="pages" value="${total / 15 + (1 - (total / 15) % 1)}"/>
+        <c:forEach var="no" begin="1" end="${pages}" step="1">
+          <li onclick="page_go(${no})" style="cursor: pointer;">${no}</li>
+         </c:forEach>
         </ul>
       </div>
+     
       <div class="mb-3" style="text-align: right;">
       <button type="button" class="btn btn-danger font12" style="width: 100px; height: 40px;" onclick="deliveryInsert()">배송기사 등록</button> 
       </div>
     </div>
   </div>
-  </form>
 </main>
-
+<script>
+                        
+                        	
+                  
+                        
+                        </script>
 <script src="../js/deliveryMain.js?v=<%=sf.format(today)%>"></script>
 <!-- Footer -->
 <%@ include file="../footer.jsp"%>

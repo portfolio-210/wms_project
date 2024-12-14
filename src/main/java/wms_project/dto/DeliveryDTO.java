@@ -11,4 +11,5 @@ public class DeliveryDTO {
 	String dcode, dspot, dname, dpass, demail, dhp, didnum;
 	String dimgnm, dimgrenm, dimgurl, dimgck;
 	String dapprove, ddate, dmodify;
+
 }

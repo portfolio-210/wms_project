@@ -9,7 +9,7 @@ var pwReg = /^(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z\d]{6,}$/;
 var idReg = /^\d+$/;
 
 function deliveryMain(){
-	location.href="/delivery/deliveryMain.jsp";
+	location.href="/delivery/deliveryMain.do";
 	
 }
 
@@ -25,40 +25,59 @@ document.getElementById('dimgnm').addEventListener('change', function(event) {
       var validExtensions = ['jpg', 'jpeg', 'png', 'gif'];
 
       if (validExtensions.indexOf(fileExtension) === -1) {
-        alert('허용되지 않는 파일 형식입니다. JPG, PNG, GIF 파일만 업로드할 수 있습니다.');
+        alert('허용되지 않는 파일 형식입니다.\nJPG, PNG, GIF 파일만 업로드할 수 있습니다.');
         fileInput.value = ''; // 파일 선택 초기화
       }
     }
   });
 
 
-
-	/*
-	if(f1.dspot.value == ""){
-		alert('비정상적인 접근입니다. 로그인 페이지로 이동합니다.');
-		location.href = '/delivery/deliveryMain.do';
-		return false;
+  
+ function codeCk(){
+	let http = new XMLHttpRequest();
+	let ctn = "";	// 백엔드에게 받는 카운트값
+	
+	
+	http.onreadystatechange = function(){
+		if(http.readyState == 4 && http.status == 200){	
+			ctn = http.responseText.trim();
+			console.log(ctn);
+			
+			if(f1.dcode.value == ""){
+				ctn = (parseInt(ctn)+1).toString().padStart(10,'0');
+				f1.dcode.value="M"+ctn;
+				idCK = true;
+			}
+			else{
+				alert("이미 코드가 생성되었습니다.")
+				return false;
+			}
+ 		}
 	}
-		else if(f1.dcode.value == ""){
-			alert("사원번호를 생성해 주세요.");
-			return false;
-		}
-		
-		else if(idCK == false){
-			alert("사원번호를 생성해 주세요.");
-			return false;	
-		}
-		*/
+	
+		http.open("get","./deliveryCode.do", true);
+		http.setRequestHeader("content-type", "application/x-www-form-urlencoded");
+ 		http.send();
+} 
+
 
 
 function deliverySubmit() {
     var id1 = document.getElementById("id1");
     var id2 = document.getElementById("id2");
 
-	if(f1.dspot.value == ""){
+if(f1.dspot.value == ""){
 		alert('비정상적인 접근입니다. 로그인 페이지로 이동합니다.');
 		location.href = '/delivery/deliveryMain.do';
 		return false;
+	}
+	else if(f1.dcode.value == ""){
+		alert("사원번호를 생성해 주세요.");
+		return false;
+	}
+	else if(idCK == false){
+		alert("사원번호를 생성해 주세요.");
+		return false;	
 	}
 	else if(f1.dcode.value == ""){
 		alert("사원번호를 생성해 주세요.");
@@ -169,7 +188,7 @@ function deliverySubmit() {
 	else{
 		
 		if(f1.dimgnm.value == "") { // else if로 수정
-		     alert("증명사진을 등록하지 않으면 배송 출고 시 \n 해당 택배기사의 정보는 출력되지않습니다.");
+		     alert("증명사진을 등록하지 않으면 배송 출고 시 \n해당 택배기사의 정보는 출력되지않습니다.");
 			 if (confirm("사진을 추가하시겠습니까?")) {
 			       return false;
 			}

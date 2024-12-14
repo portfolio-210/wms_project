@@ -30,8 +30,8 @@ public class OfficeController {
     //officeMain.jsp Controller
     //전체 지점 현황 페이지 출력 / 검색어 있는 경우 검색어에 해당하는 리스트 출력
     @GetMapping("/office/officeMain.do")
-    public String office_main(Model m, @RequestParam(value = "search", required = false) String search) {
-        System.out.println(search);
+    public String office_main(Model m, @RequestParam(value = "search", required = false) String search,
+                              @RequestParam(value = "pageno", required = false) Integer pageno) {
         List<OfficeDTO> all = null;
         if(search == null || search.isEmpty()){
             all = os.office_list();

@@ -14,4 +14,6 @@ public interface DeliveryMapper {
 	public int deliveryInsert(DeliveryDTO dto);
 	// 배송기사 리스트 출력 + 페이징
 	public List<DeliveryDTO> deliveryList(Map<String, String> pg);
+	// 사원번호 자동생성 (DB카운트)
+	public String deliveryCtn();
 }

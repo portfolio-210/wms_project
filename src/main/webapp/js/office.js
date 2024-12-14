@@ -249,6 +249,15 @@ function cancel_modify(){
 	}
 }
 
+//페이징 - 해당 페이지 이동
+function go_page(i, search){
+    let url = "officeMain.do?pageno=" + i;
+    if(search){
+        url += "&search=" + encodeURIComponent(search);
+    }
+    location.href = url;
+}
+
 
 //주소 찾기 카카오 API 연동
 // 우편번호 찾기 화면을 넣을 element

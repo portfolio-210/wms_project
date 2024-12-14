@@ -11,7 +11,7 @@
 
 
 <main role="main" style="height: auto;">
-<form id="f1">
+<form id="f1" enctype="multipart/form-data">
   <div class="container">
     <div>
     <p class="sub_title font16_bold">배송기사 등록</p>
@@ -19,10 +19,11 @@
         <ul class="ul-2">
             <li class="num_font13_bold">사원번호</li>
             <li style=" width:85%; display: flex; flex-direction: row;">
-                <input type="text" id="dcode" name="dcode" value="" style="width: 200px; height: 40px;" class="form-control font12" placeholder="사원번호를 입력해 주세요">
-                <button type="button" class="btn btn-secondary font12" style="width: 120px; height: 40px; margin-left:10px;">
+                <input type="text" id="dcode" name="dcode" value="" style="width: 200px; height: 40px;" class="form-control font12" placeholder="사원번호를 입력해 주세요" readonly>
+                <button type="button" class="btn btn-secondary font12" style="width: 120px; height: 40px; margin-left:10px;" onclick="codeCk()">
                     사원번호 생성
-                </button><font style="font-size: 12px; color: red;">&nbsp;&nbsp;※ 사원번호는 자동생성 됩니다.</font>  
+                </button>
+                <font style="font-size: 12px; color: red;">&nbsp;&nbsp;※ 사원번호는 자동생성 됩니다.</font>  
             </li>
         </ul> 
      </div>
@@ -35,7 +36,7 @@
             </li>
             <li class="num_font13_bold">지역거점 구분</li>
             <li style="display: flex; flex-direction: row;">
-                <input type="text" id="dspot" name="dspot" value="" style="width: 200px; height: 40px;" class="form-control font12" >
+                <input type="text" id="dspot" name="dspot" value="<%= mspot %>" style="width: 200px; height: 40px;" class="form-control font12" readonly>
             </li>
         </ul>
         </div> 
@@ -62,7 +63,7 @@
                     <!-- 두개 input값 아래에 통합 -->
                     <input type="hidden" name="didnum" id="didnum" value="">
                     <input type="text" id="id1" value="" style="width: 100px; height: 40px;" class="form-control font12" maxlength="6" placeholder="앞자리 6자리">&nbsp;-&nbsp; 
-                    <input type="text" id="id2" value="" style="width: 30px; height: 40px;" class="form-control font12" maxlength="1">********
+                    <input type="text" id="id2" value="" style="width: 40px; height: 40px;" class="form-control font12" maxlength="1">********
                 </li>
             </ul> 
             </div>
@@ -74,7 +75,7 @@
                     </li>
                     <li class="num_font13_bold">증명사진</li>
                     <li style="display: flex; flex-direction: row;">
-                        <input type="file" id="dimgnm" name="dimgnm" style="width:300px; height: 40px;" class="form-control font12">
+                        <input type="file" id="dimgnm" name="dimgnmf" style="width:300px; height: 40px;" class="form-control font12">
                     </li>
                 </ul> 
                 </div>

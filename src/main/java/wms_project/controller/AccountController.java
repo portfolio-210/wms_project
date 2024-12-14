@@ -37,9 +37,10 @@ public class AccountController {
 	// 메인페이지
 	@GetMapping("/account/accountMain.do")
 	public String accountMain(Model m,
-			@RequestParam(value="pageno", required = false) Integer pageno
-			) {
+			@RequestParam(value="pageno", required = false) Integer pageno) {
 		//integer 는 null값을 받을수있고 int는 null 이안나와서 500번에러남!!
+		
+		
 		
 		
 		if(pageno==null) {
@@ -48,16 +49,18 @@ public class AccountController {
 			
 		}else {	// URI가 파라미터가 있을경우
 			this.startno = (pageno-1) * 15;	//15개씩 출력
-			this.endno = pageno *15;
+			this.endno = 15;
 		}
 
+		int result = as.accountListCtn();
+		
+		
 		List<AccountDTO> all = as.accountList();
 		m.addAttribute("all", all);
-		m.addAttribute("total", all.size());
 
+		m.addAttribute("total",result);
 		
-		// 사용자가 클릭한 페이지번호
-		m.addAttribute("userpage",this.startno);	
+		m.addAttribute("userpage",pageno);	
 
 		return null;
 	}

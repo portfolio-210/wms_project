@@ -5,8 +5,8 @@
 <select id="all" parameterType="Map" resultType="wms_project.dto.ConfigDTO">
 
 select * from member
-     
-               where mpart = #{part1}  <!-- 본사 또는 지점 -->    
+     		
+               where mpart = #{part1} <!-- 본사 또는 지점 -->    
             <choose>
                 <when test="part2 == '이름'">
                     AND mname LIKE CONCAT('%', #{search}, '%') <!-- 이름 검색 -->
