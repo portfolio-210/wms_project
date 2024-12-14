@@ -36,7 +36,10 @@ public class OfficeController {
         int total = os.count_office(search);      //전체 글 개수
         int startno = 0;    //글 시작 번호
         int items = 15;     //한 페이지에 출력될 행 개수
-        if(pageno != null){
+        if(pageno == null){
+            startno = 0;
+            pageno = 1;
+        } else {
             startno = (pageno-1) * 15;
         }
 
