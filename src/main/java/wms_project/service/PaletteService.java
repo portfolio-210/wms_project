@@ -13,7 +13,7 @@ public interface PaletteService {
     //페이징 + 팔레트 리스트 출력
     List<PaletteDTO> palette_list_paging(Map<String, Object> paramValue);
     //지점에 따른 전체 팔레트 개수
-    int count_palette(String search, String mspot);
+    int count_palette(Map<String, Object> paramValue);
     //팔레트 수정 페이지 출력
     PaletteDTO modify_palette(String pidx);
     //팔레트 수정 완료

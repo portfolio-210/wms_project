@@ -37,8 +37,8 @@ public class PaletteServiceImp implements PaletteService {
 
     //지점에 따른 전체 팔레트 개수
     @Override
-    public int count_palette(String search, String mspot) {
-        int result = pm.count_palette(search, mspot);
+    public int count_palette(Map<String, Object> paramValue) {
+        int result = pm.count_palette(paramValue);
         return result;
     }
 

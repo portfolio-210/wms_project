@@ -34,7 +34,12 @@ public class PaletteController {
     public String palette_list(Model m, @RequestParam(value = "search", required = false) String search,
                                @RequestParam(value = "pageno", required = false) Integer pageno){
         String mspot = (String)this.session.getAttribute("mspot");
-        int total = ps.count_palette(search, mspot);
+
+        Map<String, Object> paramValue = new HashMap<>();
+        paramValue.put("search", search);
+        paramValue.put("mspot", mspot);
+
+        int total = ps.count_palette(paramValue);
         int startno = 0;
         int items = 15;
         if(pageno == null){
@@ -42,11 +47,8 @@ public class PaletteController {
         } else {
             startno = (pageno-1) * 15;
         }
-        Map<String, Object> paramValue = new HashMap<>();
         paramValue.put("items", items);
         paramValue.put("startno", startno);
-        paramValue.put("search", search);
-        paramValue.put("mspot", mspot);
 
         List<PaletteDTO> result = ps.palette_list_paging(paramValue);
 
