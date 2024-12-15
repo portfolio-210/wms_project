@@ -5,7 +5,8 @@ import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
-
+import wms_project.dto.ProductDTO;
+import wms_project.dto.ProductsDTO;
 import wms_project.dto.StorageDTO;
 
 @Mapper
@@ -25,6 +26,9 @@ public interface StorageMapper {
     
     int deleteByID(String scode);
     
+    //상품 입고 관련
     //거래처 이름으로 거래처 코드 찾기
     String getAcode(String acompany); 
+    
+    int insertStore(ProductsDTO productsDTO);
 }

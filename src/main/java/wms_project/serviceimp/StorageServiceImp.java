@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import wms_project.dto.ConfigDTO;
+import wms_project.dto.ProductDTO;
+import wms_project.dto.ProductsDTO;
 import wms_project.dto.StorageDTO;
 import wms_project.mapper.StorageMapper;
 import wms_project.service.StorageService;
@@ -58,9 +60,18 @@ public class StorageServiceImp implements StorageService {
     	return sm.deleteByID(scode);
     }
     
+    //상품 입고 관련
+    
     @Override
     public String getAcode(String acompany) {
         return sm.getAcode(acompany);
+    }
+    
+    @Override
+    public int insertStore(ProductsDTO productsDto) {
+    	
+    	
+	    return sm.insertStore(productsDto); // 최종 삽입된 개수 반환
     }
 
 }

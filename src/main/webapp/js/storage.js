@@ -225,7 +225,9 @@ function search1(){
 	        return false;
 	}else {
 		 
-		    document.getElementById("hiddenSearch").value = search;
+		var url = "/storage/storageMain.do?search=" + encodeURIComponent(search);
+		window.location.href = url;
+		return false;
 		     // 폼 제출
 		  }
 		
@@ -269,31 +271,87 @@ document.getElementById("storage").addEventListener("change", function () {
     const storage = this.options[this.selectedIndex];
     const sname = storage.value; // 창고명
     const scode = storage.getAttribute("data-scode"); // 창고코드
+	
 
+	// 클릭한 행의 인덱스 가져오기
+	const selectedRow = document.querySelector('.row1.selected');
+	
+	
+	if (selectedRow) {
+	const rowIndex = selectedRow.getAttribute('data-index'); // 선택된 행의 인덱스
     // 창고명 및 창고코드 필드에 값 설정
-    document.getElementById("sname").value = sname;
-    document.getElementById("scode").value = scode;
-	document.getElementById("sname").readOnly = true;
-	document.getElementById("scode").readOnly = true;
+    document.getElementById(`sname_${rowIndex}`).value = sname;
+    document.getElementById(`scode_${rowIndex}`).value = scode;
+			if (sname !== "") {
+	            document.getElementById(`sname_${rowIndex}`).readOnly = true;
+	            document.getElementById(`scode_${rowIndex}`).readOnly = true;
+	        } else {
+	            // 선택된 창고명이 비어 있으면 readonly 해제
+	            document.getElementById(`sname_${rowIndex}`).readOnly = false;
+	            document.getElementById(`scode_${rowIndex}`).readOnly = false;
+	        }
+	}else {
+            // 선택된 행이 없을 경우 첫 번째 행에 값 설정
+            document.getElementById(`sname_0`).value = sname; // 첫 번째 행에 창고명 설정
+            document.getElementById(`scode_0`).value = scode; // 첫 번째 행에 창고코드 설정
+					if (sname !== "") {
+			            document.getElementById(`sname_0`).readOnly = true; // 읽기 전용 설정
+			            document.getElementById(`scode_0`).readOnly = true; // 읽기 전용 설정
+			        } else {
+			            // 선택된 창고명이 비어 있으면 readonly 해제
+			            document.getElementById(`sname_0`).readOnly = false;
+			            document.getElementById(`scode_0`).readOnly = false;
+			        }
+        }
+		
+		
 });
 
 // 파렛트 선택 시 이벤트 처리
 document.getElementById("palette").addEventListener("change", function () {
     const pname = this.value; // 파렛트 이름
+	const selectedRow = document.querySelector('.row1.selected');
 
+	if (selectedRow) {
+	const rowIndex = selectedRow.getAttribute('data-index');
     // 파렛트 이름 필드에 값 설정
-    document.getElementById("pname").value = pname;
-	document.getElementById("pname").readOnly = true;
+		
+    	document.getElementById(`pname_${rowIndex}`).value = pname;
+		if(pname !==""){
+		document.getElementById(`pname_${rowIndex}`).readOnly = true;
+		}else{
+		document.getElementById(`pname_${rowIndex}`).readOnly = false;
+		}
+	}else {
+            // 선택된 행이 없을 경우 첫 번째 행에 값 설정
+	document.getElementById(`pname_0`).value = pname;
+	if(pname !==""){
+	document.getElementById(`pname_0`).readOnly = true;
+	}else{
+	document.getElementById(`pname_0`).readOnly = false;
+			}
+        }
 });
 
-
-const acompanyInput = document.getElementById("acompany");
-const acodeInput = document.getElementById("acode");
+// 각 행 클릭 이벤트
+    document.querySelectorAll('.row1').forEach(row => {
+        row.addEventListener('click', function () {
+            // 이전에 선택된 행의 스타일 초기화
+            document.querySelectorAll('.row1').forEach(item => {
+                item.classList.remove('selected'); // 선택 해제
+            });
+            // 현재 클릭한 행 선택
+            this.classList.add('selected'); // 선택 스타일 추가
+        });
+    });
 
 // 거래처 이름 입력 이벤트 처리
-acompanyInput.addEventListener("input", function () {
-    const acompany = acompanyInput.value.trim(); // 입력된 거래처 이름
-
+document.querySelectorAll('input[id^="acompany_"]').forEach(input => {
+    input.addEventListener("input", function () {
+        const index = this.id.split('_')[1]; // 인덱스 추출
+        const acompany = this.value.trim(); // 입력된 거래처 이름
+		console.log(acompany);
+        const acodeInput = document.getElementById(`acode_${index}`); // 해당 거래처 코드 입력 필드
     if (acompany !== "") {
         // AJAX 요청
         fetch(`/account/getAccountCode?acompany=${encodeURIComponent(acompany)}`)
@@ -315,5 +373,115 @@ acompanyInput.addEventListener("input", function () {
         acodeInput.value = ""; // 입력값이 비어 있을 경우 초기화
 		acodeInput.readOnly = false; // 오류 발생 시 읽기 전용 해제
     }
+	});
 });
+
+//입고버튼 클릭시
+function insertstore() {
+var form = document.getElementById('form');
+// 각 입력 필드를 배열로 가져오기
+const acompany = form.querySelectorAll('input[name^="acompany"]');
+const acode = form.querySelectorAll('input[name^="acode"]');
+const pdcode = form.querySelectorAll('input[name^="pdcode"]');
+const pdname = form.querySelectorAll('input[name^="pdname"]');
+const pdamount = form.querySelectorAll('input[name^="pdamount"]');
+const sname = form.querySelectorAll('input[name^="sname"]');
+const scode = form.querySelectorAll('input[name^="scode"]');
+const pname = form.querySelectorAll('input[name^="pname"]');
+let rowFull = false; // 최소한 하나의 유효한 행이 있는지 체크
+let rowEmpty = false; // 유효하지 않은 행이 있는지 체크
 	
+for (let i = 0; i < acompany.length; i++) {
+	        // 각 행의 값 확인
+	        const company = acompany[i].value;
+	        const code = acode[i].value;
+	        const pdcode1 = pdcode[i].value;
+	        const pdname1 = pdname[i].value;
+	        const pdamount1 = pdamount[i].value;
+	        const sname1 = sname[i].value;
+	        const scode1 = scode[i].value;
+	        const pname1 = pname[i].value;
+
+	        // 모든 필드가 채워진 경우
+	        if (company && code && pdcode1 && pdname1 && pdamount1 && sname1 && scode1 && pname1) {
+	            rowFull = true; // 유효한 행이 있음
+	        }
+	        // 하나라도 비어 있는 경우
+	        else if (company || code || pdcode1 || pdname1 || pdamount1 || sname1 || scode1 || pname1) {
+	            rowEmpty = true; // 유효하지 않은 행이 있음
+	        }
+	    }
+
+	    // 유효하지 않은 행이 있을 경우 경고 메시지 표시
+	    if (rowEmpty) {
+	        alert("입고 양식에 맞춰서 작성해주세요.");
+	        return false;
+	    }
+
+	    // 최소 하나의 유효한 행이 있을 경우 폼 제출
+	    if (rowFull) {
+	       
+			return true;
+	    } else {
+	        alert("최소 한 행의 데이터를 입력해야 합니다.");
+			return false; // 함수 종료
+	    }
+		
+
+}
+
+// 현재 날짜를 'YYYY-MM-DD' 형식으로 반환하는 함수
+function getCurrentDate() {
+    const today = new Date();
+    const year = today.getFullYear();
+    const month = String(today.getMonth() + 1).padStart(2, '0'); // 월은 0부터 시작하므로 +1
+    const day = String(today.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
+}
+
+// 각 acode 입력 필드에 대해 이벤트 리스너 등록
+document.querySelectorAll('input[name^="acompany_"]').forEach((input, index) => {
+    input.addEventListener('input', function() {
+        const pddateField = document.getElementById(`pddate_${index}`); // 해당 행의 pddate 입력 필드
+        if (this.value) { // acode에 값이 있는 경우
+            pddateField.value = getCurrentDate(); // 현재 날짜 설정
+        } else { // acode에 값이 없는 경우
+            pddateField.value = ''; // pddate 비우기
+        }
+    });
+});		
+	
+
+/*// 현재 날짜를 YYYY-MM-DD 형식으로 반환하는 함수
+    function getCurrentDate() {
+        const today = new Date();
+        const year = today.getFullYear();
+        const month = String(today.getMonth() + 1).padStart(2, '0'); // 0부터 시작하므로 +1
+        const day = String(today.getDate()).padStart(2, '0');
+        return `${year}-${month}-${day}`; // YYYY-MM-DD 형식
+    }
+
+    // 각 행의 입력 필드에 이벤트 리스너 추가
+    document.querySelectorAll('.row1 input[type="text"]').forEach(input => {
+        input.addEventListener('input', function () {
+            const rowIndex = this.closest('tr').getAttribute('data-index'); // 현재 행의 인덱스 가져오기
+            const inputs = document.querySelectorAll(`tr[data-index="${rowIndex}"] input[type="text"]`);
+            let anyFilled = false;
+
+            // 현재 행의 모든 입력 필드 중 하나라도 값이 입력되었는지 확인
+            inputs.forEach(input => {
+                if (input.value.trim() !== "") {
+                    anyFilled = true; // 하나라도 입력된 경우
+                }
+            });
+
+            // 하나라도 입력된 경우 현재 날짜 설정
+            if (anyFilled) {
+                document.getElementById(`pdate_${rowIndex}`).value = getCurrentDate(); // 현재 날짜 설정
+            } else {
+                document.getElementById(`pdate_${rowIndex}`).value = ""; // 모든 필드가 비어 있을 경우 날짜 지우기
+            }
+        });
+    });
+*/
+

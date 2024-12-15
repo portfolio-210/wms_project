@@ -18,6 +18,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import wms_project.dto.AccountDTO;
 import wms_project.dto.PaletteDTO;
+import wms_project.dto.ProductDTO;
+import wms_project.dto.ProductsDTO;
 import wms_project.dto.StorageDTO;
 import wms_project.service.AccountService;
 import wms_project.service.PaletteService;
@@ -43,7 +45,38 @@ public class StorageController {
 
     @Autowired
     StorageService ss;
-
+    
+    
+    @PostMapping("/storage/productInsert.do")
+    public String storageInsert(ProductsDTO productsDto, Model m) {
+    	//System.out.println(productDTO);
+    	int total = 0;  // 총 삽입된 개수
+    			
+    			try {
+    			int result = ss.insertStore(productsDto);
+	    		
+    			if (result > 0) {
+	    			
+    				total++; }
+    			
+	    		if (total > 0) {	
+	    			this.output = this.js.ok("등록 되었습니다.", "/storage/storageList.do");
+	    		
+	    		}else {
+	    			this.output = this.js.no("등록 실패하였습니다.");
+				}
+    		
+        	}catch (Exception e) {
+        		e.printStackTrace();
+        		this.output = this.js.no("시스템 오류로 인해 실패하였습니다.");
+    		}
+            
+    	
+        	m.addAttribute("output", output);
+            return "output";
+        }
+ 
+    
     
     @GetMapping("/account/getAccountCode")
     @ResponseBody // JSON 응답을 반환하기 위해 추가
@@ -143,15 +176,15 @@ public class StorageController {
     	 String sessionMspot = (String) sess.getAttribute("mspot");
     	 mspot = sessionMspot; 
     	 
-    	 if(!(search == null)) {
+    	 if(search == null) {
     	 List<StorageDTO> members = ss.searchall(mspot); // 전체 멤버 가져오기	
     	 m.addAttribute("members", members); // 모델에 추가
-    	 }
-    	 
-    	 
+    	 }else {
+     	 
+    		 
     	 List<StorageDTO> all = ss.all(search);
      	 m.addAttribute("members", all);
-     	
+    	 }
 
         return null; // JSP 페이지 이름 반환
     }

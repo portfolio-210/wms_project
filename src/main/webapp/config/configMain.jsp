@@ -120,13 +120,7 @@ function goToPage(i, part1, part2, search) {
     location.href = url; // 페이지 이동
 }
 
-window.onload = function() {
-    const urlParams = new URLSearchParams(window.location.search);
-    const search = urlParams.get('search');
-    if (search) {
-        document.querySelector('input[name="search"]').value = search;
-    }
-};
+
 </script>
 
 
