@@ -28,6 +28,20 @@ public class PaletteServiceImp implements PaletteService {
         return result;
     }
 
+    //페이징 + 팔레트 리스트 출력
+    @Override
+    public List<PaletteDTO> palette_list_paging(Map<String, Object> paramValue) {
+        List<PaletteDTO> result = pm.palette_list_paging(paramValue);
+        return result;
+    }
+
+    //지점에 따른 전체 팔레트 개수
+    @Override
+    public int count_palette(String search, String mspot) {
+        int result = pm.count_palette(search, mspot);
+        return result;
+    }
+
     //팔레트 수정 페이지 출력
     @Override
     public PaletteDTO modify_palette(String pidx) {

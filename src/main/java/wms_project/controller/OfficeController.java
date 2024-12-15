@@ -32,29 +32,27 @@ public class OfficeController {
     @GetMapping("/office/officeMain.do")
     public String office_main(Model m, @RequestParam(value = "search", required = false) String search,
                               @RequestParam(value = "pageno", required = false) Integer pageno) {
-        Map<String, Object> paramValue = new HashMap<>();
-        int total = os.count_office(search);      //전체 글 개수
         int startno = 0;    //글 시작 번호
         int items = 15;     //한 페이지에 출력될 행 개수
-
         if(pageno == null){
-            startno = 0;
             pageno = 1;
         } else {
-
             startno = (pageno-1) * 15;
         }
 
         //mapper로 보내기 위한 글 시작 번호, 한 페이지에 출력할 글 개수, 검색어 Map에 추가
+        Map<String, Object> paramValue = new HashMap<>();
         paramValue.put("startno", startno);
         paramValue.put("items", items);
         paramValue.put("search", search);
 
         List<OfficeDTO> all = os.office_list_paging(paramValue);
-        
+        int total = os.count_office(search);      //전체 글 개수
+
         m.addAttribute("all", all);
         m.addAttribute("total", total);
         m.addAttribute("pageno", pageno);
+        m.addAttribute("search", search);
         return null;
     }
 
@@ -159,23 +157,31 @@ public class OfficeController {
     //officePopList.jsp Controller
     //지점 관리자 목록 출력
     @GetMapping("/office/officePopList.do")
-    public String office_poplist(Model m) {
-        List<MemberDTO> all = os.poplist_member();
-        m.addAttribute("all", all);
-        m.addAttribute("total", all.size());
+    public String office_poplist(@RequestParam(value = "part", required = false) String part,
+                                 @RequestParam( value = "search", required = false) String search,
+                                 @RequestParam(value = "pageno", required = false) Integer pageno,
+                                 Model m) {
+        int total = os.count_member();
+        int startno = 0;
+        int items = 15;
+        if(pageno == null){
+            pageno = 1;
+        } else {
+            startno = (pageno - 1) * 15;
+        }
+        Map<String, Object> paramValue = new HashMap<>();
+        paramValue.put("items", items);
+        paramValue.put("startno", startno);
+        paramValue.put("part", part);
+        paramValue.put("search", search);
 
-        return null;
-    }
+        List<MemberDTO> all = os.poplist_paging(paramValue);
 
-    //관리자 검색
-    @PostMapping("/office/officePopList.do")
-    public String search_member(@RequestParam("part") String part, @RequestParam("search") String search, Model m) {
-        Map<String, String> keyword = new HashMap<>();
-        keyword.put("part", part);
-        keyword.put("search", search);
-        List<MemberDTO> all = os.search_member(keyword);
         m.addAttribute("all", all);
-        m.addAttribute("total", all.size());
+        m.addAttribute("total", total);
+        m.addAttribute("pageno", pageno);
+        m.addAttribute("part", part);
+        m.addAttribute("search", search);
         return null;
     }
 

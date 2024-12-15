@@ -28,18 +28,32 @@ public class PaletteController {
 
     PrintWriter pw = null;
 
+//paletteMain.jsp
     //팔레트 메인 페이지 출력 - 로그인한 관리자의 소속 지점에 따른 팔레트 전체 리스트 출력
     @GetMapping("/palette/paletteMain.do")
-    public String palette_list(Model m, @RequestParam(value = "search", required = false) String search){
+    public String palette_list(Model m, @RequestParam(value = "search", required = false) String search,
+                               @RequestParam(value = "pageno", required = false) Integer pageno){
         String mspot = (String)this.session.getAttribute("mspot");
-        List<PaletteDTO> result = null;
-        if(search == null || search.isEmpty()){
-            result = ps.palette_list(mspot);
+        int total = ps.count_palette(search, mspot);
+        int startno = 0;
+        int items = 15;
+        if(pageno == null){
+            pageno = 1;
         } else {
-            result = ps.search_palette(mspot, search);
+            startno = (pageno-1) * 15;
         }
+        Map<String, Object> paramValue = new HashMap<>();
+        paramValue.put("items", items);
+        paramValue.put("startno", startno);
+        paramValue.put("search", search);
+        paramValue.put("mspot", mspot);
+
+        List<PaletteDTO> result = ps.palette_list_paging(paramValue);
+
         m.addAttribute("all", result);
-        m.addAttribute("total", result.size());
+        m.addAttribute("total", total);
+        m.addAttribute("pageno", pageno);
+        m.addAttribute("search", search);
         return null;
     }
 

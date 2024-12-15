@@ -176,6 +176,15 @@ function cancel_modify(){
         }
 }
 
+//페이징 - 해당 페이지 이동
+function go_page(i, search){
+    let url = "paletteMain.do?pageno=" + i;
+    if(search){
+        url += "&search=" + encodeURIComponent(search);
+    }
+    location.href = url;
+}
+
 
 
 

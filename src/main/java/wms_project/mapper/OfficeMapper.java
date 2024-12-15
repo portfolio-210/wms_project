@@ -20,6 +20,8 @@ public interface OfficeMapper {
 	public String check_officename(String officename);
 	public List<MemberDTO> poplist_member();
 	public List<MemberDTO> search_member(Map<String, String> keyword);
+	List<MemberDTO> poplist_paging(Map<String, Object> paramValue);	// 페이징 + 지점 관리자 현황
+	int count_member();	//지점 관리자 수
 	public List<MemberDTO> apply_member(String midx);
 	public int insert_office(OfficeDTO odto);
 	OfficeDTO modify_office(String oidx);

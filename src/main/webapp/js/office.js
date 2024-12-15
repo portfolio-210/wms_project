@@ -161,7 +161,7 @@ function search_member(){
 			alert("검색어를 다시 한 번 확인해주세요.");
 		}
 		else {
-			frm.method="post";
+			frm.method="get";
 			frm.action="/office/officePopList.do";
 			frm.submit();
 		}
@@ -170,10 +170,7 @@ function search_member(){
 
 //팝업 관리자 전체 출력 버튼
 function searchAll_member(){
-	frm.search.value = "";
-	frm.method="post";
-	frm.action="../office/officePopList.do";
-	frm.submit();
+	location.href="../office/officePopList.do";
 }
 
 //팝업 관리자 적용 버튼 클릭
@@ -249,9 +246,21 @@ function cancel_modify(){
 	}
 }
 
-//페이징 - 해당 페이지 이동
+//페이징 - officeMain.do 해당 페이지 이동
 function go_page(i, search){
     let url = "officeMain.do?pageno=" + i;
+    if(search){
+        url += "&search=" + encodeURIComponent(search);
+    }
+    location.href = url;
+}
+
+//페이징 - officPopList.do 해당 페이지 이동
+function popup_page(i, part, search){
+    let url = "officePopList.do?pageno=" + i;
+    if(part){
+        url += "&part=" + encodeURIComponent(part);
+    }
     if(search){
         url += "&search=" + encodeURIComponent(search);
     }

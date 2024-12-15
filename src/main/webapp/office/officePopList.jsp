@@ -64,7 +64,10 @@
 		</div>
 		<div class="mb-3">
 			<ul class="pageing">
-				<li>1</li>
+			    <cr:set var="page" value="${total/15 + (1-((total/15)%1))}"/>
+			    <cr:forEach begin="1" end="${page}" var="i">
+				<li style="cursor: pointer;" onclick="popup_page(${i}, '${part}', '${search}')">${i}</li>
+				</cr:forEach>
 			</ul>
 		</div>
     </div>

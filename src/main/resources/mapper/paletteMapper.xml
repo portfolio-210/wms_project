@@ -4,12 +4,31 @@
 
     <!-- 로그인한 관리자의 소속 지점에 따른 팔레트 전체 리스트 출력 -->
     <select id="palette_list" parameterType="String" resultType="wms_project.dto.PaletteDTO">
-        select pidx, pname, pcode, psize, pcolor, pusing from palette where mspot = #{mspot} and pusing = 'Y' order by pdate desc
+        select pidx, pname, pcode, psize, pcolor, pusing from palette where mspot = #{mspot} order by pdate desc
     </select>
 
     <!-- 검색한 팔레트 리스트 출력 -->
     <select id="search_palette" parameterType="String" resultType="wms_project.dto.PaletteDTO">
-        select pidx, pname, pcode, psize, pcolor, pusing from palette where mspot = #{mspot} and pusing = 'Y' and pname like concat('%',#{search},'%') order by pdate desc
+        select pidx, pname, pcode, psize, pcolor, pusing from palette where mspot = #{mspot} and pname like concat('%',#{search},'%') order by pdate desc
+    </select>
+
+    <!-- 페이징 + 팔레트 리스트 출력 -->
+    <select id="palette_list_paging" parameterType="Map" resultType="wms_project.dto.PaletteDTO">
+        select pidx, pname, pcode, psize, pcolor, pusing from palette
+        where mspot=#{mspot}
+        <if test="search != null">
+            and officename like concat('%',#{search},'%')
+        </if>
+        order by pdate desc
+        limit #{startno}, #{items}
+    </select>
+
+    <!-- 팔레트 개수 구하기 -->
+    <select id="count_palette" parameterType="String" resultType="Integer">
+        select count(*) from palette where mspot=#{mspot}
+        <if test="search != null">
+            and officename like concat('%',#{search},'%')
+        </if>
     </select>
 
     <!-- 팔레트 수정 페이지 출력 -->

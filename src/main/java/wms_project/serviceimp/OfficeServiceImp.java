@@ -73,7 +73,21 @@ public class OfficeServiceImp implements OfficeService{
 		List<MemberDTO> all = om.search_member(keyword);
 		return all;
 	}
-	
+
+	//페이징 + 지점 관리자 현황
+	@Override
+	public List<MemberDTO> poplist_paging(Map<String, Object> paramValue) {
+		List<MemberDTO> result = om.poplist_paging(paramValue);
+		return result;
+	}
+
+	//지점 관리자 수 조회
+	@Override
+	public int count_member() {
+		int result = om.count_member();
+		return result;
+	}
+
 	//관리자 지정 시 해당 관리자의 정보 가져오기
 	@Override
 	public List<MemberDTO> apply_member(String midx) {
