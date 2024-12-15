@@ -32,7 +32,7 @@ if (session == null ||
 	//out.print("email("+sess.getAttribute("email")+ ")　　");	//이메일
 	//out.print("mpart("+sess.getAttribute("mpart")+ ")　　"); // 본사
 	//out.print("mspot("+sess.getAttribute("mspot")+ ")　　");	// 지점 이름
-	out.print("전화번호 : mhp("+sess.getAttribute("mhp")+ ")　　");	// 전화번호
+	//out.print("전화번호 : mhp("+sess.getAttribute("mhp")+ ")　　");	// 전화번호
 	//out.print("　>> 앞에있는값이 세션 id값입니다!!");
 %>
 

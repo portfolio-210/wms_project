@@ -26,18 +26,7 @@
 	</select>
 
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
 	
 	<!-- 페이징 count -->
 	<select id="accountListCtn" parameterType="Integer">

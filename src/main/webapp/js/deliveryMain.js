@@ -15,7 +15,7 @@ function page_go(n){
 }
 
 
-
+// 현황 승인 
 function approveCk(apck,a){
 	var approve = apck.value;
 	var idx = a;

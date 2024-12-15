@@ -151,7 +151,6 @@ public class AccountController {
 				System.out.println(result);
 				
 				if(result > 0) {
-					//System.out.println();
 					this.output=this.js.ok("정상적으로 수정이 완료 되었습니다.", "/account/accountMain.do");
 				}
 				else {
@@ -159,7 +158,7 @@ public class AccountController {
 				}
 				 
 			} catch (Exception e) {
-				this.output=this.js.no("데이터 오류로 인하여 등록 되지 않습니다. 다시 시도해 주세요"+e);
+				this.output=this.js.no("데이터 오류로 인하여 수정 되지 않습니다. 다시 시도해 주세요"+e);
 			}
 			m.addAttribute("output", output);
 		

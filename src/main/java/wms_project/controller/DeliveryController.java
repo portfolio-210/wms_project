@@ -35,9 +35,7 @@ public class DeliveryController implements security {
 	@Autowired
 	DeliveryService ds;
 	
-	// 세션 호출
-	@Autowired
-	HttpSession session;
+
 	
 	String output = null;
 	javascript js = new javascript();
@@ -51,8 +49,12 @@ public class DeliveryController implements security {
 	
 	
 	@GetMapping("/delivery/deliveryMain.do")
-	public String deliveryMain(Model m,@RequestParam(value="pageno", required = false) Integer pageno) {
-		System.out.println(pageno);
+	public String deliveryMain(Model m,@RequestParam(value="pageno", required = false) Integer pageno,
+			HttpSession session) {
+
+		 
+		
+		
 		if(pageno==null) {
 			this.startno = 0;
 			this.endno = 15;
@@ -60,14 +62,20 @@ public class DeliveryController implements security {
 		}else {	// URI가 파라미터가 있을경우
 			this.startno = (pageno-1) * 15;	//15개씩 출력
 			this.endno = 15;
-		}
-		System.out.println(startno);
-		String result = ds.deliveryCtn();
-		int Result = Integer.parseInt(result);
-		System.out.println(Result);
+		}		
+	
+		
+		// 전체
+		//String result = ds.deliveryCtn();		
+		
+		// mspot값만 전체 값으로 핸들링 ㅜㅜ
+		String mspot = (String) session.getAttribute("mspot");
+	    String result = ds.deliveryMspotCtn(mspot);
+		
+
 		List<DeliveryDTO> all = ds.deliveryList();
 		m.addAttribute("all", all);
-		m.addAttribute("total", Result);
+		m.addAttribute("total", result);
 		// 사용자가 클릭한 페이지번호
 		m.addAttribute("userpage",pageno);	
 
@@ -175,8 +183,31 @@ public class DeliveryController implements security {
 	
 	
 	
-	
-	
+	//배송기사 현황 바꾸기
+	@GetMapping("/delivery/deliveryApprove.do")
+	public String deliveryApprove(@RequestParam("dapprove") String approve,
+	                               @RequestParam("didx") String idx, 
+	                               Model m) {
+	   
+	    dto.setDapprove(approve);  
+	    dto.setDidx(Integer.parseInt(idx)); 
+
+	    try {
+	        int result = ds.deliveryApprove(dto);
+		        if (result > 0) {
+		        	System.out.println(result);
+		        	this.output=this.js.ok("배송기사의 현황이 [ "+ approve +" ] 로 수정 되었습니다.", "/delivery/deliveryMain.do");
+		        } else {
+		        	this.output=this.js.no("배송기사의 현황 수정을 실패하였습니다. 다시 시도해 주세요.");
+		        }
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        this.output=this.js.no("데이터 오류로 인하여 수정 되지 않습니다. 다시 시도해 주세요"+ e.getMessage());
+	    }
+	    
+	    m.addAttribute("output", output);
+	    return "output"; 
+	}
 	
 	
 	
