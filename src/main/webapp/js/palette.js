@@ -81,7 +81,7 @@ function pname_validate(){
                         alert("등록 가능한 파렛트입니다.");
                         frm.pname.readOnly = true;
                     } else {
-                        alert("해당 파렛트는 이미 등록되어 있습니다.\n새로운 파렛트를 입력해주세요");
+                        alert("해당 파렛트는 이미 등록되어 있습니다.\n새로운 파렛트명을 입력해주세요");
                     }
                 }
             }
@@ -120,16 +120,26 @@ function complete_insert(){
             alert("파렛트명 중복 확인을 해주세요.");
         }
         else{
-            frm.method="post";
-            frm.action="/palette/palette_insertok.do";
-            frm.submit();
+            const pnamePattern = /^[A-Za-z]-\d+$/;  //파렛트명 : 알파벳-숫자 형식
+            const pcodePattern = /^P\d{4}$/;        //파렛트코드 : P + 숫자 4개 형식
+            if(!pnamePattern.test(pname.value)){
+                alert("파렛트명은 '알파벳-숫자' 형식으로 입력하셔야 합니다.\n예) T-12");
+                pname.focus();
+            }else if(!pcodePattern.test(pcode.value)){
+                alert("파렛트 코드는 'P'와 숫자 4개를 입력하셔야 합니다.\n예) P0001");
+                pcode.focus();
+            }else {
+                frm.method="post";
+                frm.action="/palette/palette_insertok.do";
+                frm.submit();
+            }
         }
     }
 }
 
 //신규 팔레트 등록 취소
 function cancel_insert(){
-    if(confirm("해당 팔레트 등록을 취소 하시겠습니까?\n입력하신 내용은 저장되지 않습니다.")){
+    if(confirm("해당 입력하신 데이터는 모두 삭제됩니다. 취소하시겠습니까?")){
         frm.reset();
         location.href="../palette/paletteMain.do";
     }
@@ -170,7 +180,7 @@ function complete_modify(){
 
 //팔레트 수정 취소
 function cancel_modify(){
-    if(confirm("해당 팔레트 등록을 취소 하시겠습니까?\n입력하신 내용은 저장되지 않습니다.")){
+    if(confirm("해당 입력하신 데이터는 모두 삭제됩니다. 취소하시겠습니까?")){
             frm.reset();
             location.href="../palette/paletteMain.do";
         }
