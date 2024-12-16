@@ -1,7 +1,10 @@
 package wms_project.controller;
 
 import java.io.PrintWriter;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -37,10 +40,9 @@ public class AccountController {
 	// 메인페이지
 	@GetMapping("/account/accountMain.do")
 	public String accountMain(Model m,
-			@RequestParam(value="pageno", required = false) Integer pageno) {
+			@RequestParam(value="pageno", required = false) Integer pageno,
+			@RequestParam(value = "search", required = false) String search) {
 		//integer 는 null값을 받을수있고 int는 null 이안나와서 500번에러남!!
-		
-		
 		
 		
 		if(pageno==null) {
@@ -51,23 +53,24 @@ public class AccountController {
 			this.startno = (pageno-1) * 15;	//15개씩 출력
 			this.endno = 15;
 		}
-
-		int result = as.accountListCtn();
+	
 		
 		
+		
+		int result = as.accountListCtn();		
 		List<AccountDTO> all = as.accountList();
 		m.addAttribute("all", all);
-
 		m.addAttribute("total",result);
-		
 		m.addAttribute("userpage",pageno);	
-
+		 
 		return null;
 	}
 	
 	@PostMapping("/account/accountMain.do")
 	public String accountSearch(@RequestParam("search") String search,
 			Model m) {
+		System.out.println(search);
+		
 		List<AccountDTO> all = as.accountSearch(search);
 		m.addAttribute("all", all);
 		m.addAttribute("total", all.size());

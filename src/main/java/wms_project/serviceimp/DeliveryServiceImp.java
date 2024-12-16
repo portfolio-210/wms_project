@@ -49,8 +49,6 @@ public class DeliveryServiceImp implements DeliveryService{
 	public String deliveryMspotCtn(String mspot) {
 		return dm.deliveryMspotCtn(mspot);
 	}
-	
-	
 	// 사원번호 자동생성 (DB카운트)
 	@Override
 	public String deliveryCtn() {
@@ -58,8 +56,7 @@ public class DeliveryServiceImp implements DeliveryService{
 		
 		return result;
 	};
-	
-	
+	// 승인처리 	
 	@Override
 	public int deliveryApprove(DeliveryDTO dto) {
 		int result = dm.deliveryApprove(dto);
@@ -71,7 +68,18 @@ public class DeliveryServiceImp implements DeliveryService{
 		// TODO Auto-generated method stub
 		return null;
 	}
-	
+	// 수정 idx값 가져오기
+	@Override
+	public DeliveryDTO deliveryModifyIdx(String didx) {
+		DeliveryDTO ddto = dm.deliveryModifyIdx(didx);
+		return ddto;
+	}
+	// 수정 update
+	@Override
+	public int deliveryModify(DeliveryDTO dto) {
+		int result = dm.deliveryModify(dto);
+		return result;
+	}
 	
 	
 	

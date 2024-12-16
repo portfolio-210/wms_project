@@ -98,7 +98,7 @@
                     </td>
                     
                     <td>
-                        <button type="button" class="btn btn-success font12" style="width: 60px; height: 30px;">수정</button> 
+                        <button type="button" class="btn btn-success font12" style="width: 60px; height: 30px;" onclick="deliveryModify(${delivery.didx})">수정</button> 
                     </td>
                   </tr>
               </c:forEach>
@@ -122,12 +122,7 @@
     </div>
   </div>
 </main>
-<script>
-                        
-                        	
-                  
-                        
-                        </script>
+
 <script src="../js/deliveryMain.js?v=<%=sf.format(today)%>"></script>
 <!-- Footer -->
 <%@ include file="../footer.jsp"%>

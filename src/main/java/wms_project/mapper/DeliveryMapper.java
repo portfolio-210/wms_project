@@ -16,12 +16,15 @@ public interface DeliveryMapper {
 	public List<DeliveryDTO> deliveryList(Map<String, String> pg);
 	// mspot기준 전체 카운트
 	public String deliveryMspotCtn(String mspot);
-	
 	// 사원번호 자동생성 (DB카운트)
 	public String deliveryCtn();
-	
 	// 승연여부
 	public int deliveryApprove(DeliveryDTO dto);
+	// 수정 idx
+	public DeliveryDTO deliveryModifyIdx(String didx);
+	// 수정 업데이트
+	public int deliveryModify(DeliveryDTO dto);
+	
 	
 	
 }
