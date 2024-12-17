@@ -2,6 +2,12 @@ function deliveryInsert(){
 	location.href='/delivery/deliveryInsert.jsp'
 };
 
+// 수정
+function deliveryModify(didx){
+	location.href='/delivery/deliveryModify.do?didx='+didx;
+};
+
+
 
 function page_go(n){
 	console.log(n);

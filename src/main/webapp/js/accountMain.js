@@ -54,7 +54,7 @@ function sh(p) {
             f1.search.value = f1.search.value.replaceAll(" ", "");  // 공백 제거
             f1.method = "get";
             // 사용자가 입력한 검색어를 URL 파라미터로 전송
-            f1.action = "./accountMain.do?search=" + encodeURIComponent(f1.search.value);
+            f1.action = "./accountMain.do?search="+f1.search.value;
             f1.submit();  // 폼을 제출
         }
     } else if (p == 2) {  // 전체 리스트로 이동

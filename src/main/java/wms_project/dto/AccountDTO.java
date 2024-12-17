@@ -9,4 +9,5 @@ import lombok.Data;
 public class AccountDTO {
 	int aidx;
 	String acode, acompany, aname, aindustry, ahp, anum, atype, afax, apost, aroad, addr, approve, adate, amodify;
+	String search;
 }

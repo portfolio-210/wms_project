@@ -6,6 +6,7 @@ import java.util.Map;
 import org.apache.ibatis.annotations.Mapper;
 
 import wms_project.dto.AccountDTO;
+import wms_project.dto.OfficeDTO;
 
 @Mapper
 public interface AccountMapper {
@@ -29,5 +30,11 @@ public interface AccountMapper {
 	public List<AccountDTO> accountSearch (String search);
 	// 삭제 UPDATE
 	public int accountDelete (String aidx);
+	
+	
+	
+	
+	public List<AccountDTO> accountListALL(Map<String, String> pg);
+	public Integer accountAllCtn(String search);
 	
 }

@@ -157,16 +157,7 @@ public class DeliveryController implements security {
 		         
  		return "output";
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
 	//배송기사 사원번호 자동생성 (AJAX)
 	@CrossOrigin("*")
 	@GetMapping("/delivery/deliveryCode.do")
@@ -195,8 +186,8 @@ public class DeliveryController implements security {
 	    try {
 	        int result = ds.deliveryApprove(dto);
 		        if (result > 0) {
-		        	System.out.println(result);
-		        	this.output=this.js.ok("배송기사의 현황이 [ "+ approve +" ] 로 수정 되었습니다.", "/delivery/deliveryMain.do");
+		        	//System.out.println(result);
+		        	this.output=this.js.ok("배송기사의 현황이 [ "+ approve +" ] 변경 되었습니다.", "/delivery/deliveryMain.do");
 		        } else {
 		        	this.output=this.js.no("배송기사의 현황 수정을 실패하였습니다. 다시 시도해 주세요.");
 		        }
@@ -209,13 +200,173 @@ public class DeliveryController implements security {
 	    return "output"; 
 	}
 	
+	//수정 idx값으로 조회
+	@GetMapping("/delivery/deliveryModify.do")
+	public String deliveryModify(@RequestParam("didx") String didx,
+								Model m) {
+		DeliveryDTO ddto = ds.deliveryModifyIdx(didx);
+		m.addAttribute("ddto", ddto);
+		
+		return "delivery/deliveryModify";
+	}
 	
 	
+	/*
+	@PostMapping("/delivery/deliveryModifyok.do")
+	public String deliveryModifyok( @ModelAttribute("modify") DeliveryDTO dto,
+									@RequestParam("dimgnmf") MultipartFile files, 
+									HttpServletResponse res, 
+									HttpServletRequest req,
+									Model m)throws Exception {
+		Date date = new Date();
+		SimpleDateFormat si = new SimpleDateFormat("yyyyMMddhhmmss");
+		Random random = new Random();
+		
+		System.out.println("사진은??"+files);
+		// 사진 첨부 핸들링
+		
+		if("".equals(dto.getDimgnm())) {
+			dto.setDimgnm("N");
+		} 
+		
+		
+		if ("N".equals(dto.getDimgnm())) {
+		    dto.setDimgrenm("N");
+		    dto.setDimgurl("N");
+		    dto.setDimgck("N");
+		} else {		    
+			  dto.setDimgrenm("Y");
+			    dto.setDimgurl("Y");
+			    dto.setDimgck("Y");
+			
+		}
+		
+		// 패스워드 보안
+		String userpw = dto.getDpass();
+		StringBuilder repass = secode(userpw);
+		dto.setDpass(repass.toString());
+		
+		// 사진 첨부
+		
+		String filenm = files.getOriginalFilename();
+		long filesize = files.getSize();
+		
+		if (filesize > 2097152) {
+			this.output=this.js.no("첨부파일 용량은 최대 2MB까지만 등록 가능합니다.");
+		}else {	
+			
+			String url = req.getServletContext().getRealPath("/imgUpload/");
+			//System.out.println(url);
+			String type = filenm.substring(filenm.lastIndexOf("."));
+			int no = random.nextInt(40)+1;	
+			String new_nm = si.format(date);
+
+			FileCopyUtils.copy(files.getBytes(), new File(url+new_nm+no+type));
+
+				dto.setDimgnm(filenm);
+				dto.setDimgrenm(new_nm+no+type);
+				dto.setDimgurl("./imgUpload/");
+		}
+		
+			           
+		try {
+			// 사진 없이 등록하면 dimgnm 컬럼에 "N"값으로 변경
+			int result = ds.deliveryModify(dto);
+			System.out.println("result 는?"+result);
+			
+			if(result > 0) {
+				this.output=this.js.ok("배송기사 수정이 완료 되었습니다.", "/delivery/deliveryMain.do");
+			}
+			else {
+				this.output=this.js.no("배송기사 수정을 실패하였습니다. 다시 시도해 주세요.");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			this.output=this.js.no("데이터 오류로 인하여 등록 되지 않습니다. 다시 시도해 주세요"+e);
+		}
+		m.addAttribute("output", output);
+		         
+ 		return "output";
+	}
+	*/
+	@PostMapping("/delivery/deliveryModifyok.do")
+	public String deliveryModifyok(@ModelAttribute("modify") DeliveryDTO dto,
+	                               @RequestParam("dimgnmf") MultipartFile files, 
+	                               HttpServletResponse res, 
+	                               HttpServletRequest req,
+	                               Model m) throws Exception {
+
+	    Date date = new Date();
+	    SimpleDateFormat si = new SimpleDateFormat("yyyyMMddhhmmss");
+	    Random random = new Random();
+	    
 	
-	
-	
-	
-	
+	    
+	    // 사진 첨부 핸들링
+	    if (dto.getDimgnm() == null) {
+	        dto.setDimgnm("N");
+	    }
+	    
+	    if ("N".equals(dto.getDimgnm())) {
+	        dto.setDimgrenm("N");
+	        dto.setDimgurl("N");
+	        dto.setDimgck("N");
+	    } else {
+	    	dto.setDimgrenm("Y");
+		    dto.setDimgurl("Y");
+		    dto.setDimgck("Y");
+	    }
+
+	    // 패스워드 보안
+	    String userpw = dto.getDpass();
+	    StringBuilder repass = secode(userpw);
+	    dto.setDpass(repass.toString());
+
+	    // 사진 첨부
+	    String filenm = files.getOriginalFilename();
+	    long filesize = files.getSize();
+	    
+	    if (filesize > 2097152) {
+	        this.output = this.js.no("첨부파일 용량은 최대 2MB까지만 등록 가능합니다.");
+	    } else {
+	        if (files.isEmpty()) {
+	            this.output = this.js.no("파일을 선택해주세요.");
+	        } else {
+	            String url = req.getServletContext().getRealPath("/imgUpload/");
+	            System.out.println(url);
+	            String type = filenm.substring(filenm.lastIndexOf("."));
+	            int no = random.nextInt(40) + 1;    
+	            String new_nm = si.format(date);
+	            
+	            // 파일 복사
+	            FileCopyUtils.copy(files.getBytes(), new File(url + new_nm + no + type));
+
+	            dto.setDimgnm(filenm);
+	            dto.setDimgrenm(new_nm + no + type);
+	            dto.setDimgurl("./imgUpload/");
+	            dto.setDimgck("Y");
+	        }
+	    }
+
+	    try {
+	        // 사진 없이 등록하면 dimgnm 컬럼에 "N"값으로 변경
+	        int result = ds.deliveryModify(dto);
+	        System.out.println("result 는?" + result);
+
+	        if (result > 0) {
+	            this.output = this.js.ok("배송기사 수정이 완료 되었습니다.", "/delivery/deliveryMain.do");
+	        } else {
+	            this.output = this.js.no("배송기사 수정을 실패하였습니다. 다시 시도해 주세요.");
+	        }
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        this.output = this.js.no("데이터 오류로 인하여 등록 되지 않습니다. 다시 시도해 주세요" + e);
+	    }
+
+	    m.addAttribute("output", output);
+	    return "output";
+	}
+
 	
 	
 	
