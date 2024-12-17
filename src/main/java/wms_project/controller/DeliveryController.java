@@ -8,13 +8,17 @@ import java.util.List;
 import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.messaging.handler.annotation.support.MethodArgumentTypeMismatchException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -359,14 +363,13 @@ public class DeliveryController implements security {
 	            this.output = this.js.no("배송기사 수정을 실패하였습니다. 다시 시도해 주세요.");
 	        }
 	    } catch (Exception e) {
-	        e.printStackTrace();
-	        this.output = this.js.no("데이터 오류로 인하여 등록 되지 않습니다. 다시 시도해 주세요" + e);
+	        //e.printStackTrace();
+	        this.output = this.js.no("데이터 오류로 인하여 등록 되지 않습니다. 다시 시도해 주세요"+e);
 	    }
 
 	    m.addAttribute("output", output);
 	    return "output";
 	}
-
 	
 	
 	
