@@ -5,27 +5,54 @@
 	<!-- 배송기사 등록 -->
 	<insert id="deliveryInsert" parameterType="wms_project.dto.DeliveryDTO">
 		INSERT INTO delivery (dcode,dspot,dname,dpass,demail,dhp,didnum,dimgnm,dimgrenm,dimgurl,dimgck,dapprove,ddate)
-		VALUES (#{dcode},#{dspot},#{dname},#{dpass},#{demail},#{dhp},#{didnum},#{dimgnm},#{dimgrenm},#{dimgurl},#{dimgck},'근무중',now())
+		VALUES (#{dcode},#{dspot},#{dname},#{dpass},#{demail},#{dhp},#{didnum},#{dimgnm},#{dimgrenm},#{dimgurl},#{dimgck},'일시정지',now())
 	</insert>
 	
 	<!-- 리스트 출력 -->
 	<select id="deliveryList" resultType="wms_project.dto.DeliveryDTO" parameterType="String">
 		SELECT didx, dcode, dspot, dname, demail, dhp, didnum, dimgck, dapprove
 		FROM delivery 
-		ORDER BY didx DESC LIMIT ${startno},${endno}
+		<where>
+			 <if test="mspot != '본사'">
+            	AND dspot = #{mspot}
+        	</if>
+		</where>
+		ORDER BY didx DESC 
+		LIMIT ${startno},${endno}
 	</select>
-	
-	<!-- 사원번호 자동생성 - DB카운드 -->
+
+	<!-- mspot 기준으로 DB 갯수 카운드 -->
+	<select id="deliveryMspotCtn" resultType="String" parameterType="String">
+		SELECT COUNT(*) AS ctn 
+		FROM delivery
+		WHERE dspot = #{mspot};	
+	</select>
+
+
+	<!-- 사원번호 자동생성 - DB 전체 카운드 -->
 	<select id="deliveryCtn" resultType="String" parameterType="String">
-		SELECT COUNT(*) AS ctn FROM delivery
+		SELECT COUNT(*) AS ctn 
+		FROM delivery		
 	</select>
 	
-	 <update id="deliveryApprove" parameterType="wms_project.dto.DeliveryDTO">
+	<!-- 승인 -->
+	 <update id="deliveryApprove"  parameterType="wms_project.dto.DeliveryDTO">
 	 	UPDATE delivery
-   	 	SET dapprove = #{approve}
+   	 	SET dapprove = #{dapprove}
     	WHERE didx = #{didx}
  	</update>
+ 	
+ 	<!-- 수정modify idx값 가져오기 -->
+	<select id="deliveryModifyIdx" resultType="wms_project.dto.DeliveryDTO" parameterType="String">
+	 	SELECT * FROM delivery 
+	 	WHERE didx = #{didx}
+	</select>
 	
+	<update id="deliveryModify" parameterType="wms_project.dto.DeliveryDTO">
+		UPDATE delivery SET dname=#{dname}, dpass=#{dpass}, demail=#{demail},dhp=#{dhp}, dimgnm=#{dimgnm}, 
+				dimgrenm=#{dimgrenm}, dimgurl=#{dimgurl}, dimgck=#{dimgck}, dapprove='일시정지', dmodify=now()
+		WHERE didx = #{didx}
+	</update>
 	
 	
 

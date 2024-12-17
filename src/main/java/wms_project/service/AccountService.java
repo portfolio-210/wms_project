@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import wms_project.dto.AccountDTO;
+import wms_project.dto.OfficeDTO;
 
 public interface AccountService {
 	
@@ -16,6 +17,8 @@ public interface AccountService {
 		// 거래처 리스트 출력
 		public List<AccountDTO> accountList();
 
+		
+		
 		
 		
 		

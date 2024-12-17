@@ -2,6 +2,12 @@ function deliveryInsert(){
 	location.href='/delivery/deliveryInsert.jsp'
 };
 
+// 수정
+function deliveryModify(didx){
+	location.href='/delivery/deliveryModify.do?didx='+didx;
+};
+
+
 
 function page_go(n){
 	console.log(n);
@@ -15,7 +21,7 @@ function page_go(n){
 }
 
 
-
+// 현황 승인 
 function approveCk(apck,a){
 	var approve = apck.value;
 	var idx = a;

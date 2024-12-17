@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import wms_project.controller.AccountController;
 import wms_project.dto.AccountDTO;
+import wms_project.dto.OfficeDTO;
 import wms_project.mapper.AccountMapper;
 import wms_project.service.AccountService;
 
@@ -54,12 +55,7 @@ public class AccountServiceImp implements AccountService {
 		};
 
 		
-		
-		
-		
-		
-		
-		
+	
 
 		// modify 수정페이지
 		@Override
@@ -91,6 +87,8 @@ public class AccountServiceImp implements AccountService {
 			int result = am.accountListCtn();
 			return result;
 		}
+
+	
 		
 		
 	

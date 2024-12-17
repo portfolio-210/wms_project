@@ -76,7 +76,7 @@ public class PaletteController {
             int result = ps.update_palette(pdto);
             if(result > 0){
                 this.pw.print("<script>" +
-                        "alert('팔레트 수정이 완료되었습니다.');" +
+                        "alert('정상적으로 파렛트가 수정되었습니다.');" +
                         "location.href='/palette/paletteMain.do';" +
                         "</script>");
             }
@@ -168,7 +168,7 @@ public class PaletteController {
             int result = ps.insert_palette(paramValue);
             if(result > 0){
                 this.pw.print("<script>" +
-                        "alert('신규 팔레트가 성공적으로 등록되었습니다.');" +
+                        "alert('정상적으로 파렛트가 등록되었습니다.');" +
                         "location.href='/palette/paletteMain.do';" +
                         "</script>");
             }
