@@ -21,8 +21,8 @@
             <li style="display: flex; flex-direction: row;">
                 <select id="storage" style="width: 150px; height: 40px;" class="form-control font12">
                     <option value="">창고명을 선택하세요</option>
-                    <c:forEach var="account" items="${members}">
-                    <option value="${account.sname}" data-scode="${account.scode}">${account.sname}</option>
+                    <c:forEach var="storage" items="${members}">
+                    <option value="${storage.sname}" data-scode="${storage.scode}">${storage.sname}</option>
                     </c:forEach>
                 </select> <font class="font12">&nbsp;※ 입고창고를 필수로 선택하셔야 합니다.</font>
             </li>
@@ -57,8 +57,8 @@
                 <tr align="center" style="line-height: 30px;" class="row1" data-index="${index}">
                     <td><input type="text" id="acompany_${index}" name="acompany_${index}"  style="width: 100px; height: 40px;" class="form-control font12"></td>
                     <td><input type="text" id="acode_${index}" name="acode_${index}" style="width: 100px; height: 40px;" class="form-control font12" ></td>
-                    <td><input type="text" id="pdcode_${index}" name="pdcode_${index}" style="width: 200px; height: 40px;" class="form-control font12"></td>
-                    <td><input type="text" id="pdname_${index}" name="pdname_${index}" style="width: 100px; height: 40px;" class="form-control font12"></td>
+                    <td><input type="text" id="pdname_${index}" name="pdname_${index}" style="width: 200px; height: 40px;" class="form-control font12"></td>
+                    <td><input type="text" id="pdcode_${index}" name="pdcode_${index}" style="width: 100px; height: 40px;" class="form-control font12"></td>                  
                     <td><input type="text" id="pdamount_${index}" name="pdamount_${index}" style="width: 70px; height: 40px;" class="form-control font12" maxlength="5"></td>
                     <td><input type="text" id="sname_${index}" name="sname_${index}" style="width: 100px; height: 40px;" class="form-control font12"></td>
                     <td><input type="text" id="scode_${index}" name="scode_${index}" style="width: 80px; height: 40px;" class="form-control font12"></td>

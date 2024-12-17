@@ -17,6 +17,7 @@ public interface StorageMapper {
     int checkCode(String scode);
 
     List<StorageDTO> searchall(String mspot);
+    List<StorageDTO> searchto(String selectstorage); //전체 창고 리스트
 
     StorageDTO getByID(String scode);
 
@@ -29,6 +30,10 @@ public interface StorageMapper {
     //상품 입고 관련
     //거래처 이름으로 거래처 코드 찾기
     String getAcode(String acompany); 
-    
+    //상품 입고하기
     int insertStore(ProductsDTO productsDTO);
+    //창고에 따른 상품 리스트 출력하기
+    List<ProductDTO> productlist(String selectstorage);
+    //체크한 행의 컬럼값들 가져오기
+    List<ProductDTO> selectProduct(int checkbox);
 }

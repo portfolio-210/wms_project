@@ -450,38 +450,73 @@ document.querySelectorAll('input[name^="acompany_"]').forEach((input, index) => 
         }
     });
 });		
+
+
+//////////////////////////////////////////////////////////////////
+//창고에서 창고로 물건 수량 옮기기
+
+function collectCheckedData() {
+    const checkboxes = document.getElementsByName('checkbox');
+	const quantities = document.getElementsByName('quantity'); 
+    const checked = [];
+	let empty = false;
+  	
+	 
+	 for (let i = 0; i < checkboxes.length; i++) {
+	         if (checkboxes[i].checked) {
+	             const quantity = quantities[i].value; // 수량 값 가져오기
+				 const pdidx = checkboxes[i].value;
+				 
+	             if (quantity) {
+	                 checked.push({ pdidx: pdidx, quantity: quantity });
+	             } else {
+	                 empty = true; // 수량이 비어있는 경우
+	             }
+	         }
+	     }
+		 console.log(checked);
+		 console.log(checked.length);
+	
+	console.log(document.getElementById('to').value);
+	if (document.getElementById('to').value === ""){
+		alert('물건을 이동할 창고를 선택해주세요.');
+		return false; // 체크된 제품이 없으면 제출하지 않음
+		
+	}
+            
+	if(empty){		
+		alert('수량을 입력해주세요.'); // 수량이 비어있으면 경고
+	  return false; // 수량이 없는 경우 제출하지 않음
+	}
+ 
+
+    if (checked.length === 0) {
+        alert('하나의 제품을 선택해주세요.');
+        return false; // 체크된 제품이 없으면 제출하지 않음
+    }
+	
+	var List = {
+	    "List": JSON.stringify(checked) // checked를 JSON 문자열로 변환
+	};
+	
+	   
+	$.ajax({
+	    url: '/storage/moveProduct.do',
+	    type: 'POST',
+	    contentType: 'application/json',
+	    data: JSON.stringify(List), // JSON 문자열로 변환하여 전송
+	    success: function(response) {
+	        console.log('Success:', response);
+	    },
+	    error: function(e) {
+	        console.error('Error:', e);
+	    }
+	});
+
+   return false;  // 데이터 수집이 완료되면 폼 제출 허용
+ }
 	
 
-/*// 현재 날짜를 YYYY-MM-DD 형식으로 반환하는 함수
-    function getCurrentDate() {
-        const today = new Date();
-        const year = today.getFullYear();
-        const month = String(today.getMonth() + 1).padStart(2, '0'); // 0부터 시작하므로 +1
-        const day = String(today.getDate()).padStart(2, '0');
-        return `${year}-${month}-${day}`; // YYYY-MM-DD 형식
-    }
 
-    // 각 행의 입력 필드에 이벤트 리스너 추가
-    document.querySelectorAll('.row1 input[type="text"]').forEach(input => {
-        input.addEventListener('input', function () {
-            const rowIndex = this.closest('tr').getAttribute('data-index'); // 현재 행의 인덱스 가져오기
-            const inputs = document.querySelectorAll(`tr[data-index="${rowIndex}"] input[type="text"]`);
-            let anyFilled = false;
 
-            // 현재 행의 모든 입력 필드 중 하나라도 값이 입력되었는지 확인
-            inputs.forEach(input => {
-                if (input.value.trim() !== "") {
-                    anyFilled = true; // 하나라도 입력된 경우
-                }
-            });
-
-            // 하나라도 입력된 경우 현재 날짜 설정
-            if (anyFilled) {
-                document.getElementById(`pdate_${rowIndex}`).value = getCurrentDate(); // 현재 날짜 설정
-            } else {
-                document.getElementById(`pdate_${rowIndex}`).value = ""; // 모든 필드가 비어 있을 경우 날짜 지우기
-            }
-        });
-    });
-*/
 
