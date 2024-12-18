@@ -1,6 +1,9 @@
 package wms_project.controller;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -12,6 +15,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
@@ -45,6 +51,58 @@ public class StorageController {
 
     @Autowired
     StorageService ss;
+    
+    
+    @PostMapping("/storage/moveProduct.do")
+    public String productChange(@RequestParam Map<String, Object> checked, Model m) {   	
+      	
+    	 System.out.println("Received parameters: " + checked); // 이 줄을 추가하여 확인
+
+    	    String json = (String) checked.get("List"); // Map에서 List를 가져오기
+    	    if (json == null) {
+    	        throw new IllegalArgumentException("The parameter 'List' is missing or null.");
+    	    }
+        ObjectMapper mapper = new ObjectMapper();                             
+  
+	      try { 
+	    	  List<ProductDTO> playerList = mapper.readValue(json, new TypeReference<ArrayList<ProductDTO>>(){});
+	    	  System.out.println(playerList);
+    		this.output = this.js.ok("이동 되었습니다.", "/storage/storageList.do");
+    			            	
+    	}catch (Exception e) {
+    		e.printStackTrace();
+    		this.output = this.js.no("시스템 오류로 인해 실패하였습니다.");
+		}
+        	
+    	m.addAttribute("output", output);
+        return "output";
+        
+        }
+    	
+    	
+   
+    
+    
+    @GetMapping("/storage/storageList.do")
+    public String productList(@RequestParam(value = "selectstorage", required = false) String selectstorage, 
+								   @RequestParam(value = "storageto", required = false) String storageto,
+								   HttpServletRequest req, Model m) {   	
+    	 HttpSession sess = req.getSession();
+      	 String mspot = (String) sess.getAttribute("mspot"); 
+      	 Map<String, Object> params = new HashMap<>();    	 
+      	 params.put("selectstorage", selectstorage);
+      	 params.put("storageto", storageto);
+      	 
+      	 List<StorageDTO> members = ss.searchall(mspot);
+      	 List<StorageDTO> membersall = ss.searchto(selectstorage);
+      	 List<ProductDTO> list = ss.productlist(selectstorage);
+   	 
+      	 m.addAttribute("product",list);//사용자가 선택한 창고 상품 리스트
+      	 m.addAttribute("members",members); //사용자와 맞는 창고 리스트
+      	 m.addAttribute("membersall",membersall); //첫번째 선택한 창고를 제외한 전체 창고 리스트
+    	return null;
+    }
+ 
     
     
     @PostMapping("/storage/productInsert.do")
@@ -93,7 +151,7 @@ public class StorageController {
     //
     @GetMapping("/storage/storageInstore.do")
     public String storageInstore1(@RequestParam(value = "acompany", required = false) String acompany, StorageDTO storageDTO,HttpServletRequest req, Model m) {
-    	HttpSession sess = req.getSession();
+    HttpSession sess = req.getSession();
    	 String mspot = (String) sess.getAttribute("mspot");   	 
    	 List<StorageDTO> members = ss.searchall(mspot);
    	 List<PaletteDTO> palette = ps.palette_list(mspot);
@@ -109,7 +167,7 @@ public class StorageController {
     }
     
     
-    @PostMapping("/storage/storageInstore.do")
+   /* @PostMapping("/storage/storageInstore.do")
     public String storageInstore(StorageDTO storageDTO,HttpServletRequest req, Model m) {
     	HttpSession sess = req.getSession();
     	 String mspot = (String) sess.getAttribute("mspot");
@@ -122,7 +180,7 @@ public class StorageController {
     	 m.addAttribute("members",members);//사용자와 맞는 창고 리스트
         
         return null;
-    }
+    } */
       
     
     @GetMapping("/storage/storageInsert.do")

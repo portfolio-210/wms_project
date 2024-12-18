@@ -47,8 +47,8 @@ if (session == null ||
       <li class="nav-item dropdown" style="width:100px;">
         <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" aria-expanded="false">입고관리</a>
         <div class="dropdown-menu">
-          <a class="dropdown-item" href="#">상품입고</a>
-          <a class="dropdown-item" href="#">재고 및 창고이동</a>
+          <a class="dropdown-item" href="../storage/storageInstore.do">상품입고</a>
+          <a class="dropdown-item" href="../storage/storageList.do">재고 및 창고이동</a>
           <a class="dropdown-item" href="../storage/storagePalette.do">재고 팔레트 이동</a>
         </div>
       </li>

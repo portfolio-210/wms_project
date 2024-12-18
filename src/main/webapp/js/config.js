@@ -5,6 +5,7 @@ function getFormInfo() {
     var a = document.getElementById("searchKeyword").value.trim();
 	var urlcheck = window.location.search;
 	var urlarr1 = urlcheck.split("&part1=");
+	frm.innerHTML = "";
 	var pg = "";
 	if(urlarr1[0] == ""){
 		pg = 1;

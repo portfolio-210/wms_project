@@ -1,6 +1,7 @@
 package wms_project.serviceimp;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -36,6 +37,13 @@ public class StorageServiceImp implements StorageService {
 
         return sm.searchall(mspot);
     }
+    
+    @Override
+    public List<StorageDTO> searchto(String selectstorage) {
+    	
+    	return sm.searchto(selectstorage);
+    }
+    
 
     @Override
     public StorageDTO getByID(String scode) {
@@ -61,17 +69,29 @@ public class StorageServiceImp implements StorageService {
     }
     
     //상품 입고 관련
-    
+    //거래처 이름 입력하면 코드 자동 삽입
     @Override
     public String getAcode(String acompany) {
         return sm.getAcode(acompany);
     }
-    
+    //상품 입고
     @Override
     public int insertStore(ProductsDTO productsDto) {
     	
     	
-	    return sm.insertStore(productsDto); // 최종 삽입된 개수 반환
+	    return sm.insertStore(productsDto);
+    }
+    //선택 창고에 따른 리스트 출력
+    @Override
+    public List<ProductDTO> productlist(String selectstorage) {
+    	
+    	return sm.productlist(selectstorage);
+    }
+    
+    @Override
+    public List<ProductDTO> selectProduct(int checkbox) {
+    	
+    	return sm.selectProduct(checkbox);
     }
 
 }

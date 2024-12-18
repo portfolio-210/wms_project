@@ -29,7 +29,7 @@
         <ul class="ul-2">
             <li class="num_font13_bold">EXCEL 오더등록</li>
             <li style="width: 85%; display: flex; flex-direction: row;">
-                <input type="file" name="order_file" id="order_file" style="width: 400px; height: 40px; margin-right: 3px;" class="form-control font12">
+                <input type="file" name="order_file" id="order_file" accept=".xlsx, .xls" style="width: 400px; height: 40px; margin-right: 3px;" class="form-control font12">
                 <button type="button" onclick="insert_order()" class="btn btn-success font12" style="width: 100px; height: 40px; margin-left:10px; margin-right: 10px;">EXCEL 등록</button>&nbsp;&nbsp;
                 <a href="./shipping.xls" style="color:#333;" download="shipping.xls">※ EXCEL 샘플 [다운로드]</a>
             </li>

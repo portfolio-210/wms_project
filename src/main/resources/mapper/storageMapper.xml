@@ -20,9 +20,19 @@
 
         select *
         from storage
+        <if test="mspot != null and mspot != ''">
         where sspot = #{mspot}
-
+		</if>
     </select>
+    
+    <select id="searchto" parameterType="String" resultType="wms_project.dto.StorageDTO">
+
+        select *
+        from storage
+		where scode != #{selectstorage}
+		
+    </select>
+    
 	<select id="all" parameterType="String" resultType="wms_project.dto.StorageDTO">
 
 		select * from storage where sname LIKE CONCAT('%', #{search}, '%')
@@ -67,7 +77,11 @@
     FROM account
     WHERE acompany = #{acompany}
 	</select>
-    
+	
+	
+	
+	
+    <!-- 상품 입고 -->
     <insert id="insertStore" parameterType="wms_project.dto.ProductsDTO">
     INSERT INTO product (acompany, acode, pdcode, pdname, pdamount, sname, scode, pname, pddate)
     VALUES
@@ -118,7 +132,33 @@
 	    </if>
     </insert>
     
+    <select id="productlist" parameterType="Map" resultType="Map">
+    SELECT *
+    FROM product
+    <choose>
+     <when test="selectstorage !=''">
+     WHERE scode = #{storageto} 
+     </when>
+    </choose>        
+    </select>
+    
+    <!-- 상품 출고 -->
+    <update id="productupdate">
+        UPDATE products
+        SET amount = amount - #{quantity}
+        WHERE pdidx = #{checkbox}
+    </update>
+    
+     <insert id="newStorage" parameterType="wms_project.dto.ProductsDTO">
+    	INSERT INTO product (acompany, acode, pdcode, pdname, pdamount, sname, scode, pname, pddate)
+    				VALUES (#{acompany}, #{acode}, #{pdcode}, #{pdname}, #{quantity}, #{sname}, #{hiddenStorageto}, #{pname}, now())
+    </insert>
     
     
+    <select id="selectProduct" parameterType="int" resultType="wms_project.dto.StorageDTO">
+    SELECT acompany, acode, pdname, pdcode, pname
+    FROM product
+    WHERE pdidx = #{pdidx}
     
+    </select>
 </mapper>

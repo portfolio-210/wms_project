@@ -76,7 +76,7 @@
                 </li>
                 <li class="num_font13_bold">담당자 연락처</li>
                 <li>
-                    <input type="text" name="smhp" style="height: 40px;" class="form-control font12">
+                    <input type="text" name="smhp" style="height: 40px;" class="form-control font12" value="${sessionScope.mhp}">
                 </li>
             </ul>
             <ul class="ul-1" style="margin-bottom: 5px;">

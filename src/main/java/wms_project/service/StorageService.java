@@ -1,6 +1,7 @@
 package wms_project.service;
 
 import java.util.List;
+import java.util.Map;
 
 import wms_project.dto.ProductDTO;
 import wms_project.dto.ProductsDTO;
@@ -13,6 +14,7 @@ public interface StorageService {
     int checkCode(String scode);
 
     List<StorageDTO> searchall(String mspot);
+    List<StorageDTO> searchto(String selectstorage);//전체 창고 리스트에서 첫번째 선택 창고 리스트만 뺌
 
     StorageDTO getByID(String scode);
 
@@ -25,6 +27,11 @@ public interface StorageService {
     //상품 입고 관련
     //거래처 이름으로 거래처 코드 찾기
     String getAcode(String acompany);
-    
+    //상품 입고하기
     int insertStore(ProductsDTO productsDto);
+    
+    //창고에 따른 상품 리스트 출력하기
+    List<ProductDTO> productlist(String selectstorage);
+    
+    List<ProductDTO> selectProduct(int checkbox);
 }
