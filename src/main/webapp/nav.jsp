@@ -70,14 +70,14 @@ if (session == null ||
       <li class="nav-item dropdown" style="width:120px;">
         <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" aria-expanded="false">배송 관리</a>
         <div class="dropdown-menu">
-          <a class="dropdown-item" href="#">배송현황 및 운송장 출력</a>
+          <a class="dropdown-item" href="../deliveryShip/deliveryShipa.jsp">배송현황 및 운송장 출력</a>
         </div>
       </li>
       <li class="nav-item dropdown" style="width:150px;">
         <a class="nav-link dropdown-toggle" href="" data-toggle="dropdown" aria-expanded="false">배송 기사관리</a>
         <div class="dropdown-menu">
           <a class="dropdown-item" href="../delivery/deliveryMain.do">배송기사 리스트</a>
-          <a class="dropdown-item" href="#">배송 기사별 배송현황</a>
+          <a class="dropdown-item" href="../deliveryState/deliveryState.jsp">배송 기사별 배송현황</a>
         </div>
       </li>
       <li class="nav-item dropdown">

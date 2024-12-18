@@ -102,17 +102,20 @@
 
 
 				    <span style="display: block;">				    
+					
 					<button class="btn btn-primary font20" id="showImageBtn" style="font-size: 16px;" type="button">
 					    <c:choose>
 					        <c:when test="${delivery.dimgnm == 'N'}">사진없음</c:when>
 					        <c:otherwise>증명사진 확인</c:otherwise>
 					    </c:choose>
 					</button>
+			
 
 			        <div id="imageWrapper" style="display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); max-width: 80%; max-height: 80%; z-index: 1000;">
 			            <img id="views" src=".${delivery.dimgurl}${delivery.dimgrenm}" style="width: 400px; height: 500px;">
 			            <button id="closeBtn" style="position: absolute;  top: 0; right: 0; background: none; border: none; color: gray; font-size: 40px; cursor: pointer;">☒</button>
 			        </div>
+			        
 			        <button type="button" class="btn btn-secondary font12" style="width: 70px; font-size:15px; height: 40px; margin-left:10px;" id="deleteBtn">
 					    <c:choose>
 					        <c:when test="${delivery.dimgnm == 'N'}">첨부</c:when>

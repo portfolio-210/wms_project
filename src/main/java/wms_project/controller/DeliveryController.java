@@ -29,7 +29,9 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import wms_project.dto.AccountDTO;
 import wms_project.dto.DeliveryDTO;
+import wms_project.dto.OfficeDTO;
 import wms_project.service.DeliveryService;
+import wms_project.service.OfficeService;
 
 @Controller
 public class DeliveryController implements security {
@@ -39,7 +41,16 @@ public class DeliveryController implements security {
 	@Autowired
 	DeliveryService ds;
 	
-
+	// office의 지점을 가져와서 핸들링 검색기능 구현
+	@Resource(name="OfficeDTO")
+	OfficeDTO odto;
+	@Autowired
+    OfficeService os;
+	
+	//세션
+	@Autowired
+    HttpSession session;
+	
 	
 	String output = null;
 	javascript js = new javascript();
@@ -56,9 +67,6 @@ public class DeliveryController implements security {
 	public String deliveryMain(Model m,@RequestParam(value="pageno", required = false) Integer pageno,
 			HttpSession session) {
 
-		 
-		
-		
 		if(pageno==null) {
 			this.startno = 0;
 			this.endno = 15;
@@ -69,18 +77,16 @@ public class DeliveryController implements security {
 		}		
 	
 		
-		// 전체
-		//String result = ds.deliveryCtn();		
-		
-		// mspot값만 전체 값으로 핸들링 ㅜㅜ
 		String mspot = (String) session.getAttribute("mspot");
 	    String result = ds.deliveryMspotCtn(mspot);
 		
 
+	    List<OfficeDTO> spot = os.office_list();
+    	m.addAttribute("spot", spot);
+	    
 		List<DeliveryDTO> all = ds.deliveryList();
 		m.addAttribute("all", all);
 		m.addAttribute("total", result);
-		// 사용자가 클릭한 페이지번호
 		m.addAttribute("userpage",pageno);	
 
 		return null;
@@ -100,7 +106,6 @@ public class DeliveryController implements security {
 		Random random = new Random();
 		
 		// 사진 첨부 핸들링
-		
 		if("".equals(dto.getDimgnm())) {
 			dto.setDimgnm("N");
 		} 
@@ -116,6 +121,7 @@ public class DeliveryController implements security {
 		    dto.setDimgck("Y");
 		}
 		
+		
 		// 패스워드 보안
 		String userpw = dto.getDpass();
 		StringBuilder repass = secode(userpw);
@@ -123,25 +129,36 @@ public class DeliveryController implements security {
 		
 		// 사진 첨부
 		
+		
 		String filenm = files.getOriginalFilename();
 		long filesize = files.getSize();
 		
-		if (filesize > 2097152) {
-			this.output=this.js.no("첨부파일 용량은 최대 2MB까지만 등록 가능합니다.");
-		}else {	
-			
-			String url = req.getServletContext().getRealPath("/imgUpload/");
-			//System.out.println(url);
-			String type = filenm.substring(filenm.lastIndexOf("."));
-			int no = random.nextInt(40)+1;	
-			String new_nm = si.format(date);
-
-			FileCopyUtils.copy(files.getBytes(), new File(url+new_nm+no+type));
-
-				dto.setDimgnm(filenm);
-				dto.setDimgrenm(new_nm+no+type);
-				dto.setDimgurl("./imgUpload/");
+	
+		if(filesize != 0) {
+		
+			if (filesize > 2097152) {
+				this.output=this.js.no("첨부파일 용량은 최대 2MB까지만 등록 가능합니다.");
+			}else {	
+				
+				String url = req.getServletContext().getRealPath("/imgUpload/");
+				String type = filenm.substring(filenm.lastIndexOf("."));
+				int no = random.nextInt(40)+1;	
+				String new_nm = si.format(date);
+	
+				FileCopyUtils.copy(files.getBytes(), new File(url+new_nm+no+type));
+	
+					dto.setDimgnm(filenm);
+					dto.setDimgrenm(new_nm+no+type);
+					dto.setDimgurl("./imgUpload/");
+			}
 		}
+		else {
+			dto.setDimgnm("N");
+			dto.setDimgrenm("N");
+		    dto.setDimgurl("N");
+		    dto.setDimgck("N");
+		}
+	
 		
 			            
 		try {
@@ -155,13 +172,16 @@ public class DeliveryController implements security {
 				this.output=this.js.no("배송기사 등록에 실패하였습니다. 다시 시도해 주세요.");
 			}
 		} catch (Exception e) {
-			this.output=this.js.no("데이터 오류로 인하여 등록 되지 않습니다. 다시 시도해 주세요"+e);
+			e.printStackTrace();
+			this.output=this.js.no("데이터 오류로 인하여 등록 되지 않습니다. 다시 시도해 주세요");
 		}
 		m.addAttribute("output", output);
 		         
  		return "output";
 	}
 
+	
+	
 	//배송기사 사원번호 자동생성 (AJAX)
 	@CrossOrigin("*")
 	@GetMapping("/delivery/deliveryCode.do")
@@ -215,84 +235,7 @@ public class DeliveryController implements security {
 	}
 	
 	
-	/*
-	@PostMapping("/delivery/deliveryModifyok.do")
-	public String deliveryModifyok( @ModelAttribute("modify") DeliveryDTO dto,
-									@RequestParam("dimgnmf") MultipartFile files, 
-									HttpServletResponse res, 
-									HttpServletRequest req,
-									Model m)throws Exception {
-		Date date = new Date();
-		SimpleDateFormat si = new SimpleDateFormat("yyyyMMddhhmmss");
-		Random random = new Random();
-		
-		System.out.println("사진은??"+files);
-		// 사진 첨부 핸들링
-		
-		if("".equals(dto.getDimgnm())) {
-			dto.setDimgnm("N");
-		} 
-		
-		
-		if ("N".equals(dto.getDimgnm())) {
-		    dto.setDimgrenm("N");
-		    dto.setDimgurl("N");
-		    dto.setDimgck("N");
-		} else {		    
-			  dto.setDimgrenm("Y");
-			    dto.setDimgurl("Y");
-			    dto.setDimgck("Y");
-			
-		}
-		
-		// 패스워드 보안
-		String userpw = dto.getDpass();
-		StringBuilder repass = secode(userpw);
-		dto.setDpass(repass.toString());
-		
-		// 사진 첨부
-		
-		String filenm = files.getOriginalFilename();
-		long filesize = files.getSize();
-		
-		if (filesize > 2097152) {
-			this.output=this.js.no("첨부파일 용량은 최대 2MB까지만 등록 가능합니다.");
-		}else {	
-			
-			String url = req.getServletContext().getRealPath("/imgUpload/");
-			//System.out.println(url);
-			String type = filenm.substring(filenm.lastIndexOf("."));
-			int no = random.nextInt(40)+1;	
-			String new_nm = si.format(date);
 
-			FileCopyUtils.copy(files.getBytes(), new File(url+new_nm+no+type));
-
-				dto.setDimgnm(filenm);
-				dto.setDimgrenm(new_nm+no+type);
-				dto.setDimgurl("./imgUpload/");
-		}
-		
-			           
-		try {
-			// 사진 없이 등록하면 dimgnm 컬럼에 "N"값으로 변경
-			int result = ds.deliveryModify(dto);
-			System.out.println("result 는?"+result);
-			
-			if(result > 0) {
-				this.output=this.js.ok("배송기사 수정이 완료 되었습니다.", "/delivery/deliveryMain.do");
-			}
-			else {
-				this.output=this.js.no("배송기사 수정을 실패하였습니다. 다시 시도해 주세요.");
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-			this.output=this.js.no("데이터 오류로 인하여 등록 되지 않습니다. 다시 시도해 주세요"+e);
-		}
-		m.addAttribute("output", output);
-		         
- 		return "output";
-	}
-	*/
 	@PostMapping("/delivery/deliveryModifyok.do")
 	public String deliveryModifyok(@ModelAttribute("modify") DeliveryDTO dto,
 	                               @RequestParam("dimgnmf") MultipartFile files, 
@@ -329,6 +272,7 @@ public class DeliveryController implements security {
 	    // 사진 첨부
 	    String filenm = files.getOriginalFilename();
 	    long filesize = files.getSize();
+
 	    
 	    if (filesize > 2097152) {
 	        this.output = this.js.no("첨부파일 용량은 최대 2MB까지만 등록 가능합니다.");
@@ -355,7 +299,6 @@ public class DeliveryController implements security {
 	    try {
 	        // 사진 없이 등록하면 dimgnm 컬럼에 "N"값으로 변경
 	        int result = ds.deliveryModify(dto);
-	        System.out.println("result 는?" + result);
 
 	        if (result > 0) {
 	            this.output = this.js.ok("배송기사 수정이 완료 되었습니다.", "/delivery/deliveryMain.do");

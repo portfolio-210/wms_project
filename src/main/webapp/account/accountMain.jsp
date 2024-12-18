@@ -48,7 +48,7 @@
    
             <!-- 리스트 출력 파트 -->
             <tbody style="background-color: #f1f1ef;">
-            <c:set var="ino" value="${total- ((userpage-1)*15)}"/>
+            
             
             
             <!-- 거래처가 없는경우 -->
@@ -61,7 +61,7 @@
             
             <c:forEach var="account" items="${all}" varStatus="idx">
                 <tr align="center" style="line-height: 30px;">
-                    <td>${ino + idx.index}</td>
+                    <td>${total - (((userpage-1)*15)+idx.index)}</td>
                     <td>${account.acompany}</td>
                     <td>${account.acode}</th>
                     <td>${account.anum}</td>
@@ -92,7 +92,7 @@
         <ul class="pageing">
         <c:set var="pages" value="${total / 15 + (1 - (total / 15) % 1)}"/>
         <c:forEach var="no" begin="1" end="${pages}" step="1">
-          <li onclick="page_go(${no})" style="cursor: pointer;">${no}</li>
+          <li onclick="page_go(${no}, '${search}')" style="cursor: pointer;">${no}</li>
          </c:forEach>
         </ul>
       </div>

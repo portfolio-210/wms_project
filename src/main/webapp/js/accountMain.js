@@ -12,21 +12,23 @@ function accountDelete(aidx){
 	
 }
 
-function page_go(n){
-  location.href ='./accountMain.do?pageno='+n;
-  /* 
-   if (!search == null ) {
-	url+= s =${sy}
-	location.href = url
-	//config main jsp 참죠!!
-	*/
+function page_go(n,search){
+	
+  //location.href ='./accountMain.do?pageno='+n;
+  
+  var url ="./accountMain.do?pageno="+ n;
+   if (search) {
+	url+= "&search=" + encodeURIComponent(search);
+		}
+		location.href = url
+	
 }
 	  
-/*	  
+  
 function sh(p){
 	if(p==1){
 		if(frm.search.value==""){
-			alert("거래처명을 입력해주세요.");
+			alert("거래처명을 입력해 주세요.");
 			frm.search.focus();
 			return false;
 		}
@@ -41,8 +43,8 @@ function sh(p){
 			location.href='./accountMain.do'
    }
 }	
-*/
 
+/*
 function sh(p) {
 
     if (p == 1) {
@@ -52,7 +54,7 @@ function sh(p) {
             return false;  // 검색어가 없으면 폼 제출을 막음
         } else {
             f1.search.value = f1.search.value.replaceAll(" ", "");  // 공백 제거
-            f1.method = "get";
+            f1.method = "post";
             // 사용자가 입력한 검색어를 URL 파라미터로 전송
             f1.action = "./accountMain.do?search="+f1.search.value;
             f1.submit();  // 폼을 제출
@@ -61,3 +63,5 @@ function sh(p) {
         location.href = './accountMain.do';  // '전체' 버튼 클릭 시 전체 리스트로 이동
     }
 }    
+*/
+

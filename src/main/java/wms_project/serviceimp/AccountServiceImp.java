@@ -44,7 +44,7 @@ public class AccountServiceImp implements AccountService {
 			return result;
 		};
 		
-
+/*
 		@Override
 		public List<AccountDTO> accountList(){
 			Map<String, String> pg = new HashMap<>();
@@ -53,7 +53,37 @@ public class AccountServiceImp implements AccountService {
 			List<AccountDTO> all = am.accountList(pg);
 			return all;
 		};
-
+		
+		@Override
+		public List<AccountDTO> accountSearch(String search) {
+			List<AccountDTO> result = am.accountSearch(search);
+			return result;
+		};
+	*/	
+		
+		// 리스트
+		@Override
+		public List<AccountDTO> accountList(Map<String, Object> paramValue) {
+			List<AccountDTO> result = am.accountList(paramValue);
+			return result;
+		}
+		
+		
+		// 리스트 ctn
+		@Override
+		public int accountCtn(Map<String, Object> paramValue) {
+			int result = am.accountCtn(paramValue);
+			return result;
+		}
+		
+		
+		
+		
+		
+		
+		
+		
+		
 		
 	
 
@@ -71,11 +101,7 @@ public class AccountServiceImp implements AccountService {
 			return result;
 		};
 		
-		@Override
-		public List<AccountDTO> accountSearch(String search) {
-			List<AccountDTO> result = am.accountSearch(search);
-			return result;
-		};
+		
 		@Override
 		public int accountDelete(String aidx) {
 			int result = am.accountDelete(aidx);

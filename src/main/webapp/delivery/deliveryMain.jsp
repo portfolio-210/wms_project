@@ -12,39 +12,77 @@
     
 
 <main role="main" style="height: auto;">
+<!-- 근무현황 승인 여부 form -->
 <form id="f1">
 <input type="hidden" name="dapprove" id="dapprove" value="">
 <input type="hidden" name="didx" id="didx" value="">
-
 </form>
+
   <div class="container">
     <div>
     <p class="sub_title font16_bold">배송기사 리스트[근무현황]</p>
+    
+    
+ <!-- 소속 검색 form -->
+ <form id="f2" onsubmit="return sh(1)">
     <div class="mb-3" style="position: relative;">
+ 	   <input type="hidden" id="" name="" value="">
         <ul class="ul-2">
             <li class="num_font13_bold">소속</li>
             <li style="width: 85%; display: flex; flex-direction: row;">
-                <select style="width: 200px; height: 40px;" class="form-control font12">
-                    <option>전체</option>
-                    <option>수원지점</option>
-                    <option>인천지점</option>
+            	<!-- 
+                <select style="width: 200px; height: 40px;" class="form-control font12">          
+                    <option value="all">전체</option>
+                    <c:forEach var="office" items="${spot}">
+						<option value="${office.officename}">${office.officename}</option>
+                    </c:forEach>
                 </select>
-                <button type="button" class="btn btn-primary font12" style="width: 70px; height: 40px; margin-left:10px; margin-right: 10px;">검색</button>   
+                 -->
+				<c:choose>
+				    <c:when test="${sessionScope.mspot eq '본사'}">
+				        <select name="spot"  style="width: 200px; height: 40px;" class="form-control font12">
+				            <option value="전체">전체</option>
+				            <c:forEach var="office" items="${spot}">
+				                <option value="${office.officename}">${office.officename}</option>
+				            </c:forEach>
+				        </select>
+				    </c:when>
+				    
+				    <c:otherwise>
+				        <select name="spot" style="width: 200px; height: 40px;" class="form-control font12">
+				            <c:forEach var="office" items="${spot}">
+				                <!-- mspot과 동일한 값만 출력 -->
+				                <c:if test="${office.officename eq sessionScope.mspot}">
+				                    <option value="${office.officename}">${office.officename}</option>
+				                </c:if>
+				            </c:forEach>
+				        </select>
+				    </c:otherwise>
+				</c:choose>
+                
+                
+                <button type="button" class="btn btn-primary font12" style="width: 70px; height: 40px; margin-left:10px; margin-right: 10px;" onclick="sh(1)">검색</button>   
             </li>
         </ul>
+        
+        
         <ul class="ul-2">
             <li class="num_font13_bold">담당기사 검색</li>
             <li style="width: 85%; display: flex; flex-direction: row;">
-                <select style="width: 100px; height: 40px; margin-right: 5px;" class="form-control font12">
-                    <option>기사명</option>
-                    <option>사원번호</option>
-                    <option>연락처</option>
+                <select name="part" style="width: 100px; height: 40px; margin-right: 5px;" class="form-control font12">
+                    <option value="기사명">기사명</option>
+                    <option value="사원번호">사원번호</option>
+                    <option value="연락처">연락처</option>
                 </select>
-                <input type="text" style="width: 200px; height: 40px;" class="form-control font12" placeholder="검색할 단어를 입력하세요">
-                <button type="button" class="btn btn-primary font12" style="width: 70px; height: 40px; margin-left:10px; margin-right: 10px;">검색</button>   
+                <input type="text" name="search" id="search" style="width: 200px; height: 40px;" class="form-control font12" placeholder="검색할 단어를 입력하세요">
+                <button type="button" class="btn btn-primary font12" style="width: 70px; height: 40px; margin-left:10px; margin-right: 10px;" onclick="sh(2)">검색</button>   
             </li>
-        </ul> 
+        </ul>
      </div>
+    </form>
+     
+     
+     
      <div class="mb-3">
         <table class="table font12">
             <thead>
