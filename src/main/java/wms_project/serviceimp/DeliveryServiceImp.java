@@ -20,8 +20,6 @@ public class DeliveryServiceImp implements DeliveryService{
 	@Autowired
 	private DeliveryMapper dm;
 
-	@Autowired
-    private HttpSession session;  // HttpSession 주입
 	
 	// 배송기사 등록
 	@Override
@@ -29,7 +27,7 @@ public class DeliveryServiceImp implements DeliveryService{
 		int result = dm.deliveryInsert(dto);
 		return result;
 	};
-	
+	/*
 	// 배송기사 리스트 출력 + 페이징
 	@Override
 	public List<DeliveryDTO> deliveryList() {
@@ -44,11 +42,35 @@ public class DeliveryServiceImp implements DeliveryService{
 		List<DeliveryDTO> all = dm.deliveryList(pg);
 		return all;
 	}
+	*/
+	
+	@Override
+	public List<DeliveryDTO> deliveryList(Map<String, Object> paramValue) {
+		List<DeliveryDTO> result = dm.deliveryList(paramValue);
+		return result;
+	}
+	
+	/*
+	@Override
+	public String deliveryMspotCtn(Map<String, Object> params) {
+		String result = dm.deliveryMspotCtn(params);
+		return result;
+	}
+	*/
+	
+	
 	
 	@Override
 	public String deliveryMspotCtn(String mspot) {
 		return dm.deliveryMspotCtn(mspot);
 	}
+	
+
+	
+	
+	
+	
+	
 	// 사원번호 자동생성 (DB카운트)
 	@Override
 	public String deliveryCtn() {
@@ -63,11 +85,7 @@ public class DeliveryServiceImp implements DeliveryService{
 		return result;
 	}
 
-	@Override
-	public List<DeliveryDTO> deliveryList(HttpSession session) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+
 	// 수정 idx값 가져오기
 	@Override
 	public DeliveryDTO deliveryModifyIdx(String didx) {
@@ -80,6 +98,7 @@ public class DeliveryServiceImp implements DeliveryService{
 		int result = dm.deliveryModify(dto);
 		return result;
 	}
+
 	
 	
 	

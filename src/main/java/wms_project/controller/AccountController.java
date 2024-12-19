@@ -43,6 +43,8 @@ public class AccountController {
 							Model m) {
 		
 		System.out.println(search);
+		System.out.println("어카운트의 pageno : " + pageno);
+		int a = 0;
 		
 		Map<String, Object> paramValue = new HashMap<>();
 		paramValue.put("search", search);
@@ -59,6 +61,8 @@ public class AccountController {
 			this.endno = 15;
 		}
 		
+		
+		
 		paramValue.put("endno", this.endno);
         paramValue.put("startno", this.startno);
 	     
@@ -67,6 +71,7 @@ public class AccountController {
 	     m.addAttribute("total", total);
 	     m.addAttribute("userpage", pageno);
 	     m.addAttribute("search", search);
+	     m.addAttribute("endno",this.endno);
 		
 		
 		return null;
@@ -144,7 +149,7 @@ public class AccountController {
 				this.output=this.js.no("거래처 등록에 실패하였습니다. 다시 시도해 주세요.");
 			}
 		} catch (Exception e) {
-			this.output=this.js.no("데이터 오류로 인하여 등록 되지 않습니다. 다시 시도해 주세요"+e);
+			this.output=this.js.no("데이터 오류로 인하여 등록 되지 않습니다. 다시 시도해 주세요");
 		}
 		m.addAttribute("output", output);
  		return "output";

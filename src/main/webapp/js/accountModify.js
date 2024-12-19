@@ -4,6 +4,14 @@ var nameRegex = /^[가-힣]{2,4}$/;
 var ahp_regex = /^\d{3}-\d{4}-\d{4}$|^\d{3}-\d{3}-\d{4}$|^\d{2}-\d{4}-\d{4}$|^\d{2}-\d{3}-\d{4}$|^\d{4}-\d{4}$/;
 var anum_regex = /([0-9]{3})-?([0-9]{2})-?([0-9]{5})/;
 var afax_regex = /^(?:\+82-\d{1,2}-\d{3,4}-\d{4}|\d{2,3}-\d{3,4}-\d{4})$/;
+	
+
+	function cancel(){
+		if(confirm("거래처 수정을 취소하시겠습니까?")){
+		location.href="/account/accountMain.do";
+		}
+	}
+
 
 	
 	// 거래처명 중복체크

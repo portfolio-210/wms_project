@@ -90,7 +90,7 @@
      </div>
       <div class="mb-3" style="text-align: right;">
       <button type="button"  class="btn btn-danger font12" style="width: 100px; height: 40px; margin-right: 5px;" onclick="account_check(${account.aidx})">거래처 수정</button> 
-      <button type="button" class="btn btn-dark font12" style="width: 100px; height: 40px;" onclick="location.href='./accountMain.do'">취소하기</button> 
+      <button type="button" class="btn btn-dark font12" style="width: 100px; height: 40px;" onclick="cancel()">취소하기</button> 
       </div>
     </div>
     </div>

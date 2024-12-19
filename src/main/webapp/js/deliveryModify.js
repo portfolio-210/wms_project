@@ -49,7 +49,10 @@ var idReg = /^\d+$/;
 	
 	//취소버튼
 	function deliveryMain(){
+		if(confirm("배송기사 수정을 취소하시겠습니까?")){
+			
 		location.href="/delivery/deliveryMain.do";
+		}
 		
 	}
 

@@ -4,7 +4,7 @@ function accountModify(aidx){
 
 
 function accountDelete(aidx){
-	if (confirm("거래처를 삭제하시겠습니까?")) {
+	if (confirm("거래처를 삭제하시겠습니까? \n삭제시 데이터는 복구되지 않습니다.")) {
 	    location.href='./accountDelete.do?aidx='+aidx;
 	} else {
 	  return false;
@@ -44,24 +44,5 @@ function sh(p){
    }
 }	
 
-/*
-function sh(p) {
 
-    if (p == 1) {
-        if (f1.search.value == "") {
-            alert("거래처명을 입력해주세요.");
-            f1.search.focus();
-            return false;  // 검색어가 없으면 폼 제출을 막음
-        } else {
-            f1.search.value = f1.search.value.replaceAll(" ", "");  // 공백 제거
-            f1.method = "post";
-            // 사용자가 입력한 검색어를 URL 파라미터로 전송
-            f1.action = "./accountMain.do?search="+f1.search.value;
-            f1.submit();  // 폼을 제출
-        }
-    } else if (p == 2) {  // 전체 리스트로 이동
-        location.href = './accountMain.do';  // '전체' 버튼 클릭 시 전체 리스트로 이동
-    }
-}    
-*/
 

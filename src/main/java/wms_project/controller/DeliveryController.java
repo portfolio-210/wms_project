@@ -3,8 +3,10 @@ package wms_project.controller;
 import java.io.File;
 import java.io.PrintWriter;
 import java.util.Date;
+import java.util.HashMap;
 import java.text.SimpleDateFormat;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,12 +62,119 @@ public class DeliveryController implements security {
 	public static int endno = 15; // 비트윈에 종료값
 	
 	
-	
-	
-	
 	@GetMapping("/delivery/deliveryMain.do")
-	public String deliveryMain(Model m,@RequestParam(value="pageno", required = false) Integer pageno,
-			HttpSession session) {
+	public String deliveryMain(
+	    @RequestParam(value="pageno", required = false) Integer pageno,
+	    @RequestParam(value= "spot", required = false) String spot,
+	    @RequestParam(value = "part", required = false) String part,
+	    @RequestParam(value = "search", required = false) String search,
+	    HttpSession session,
+	    Model m) {
+		
+		System.out.println("배송기사의 pageno : "+ pageno);
+	    if (pageno == null) {
+	    	pageno = 1;
+	    	this.startno = 0;
+	        this.endno = 15;
+	    } else {
+	        this.startno = (pageno - 1) * 15; // 15개씩 출력
+	        this.endno = 15;
+	    }
+
+	    String mspot = (String) session.getAttribute("mspot");
+	    
+	    // 지점에 맞는 배송기사 리스트 조회
+	    Map<String, Object> params = new HashMap<>();
+	    params.put("mspot", mspot);
+	    params.put("spot", spot);
+	    params.put("part", part);
+	    params.put("search", search);
+	    params.put("startno", this.startno);
+	    params.put("endno", this.endno);
+	    //params.put("pageno", pageno);
+	    
+	    // 배송기사 목록 조회
+	    List<DeliveryDTO> all = ds.deliveryList(params);
+	    
+	    // 지점 리스트
+	    List<OfficeDTO> office = os.office_list();
+	    
+	    // 총 데이터 개수
+	    String result = ds.deliveryMspotCtn(mspot);
+	    System.out.println("총계수는 얼마 : " + result);
+	    // 모델에 데이터 추가
+	    m.addAttribute("office", office);
+	    m.addAttribute("all", all);
+	    m.addAttribute("total", result);
+	    m.addAttribute("userpage", pageno);
+	    m.addAttribute("spot", spot);
+	    m.addAttribute("part", part);
+	    m.addAttribute("search", search);
+	    
+	    return null;
+	}
+
+	/*
+	@GetMapping("/delivery/deliveryMain.do")
+	public String deliveryMain(@RequestParam(value= "pageno", required = false) Integer pageno,
+								@RequestParam(value= "spot", required = false) String spot,
+								@RequestParam(value = "part", required = false) String part,
+								@RequestParam(value = "search", required = false) String search,
+								HttpSession session,
+								Model m) {
+		
+		Map<String, Object> paramValue = new HashMap<>();
+		paramValue.put("search", search);
+		paramValue.put("spot", spot);
+		paramValue.put("part", part);
+	
+		
+		int total = ds.deliveryCount(paramValue);
+
+		if(pageno == null) {
+			pageno = 1;
+			this.startno = 0;
+			this.endno = 15;
+			
+		}else {	// URI가 파라미터가 있을경우
+			this.startno = (pageno-1) * 15;	//15개씩 출력
+			this.endno = 15;
+		}
+		paramValue.put("endno", this.endno);
+		paramValue.put("startno", this.startno);
+		
+		List<OfficeDTO> office = os.office_list();
+    	m.addAttribute("office", office);
+	    
+		List<DeliveryDTO> all = ds.deliveryList();
+		m.addAttribute("all", all);
+		m.addAttribute("total", total);
+		m.addAttribute("userpage",pageno);	
+		m.addAttribute("search",search);	
+		m.addAttribute("spot",spot);	
+		m.addAttribute("part",part);	
+
+		
+	
+		return null;
+	}
+	*/
+	
+	
+	
+	
+	/* 원래내꺼!!
+	@GetMapping("/delivery/deliveryMain.do")
+	public String deliveryMain(
+			@RequestParam(value="pageno", required = false) Integer pageno,
+			@RequestParam(value= "spot", required = false) String spot,
+			@RequestParam(value = "part", required = false) String part,
+			@RequestParam(value = "search", required = false) String search,
+			HttpSession session,
+			Model m
+			) {
+		
+		
 
 		if(pageno==null) {
 			this.startno = 0;
@@ -81,8 +190,8 @@ public class DeliveryController implements security {
 	    String result = ds.deliveryMspotCtn(mspot);
 		
 
-	    List<OfficeDTO> spot = os.office_list();
-    	m.addAttribute("spot", spot);
+	    List<OfficeDTO> office = os.office_list();
+    	m.addAttribute("office", office);
 	    
 		List<DeliveryDTO> all = ds.deliveryList();
 		m.addAttribute("all", all);
@@ -91,6 +200,12 @@ public class DeliveryController implements security {
 
 		return null;
 	}
+	*/
+	
+	
+	
+	
+	
 	
 	
 	

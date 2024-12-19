@@ -44,11 +44,11 @@
         <ul class="ul-1">
             <li class="num_font13_bold">패스워드</li>
             <li class="font14">
-                <input type="password" id="dpass" name="dpass" style="width: 200px; height: 40px;" class="form-control font12">
+                <input type="password" id="dpass" name="dpass" style="width: 200px; height: 40px;" class="form-control font12" placeholder="패스워드를 입력해주세요">
             </li>
             <li class="num_font13_bold">패스워드 확인</li>
             <li>
-                <input type="password" id="dpassCk" name="dpassCk" style="width: 200px; height: 40px;" class="form-control font12">
+                <input type="password" id="dpassCk" name="dpassCk" style="width: 200px; height: 40px;" class="form-control font12" placeholder="동일한 패스워드를 입력해주세요">
             </li>
         </ul> 
         </div>

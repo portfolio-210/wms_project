@@ -66,11 +66,11 @@
         <ul class="ul-1">
             <li class="num_font13_bold">패스워드</li>
             <li class="font14">
-                <input type="password" id="dpass" name="dpass" style="width: 200px; height: 40px;" class="form-control font12">
+                <input type="password" id="dpass" name="dpass" style="width: 200px; height: 40px;" class="form-control font12" placeholder="패스워드를 입력해주세요">
             </li>
             <li class="num_font13_bold">패스워드 확인</li>
             <li>
-                <input type="password" id="dpassCk" name="dpassCk" style="width: 200px; height: 40px;" class="form-control font12">
+                <input type="password" id="dpassCk" name="dpassCk" style="width: 200px; height: 40px;" class="form-control font12" placeholder="동일한 패스워드를 입력해 주세요">
             </li>
         </ul> 
         </div>
@@ -102,14 +102,32 @@
 
 
 				    <span style="display: block;">				    
-					
+					<!-- 
 					<button class="btn btn-primary font20" id="showImageBtn" style="font-size: 16px;" type="button">
 					    <c:choose>
 					        <c:when test="${delivery.dimgnm == 'N'}">사진없음</c:when>
 					        <c:otherwise>증명사진 확인</c:otherwise>
 					    </c:choose>
 					</button>
-			
+			 		-->
+			 
+					 <button class="btn btn-primary font20" 
+					        id="showImageBtn" 
+					        style="font-size: 16px;" 
+					        type="button"
+					        <c:choose>
+					            <c:when test="${delivery.dimgnm == 'N'}">disabled</c:when>
+					        </c:choose>>
+					    <c:choose>
+					        <c:when test="${delivery.dimgnm == 'N'}">사진없음</c:when>
+					        <c:otherwise>증명사진 확인</c:otherwise>
+					    </c:choose>
+					</button>
+			 
+			 
+			 
+			 
+			 
 
 			        <div id="imageWrapper" style="display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); max-width: 80%; max-height: 80%; z-index: 1000;">
 			            <img id="views" src=".${delivery.dimgurl}${delivery.dimgrenm}" style="width: 400px; height: 500px;">

@@ -12,6 +12,6 @@ public class DeliveryDTO {
 	String dimgnm, dimgrenm, dimgurl, dimgck;
 	String dapprove, ddate, dmodify;
 	
-	String mspot,search;
+	String spot,search,part,mspot;
 
 }
