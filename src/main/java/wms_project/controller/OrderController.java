@@ -16,7 +16,10 @@ import wms_project.service.OrderService;
 
 import java.io.InputStream;
 import java.io.PrintWriter;
+import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 
 @Controller
 public class OrderController {
@@ -32,8 +35,31 @@ public class OrderController {
     //Order 메인 페이지
     @GetMapping("/order/orderMain.do")
     public String order_list(Model m, @RequestParam(value = "start_date", required = false) String start_date,
-                             @RequestParam(value = "end_date", required = false) String end_date){
-        //select
+                             @RequestParam(value = "end_date", required = false) String end_date,
+                             @RequestParam(value = "pageno", required = false) Integer pageno){
+        Map<String, Object> paramValue = new HashMap<>();
+        paramValue.put("start_date", start_date);
+        paramValue.put("end_date", end_date);
+
+        int total = os.order_count(paramValue);
+        int items = 15;
+        int startno = 0;
+        if(pageno == null){
+            pageno = 1;
+        } else {
+            startno = (pageno-1) * 15;
+        }
+        paramValue.put("items", items);
+        paramValue.put("startno", startno);
+
+        List<ShippingDTO> all = os.order_list(paramValue);
+
+        m.addAttribute("all", all);
+        m.addAttribute("total", total);
+        m.addAttribute("pageno", pageno);
+        m.addAttribute("start_date", start_date);
+        m.addAttribute("end_date", end_date);
+
         return null;
     }
 

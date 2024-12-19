@@ -11,5 +11,18 @@
             #{deliveryname}, #{dcode}, #{dspot}, #{dapprove}, #{stracking}, #{sqrimg}, #{sqrurl}, #{shipstate})
     </insert>
 
+    <select id="order_list" parameterType="Map" resultType="wms_project.dto.ShippingDTO">
+        select aidx, aordercode, aproduct, aproductcode, acustomer, ahp, addr, date, adeliveryck, shipstate from shipping
+        order by date desc
+    </select>
+
+    <!--  등록된 주문 개수  -->
+    <select id="order_count" parameterType="Map">
+        select count(*) from shipping
+        <if test="start_date != null and end_date != null">
+            where date between #{start_date} and #{end_date}
+        </if>
+    </select>
+
 
 </mapper>
