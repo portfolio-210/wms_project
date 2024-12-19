@@ -89,9 +89,25 @@ public class StorageServiceImp implements StorageService {
     }
     
     @Override
-    public List<ProductDTO> selectProduct(int checkbox) {
+    public ProductDTO selectProduct(String pdidx) {
     	
-    	return sm.selectProduct(checkbox);
+    	return sm.selectProduct(pdidx);
+    }
+    
+    @Override
+    public void moveProduct(ProductDTO newProduct) {
+    	int row = sm.updateProduct1(newProduct);
+    	
+    	if(row == 0) {
+    	sm.moveProduct(newProduct);
+    	}
+    }
+    
+    @Override
+    public void updateProduct(Map<String, String> params) {
+    	
+    	sm.updateProduct(params);
+    	
     }
 
 }

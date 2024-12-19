@@ -22,10 +22,11 @@
         <ul class="ul-2">
             <li class="num_font13_bold">재고창고</li>
             <li style="display: flex;">
-                <select name="selectstorage" onchange="this.form.submit()" style="width: 200px; height: 40px;" class="form-control font12">
+                <select id="selectstorage" name="selectstorage" onchange="this.form.submit()" style="width: 200px; height: 40px;" class="form-control font12">
                     <option value="">창고명 출력</option>
                     <c:forEach var="storagefrom" items="${members}">
-                    <option value="${storagefrom.scode}">${storagefrom.sname}</option>
+                    <option value="${storagefrom.scode}"
+                    <c:if test="${storagefrom.scode == param.selectstorage}">selected</c:if>>${storagefrom.sname}</option>
                     </c:forEach>
                 </select>
             </li>
@@ -39,11 +40,9 @@
                 </select>
             </li>
         </ul>
+        
         </form> 
      </div>
-     <form id="productfrom" action="/storage/moveProduct.do" method="post" onsubmit="return collectCheckedData();">
-     <input type="hidden" id="Name" name="Name" value="">
-     <input type="hidden" id="to" name="to" value="">
      <div class="mb-3">
         <table class="table font12">
             <thead>
@@ -62,16 +61,18 @@
             </thead>
             <tbody style="background-color: #f1f1ef;">
             <c:forEach var="products" items="${product}">
+             <c:if test="${products.pdamount > 0}">
                 <tr align="center" style="line-height: 30px;">
                     <td><input type="checkbox" name="checkbox" value="${products.pdidx}" class="product-checkbox"></td>
                     <td>${products.acompany}</td>
                     <td align="left">${products.pdname}</td>
                     <td>${products.pdcode}</td>
-                    <td>${products.pdamount}EA</td>
+                    <td>${products.pdamount}</td>
                     <td>${products.sname}</td>
                     <td>${products.pname}</td>
-                    <td><input type="text" name="quantity" oninput="this.value = this.value.replace(/[^0-9]/g, '');" style="width: 90px; height: 40px;" maxlength="5" class="form-control font12" ></td>
+                    <td><input type="text" name="quantity" oninput="validateQuantity(this, ${products.pdamount});" style="width: 90px; height: 40px;" maxlength="5" class="form-control font12" ></td>
                   </tr>
+                  </c:if>
                </c:forEach>
             </tbody>
           </table>
@@ -81,10 +82,10 @@
           <li>1</li>
         </ul>
       </div>
+      <input type="hidden" id="hiddenStoragename" name="storagename" value="">
       <div class="mb-3" style="text-align: right;">
-      <button type="submit" class="btn btn-danger font12" style="width: 100px; height: 40px;">상품 창고 이동</button> 
-      </div>
-      </form>
+      <button type="button" class="btn btn-danger font12" style="width: 100px; height: 40px;" onclick="collectCheckedData()">상품 창고 이동</button> 
+      </div>     
     </div>
   </div>
 </main>
@@ -99,17 +100,36 @@ function toggleAll(source) {
     });
 }
 function updateHiddenField(selectElement) {
-	
-	
-    // 선택된 option의 value를 히든 필드에 설정
-    document.getElementById('to').value = selectElement.value;
-    
- // 선택된 option의 data-storagename 속성 값을 히든 필드에 설정
+	 // 선택된 옵션 가져오기
     const selectedOption = selectElement.options[selectElement.selectedIndex];
-    const storageName = selectedOption.getAttribute('data-storagename');
-    document.getElementById('Name').value = storageName;
-    console.log('name='+ Name.value);
-    console.log('to='+to.value);
+
+    // data-storagename 값 가져오기
+    const storagename = selectedOption.dataset.storagename;
+
+    // 히든 필드 업데이트
+    const hiddenInput = document.getElementById("hiddenStoragename");
+    if (hiddenInput) {
+        hiddenInput.value = storagename || ""; // 값이 없으면 빈 값 설정
+    }
+
+
+
+}
+function validateQuantity(inputElement, availableAmount) {
+    const value = inputElement.value;
+
+    // 숫자가 아닌 경우
+    if (value && isNaN(value)) {
+        alert("숫자만 입력할 수 있습니다."); // 경고 메시지
+        inputElement.value = ''; // 빈 문자열로 설정
+        return;
+    }
+
+    // 입력값이 비어있지 않고 현재 재고 수량보다 큰 경우
+    if (value && parseInt(value) > availableAmount) {
+        alert(`이동 수량은 현재 재고보다 많을 수 없습니다.`);
+        inputElement.value = availableAmount; // 재고 수량으로 설정
+    }
 }
 </script>
 

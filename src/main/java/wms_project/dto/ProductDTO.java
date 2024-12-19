@@ -14,7 +14,7 @@ public class ProductDTO {
 	 
 	 private String pdidx; // 제품 ID
 	 private String quantity; // 수량
-	 private String to; // 옮길 창고 코드
-	 private String Name; // 옮길 창고 이름
-
+	 private String instorecode; // 옮길 창고 코드
+	 private String instorename; // 옮길 창고 이름
+	
 }

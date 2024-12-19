@@ -81,15 +81,7 @@
     </div>
   </div>
 </main>
-<script>
-var checkes = "${member.suse}";
-if(checkes=="1"){
-	frm.suse[0].checked=true;
-}
-else {
-	frm.suse[1].checked=true;
-}
-</script>
+
 <!-- Footer -->
 <%@ include file="../footer.jsp" %>
 <script src="../js/storage.js?v=<%= sf.format(today) %>"></script>

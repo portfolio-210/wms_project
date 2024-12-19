@@ -33,5 +33,12 @@ public interface StorageService {
     //창고에 따른 상품 리스트 출력하기
     List<ProductDTO> productlist(String selectstorage);
     
-    List<ProductDTO> selectProduct(int checkbox);
+    //기존 입고 테이블의 필요성분 가져오기
+    ProductDTO selectProduct(String pdidx);
+    
+    //새로운 창고로 물건 이동시키기    
+    void moveProduct(ProductDTO newProduct);
+    
+        
+    void updateProduct(Map<String, String> params);
 }

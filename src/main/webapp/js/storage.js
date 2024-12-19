@@ -457,9 +457,18 @@ document.querySelectorAll('input[name^="acompany_"]').forEach((input, index) => 
 
 function collectCheckedData() {
     const checkboxes = document.getElementsByName('checkbox');
-	const quantities = document.getElementsByName('quantity'); 
+	const quantities = document.getElementsByName('quantity');
+	var tostoercode = document.getElementById("storageto").value; 
+	var tostoername = document.getElementById("hiddenStoragename").value;
+	//var fromstoercode = document.getElementById("selectstorage").value;
     const checked = [];
 	let empty = false;
+	let nocheck = false;
+	
+	
+	console.log(tostoercode);
+	console.log(tostoername);
+	//console.log(fromstoercode);
   	
 	 
 	 for (let i = 0; i < checkboxes.length; i++) {
@@ -467,26 +476,34 @@ function collectCheckedData() {
 	             const quantity = quantities[i].value; // 수량 값 가져오기
 				 const pdidx = checkboxes[i].value;
 				 
+				 // 체크박스 확인
+				      if (!checkboxes[i].checked && quantity) {
+				          alert('먼저 이동할 상품을 체크해주세요.'); // 체크박스가 체크되어 있지 않으면 경고
+				          quantities[i].value = ''; // 수량 입력란 비우기
+				          nocheck = true; // 체크되지 않은 상태 기록
+				      } else if (checkboxes[i].checked) {
 	             if (quantity) {
-	                 checked.push({ pdidx: pdidx, quantity: quantity });
+	                 checked.push({ "pdidx": pdidx, "quantity": quantity, "instorename" : tostoername, "instorecode": tostoercode });
+					 }
 	             } else {
 	                 empty = true; // 수량이 비어있는 경우
 	             }
 	         }
 	     }
-		 console.log(checked);
-		 console.log(checked.length);
-	
-	console.log(document.getElementById('to').value);
-	if (document.getElementById('to').value === ""){
+
+	if (tostoercode === ""){
 		alert('물건을 이동할 창고를 선택해주세요.');
-		return false; // 체크된 제품이 없으면 제출하지 않음
-		
+		return false; // 체크된 제품이 없으면 제출하지 않음		
 	}
             
 	if(empty){		
 		alert('수량을 입력해주세요.'); // 수량이 비어있으면 경고
 	  return false; // 수량이 없는 경우 제출하지 않음
+	}
+	
+	if(nocheck){
+		alert('체크박스에 체크가 되어있는지 확인해주세요.');
+		return false;
 	}
  
 
@@ -495,25 +512,25 @@ function collectCheckedData() {
         return false; // 체크된 제품이 없으면 제출하지 않음
     }
 	
-	var List = {
-	    "List": JSON.stringify(checked) // checked를 JSON 문자열로 변환
-	};
+	var html;
+	var data;
+	   html = new XMLHttpRequest();
+	   html.onreadystatechange = function(){
+	      if(html.readyState==4 && html.status==200){
+	      if(this.response=="ok"){
+				alert("정상적으로 이동이 완료 되었습니다.");
+				window.location.reload();
+		  }
+	            
+	      }
+	   }
+	   //console.log(JSON.stringify(checked));
+	   html.open("POST","/storage/moveProduct.do",true);
+	   html.send(JSON.stringify(checked));
+	   //html.send(JSON.stringify(checked));
 	
-	   
-	$.ajax({
-	    url: '/storage/moveProduct.do',
-	    type: 'POST',
-	    contentType: 'application/json',
-	    data: JSON.stringify(List), // JSON 문자열로 변환하여 전송
-	    success: function(response) {
-	        console.log('Success:', response);
-	    },
-	    error: function(e) {
-	        console.error('Error:', e);
-	    }
-	});
 
-   return false;  // 데이터 수집이 완료되면 폼 제출 허용
+  // return true;  // 데이터 수집이 완료되면 폼 제출 허용
  }
 	
 

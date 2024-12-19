@@ -1,10 +1,14 @@
 package wms_project.controller;
 
+import java.io.PrintWriter;
+import java.net.http.HttpResponse;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -16,11 +20,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
+
 
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import wms_project.dto.AccountDTO;
 import wms_project.dto.PaletteDTO;
@@ -52,30 +56,91 @@ public class StorageController {
     @Autowired
     StorageService ss;
     
+    PrintWriter pw = null;
     
+    
+    @GetMapping("/storage/storagrPalette.do")
+    public String storagePaletteString() {
+    	
+    	
+    	
+    	return null;
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+   //, @RequestParam("to") String to
     @PostMapping("/storage/moveProduct.do")
-    public String productChange(@RequestParam Map<String, Object> checked, Model m) {   	
-      	
-    	 System.out.println("Received parameters: " + checked); // 이 줄을 추가하여 확인
-
-    	    String json = (String) checked.get("List"); // Map에서 List를 가져오기
-    	    if (json == null) {
-    	        throw new IllegalArgumentException("The parameter 'List' is missing or null.");
-    	    }
-        ObjectMapper mapper = new ObjectMapper();                             
-  
-	      try { 
-	    	  List<ProductDTO> playerList = mapper.readValue(json, new TypeReference<ArrayList<ProductDTO>>(){});
-	    	  System.out.println(playerList);
-    		this.output = this.js.ok("이동 되었습니다.", "/storage/storageList.do");
+    	public String moveProduct(@RequestBody String data, HttpServletResponse res) {
+    			
+     		//System.out.println(data);
+    			try {
+    				this.pw = res.getWriter();
+    				JSONArray ja = new JSONArray(data);
+    				//System.out.println(ja);
+    				//System.out.println(ja.length());
+    	           
+    	           int w=0;
+    	           
+    	           while(w<ja.length()) {
+    	        	   Map<String, String> params = new HashMap<>();
+    	        	   
+    	        	   
+    	        	   JSONObject jo = (JSONObject)ja.getJSONObject(w);
+    	        	   String pdidx = jo.get("pdidx").toString();
+    	        	   String quantity = jo.get("quantity").toString();
+    	        	   String instorename = jo.get("instorename").toString();
+    	        	   String instorecode = jo.get("instorecode").toString();
+    	        	   System.out.println(pdidx + ":" + quantity +":"+instorename+":"+instorecode);
+    	        	     	
+    	        	   
+    	        	   params.put("pdidx", pdidx);
+    	        	   params.put("quantity", quantity);
+    	        	   params.put("instorename", instorename);
+    	        	   params.put("instorecode", instorecode);
+    	        	   
+    	        	   ss.updateProduct(params); //선택한 창고에서 이동시키기(수량감소)
+    	        	   ProductDTO productInfo = ss.selectProduct(pdidx); //이동한 상품의 정보들 추출
+    	        	   
+    	        	   	// 새로운 창고에 재고 추가
+    	                ProductDTO newProduct = new ProductDTO();
+    	                newProduct.setAcompany(productInfo.getAcompany());
+    	                newProduct.setAcode(productInfo.getAcode());
+    	                newProduct.setPdcode(productInfo.getPdcode());
+    	                newProduct.setPdname(productInfo.getPdname());
+    	                newProduct.setQuantity(quantity); // 이동할 수량
+    	                newProduct.setInstorename(instorename);
+    	                newProduct.setInstorecode(instorecode);
+    	                newProduct.setPname(productInfo.getPname());
+    	        	   
+    	        	   
+    	                ss.moveProduct(newProduct);
+    	        	   
+    	        	   
+    	        	   w++;
+    	           }
+    	            
+    	           
+    	           
+    	         this.pw.print("ok");
     			            	
     	}catch (Exception e) {
     		e.printStackTrace();
-    		this.output = this.js.no("시스템 오류로 인해 실패하였습니다.");
+    		
 		}
         	
-    	m.addAttribute("output", output);
-        return "output";
+        return null;
         
         }
     	
@@ -95,8 +160,11 @@ public class StorageController {
       	 
       	 List<StorageDTO> members = ss.searchall(mspot);
       	 List<StorageDTO> membersall = ss.searchto(selectstorage);
-      	 List<ProductDTO> list = ss.productlist(selectstorage);
-   	 
+      	List<ProductDTO> list = new ArrayList<>();
+      	
+      	if (selectstorage != null && !selectstorage.isEmpty()) {
+      		list = ss.productlist(selectstorage);
+      	}
       	 m.addAttribute("product",list);//사용자가 선택한 창고 상품 리스트
       	 m.addAttribute("members",members); //사용자와 맞는 창고 리스트
       	 m.addAttribute("membersall",membersall); //첫번째 선택한 창고를 제외한 전체 창고 리스트

@@ -143,19 +143,26 @@
     </select>
     
     <!-- 상품 출고 -->
-    <update id="productupdate">
-        UPDATE products
-        SET amount = amount - #{quantity}
-        WHERE pdidx = #{checkbox}
+    <update id="updateProduct" parameterType="Map">
+        UPDATE product
+        SET pdamount = pdamount - #{quantity}
+        WHERE pdidx = #{pdidx}
     </update>
     
-     <insert id="newStorage" parameterType="wms_project.dto.ProductsDTO">
+    <!-- 입고하는 창고에 같은 물건이 없거나 있어도 다른 파레트에 있을 때 -->
+    <insert id="moveProduct" parameterType="wms_project.dto.ProductDTO">
     	INSERT INTO product (acompany, acode, pdcode, pdname, pdamount, sname, scode, pname, pddate)
-    				VALUES (#{acompany}, #{acode}, #{pdcode}, #{pdname}, #{quantity}, #{sname}, #{hiddenStorageto}, #{pname}, now())
+    	VALUES (#{acompany}, #{acode}, #{pdcode}, #{pdname}, #{quantity}, #{instorename}, #{instorecode}, #{pname}, now())
     </insert>
+    <!-- 입고하는 창고에 같은 물건이 있고 같은 파레트에 있을 때 -->
+    <update id="updateProduct1" parameterType="wms_project.dto.ProductDTO">
+    UPDATE product
+    SET pdamount = pdamount + #{quantity}
+    WHERE pdcode = #{pdcode} AND scode = #{instorecode} AND pname = #{pname};
+	</update>
     
-    
-    <select id="selectProduct" parameterType="int" resultType="wms_project.dto.StorageDTO">
+   
+    <select id="selectProduct" parameterType="String" resultType="wms_project.dto.ProductDTO">
     SELECT acompany, acode, pdname, pdcode, pname
     FROM product
     WHERE pdidx = #{pdidx}

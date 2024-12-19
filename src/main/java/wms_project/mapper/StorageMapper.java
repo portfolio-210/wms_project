@@ -1,5 +1,6 @@
 package wms_project.mapper;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -17,6 +18,7 @@ public interface StorageMapper {
     int checkCode(String scode);
 
     List<StorageDTO> searchall(String mspot);
+    
     List<StorageDTO> searchto(String selectstorage); //전체 창고 리스트
 
     StorageDTO getByID(String scode);
@@ -35,5 +37,10 @@ public interface StorageMapper {
     //창고에 따른 상품 리스트 출력하기
     List<ProductDTO> productlist(String selectstorage);
     //체크한 행의 컬럼값들 가져오기
-    List<ProductDTO> selectProduct(int checkbox);
+    ProductDTO selectProduct(String pdidx);
+    //새로운 창고로 물건 이동시키기    
+    void moveProduct(ProductDTO newProduct);
+    int	updateProduct1(ProductDTO newProduct);
+    
+    void updateProduct(Map<String, String> params);
 }
