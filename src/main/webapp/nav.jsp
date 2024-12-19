@@ -55,7 +55,7 @@ if (session == null ||
       <li class="nav-item dropdown" style="width:100px;">
         <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" aria-expanded="false">오더관리</a>
         <div class="dropdown-menu">
-          <a class="dropdown-item" href="#">오더등록 및 현황</a>
+          <a class="dropdown-item" href="/order/orderMain.do">오더등록 및 현황</a>
           <a class="dropdown-item" href="#">배송선택(본사,지점)</a>
         </div>
       </li>

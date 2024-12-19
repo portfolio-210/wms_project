@@ -7,7 +7,6 @@ import org.apache.poi.ss.usermodel.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -15,13 +14,9 @@ import org.springframework.web.multipart.MultipartFile;
 import wms_project.dto.ShippingDTO;
 import wms_project.service.OrderService;
 
-import java.io.File;
 import java.io.InputStream;
 import java.io.PrintWriter;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.Iterator;
-import java.util.Random;
 
 @Controller
 public class OrderController {
@@ -49,6 +44,7 @@ public class OrderController {
         //excel file insert
         res.setContentType("text/html;charset=utf-8");
         try {
+            this.pw = res.getWriter();
             //첨부파일 이름 변경하여 /excelUpload/ 디렉토리에 저장
             String new_name = os.file_save(order_file, req);
 
@@ -69,42 +65,39 @@ public class OrderController {
                         int cellno = cell.getColumnIndex(); //셀 순서대로 셀 번호 부여
                         switch (cellno){
                             case 0:
-                                sdto.setAidx(Integer.parseInt(cell.toString()));
+                                sdto.setAordercode(cell.toString());
                                 break;
                             case 1:
                                 sdto.setAproductcode(cell.toString());
                                 break;
                             case 2:
-                                sdto.setAproductname(cell.toString());
+                                sdto.setAproduct(cell.toString());
                                 break;
                             case 3:
-                                sdto.setAcustomernm(cell.toString());
+                                sdto.setAcustomer(cell.toString());
                                 break;
                             case 4:
-                                sdto.setAcustomerhp(cell.toString());
+                                sdto.setAhp(cell.toString());
                                 break;
                             case 5:
-                                sdto.setAcustomeraddr(cell.toString());
+                                sdto.setAddr(cell.toString());
                                 break;
                             case 6:
-                                sdto.setAccountnm(cell.toString());
+                                sdto.setAccount(cell.toString());
                                 break;
                         }
                     }
                     try {
+                        setDefaultDto(sdto);    //기본값 N 설정
                         int result = os.insert_order(sdto);
                         if(result > 0){
                             count += 1;
                         }
                     } catch (Exception e) {
-                        this.pw.print("<script>" +
-                                "alert('시스템 오류로 인하여 주문 등록에 실패하였습니다.\n잠시 후 다시 시도해주세요.');" +
-                                "history.go(-1);" +
-                                "</script>");
+                        e.printStackTrace();
                     }
                 }
             }
-            this.pw = res.getWriter();
             this.pw.print("<script>" +
                     "alert('등록하신 파일의 주문 " + count + "개가 등록되었습니다.');" +
                     "history.go(-1);" +
@@ -116,4 +109,31 @@ public class OrderController {
         }
         return null;
     }
+
+    private void setDefaultDto(ShippingDTO sdto){
+        sdto.setAcode("N");
+        sdto.setAdeliveryck("N");
+        if(sdto.getBstorage() == null){
+            sdto.setBstorage("N");
+            sdto.setBstoragecode("N");
+            sdto.setBpalett("N");
+            sdto.setBpalettcode("N");
+            sdto.setBapprove("N");
+        }
+        if(sdto.getDcode() == null){
+            sdto.setDcode("N");
+            sdto.setDeliveryname("N");
+            sdto.setDspot("N");
+            sdto.setDapprove("N");
+        }
+        if(sdto.getStracking() == null){
+            sdto.setStracking("N");
+            sdto.setSqrimg("N");
+            sdto.setSqrurl("N");
+            sdto.setShipstate("대기");
+        }
+    }
+
+
+
 }
