@@ -13,7 +13,11 @@
 
     <select id="order_list" parameterType="Map" resultType="wms_project.dto.ShippingDTO">
         select aidx, aordercode, aproduct, aproductcode, acustomer, ahp, addr, date, adeliveryck, shipstate from shipping
+        <if test="start_date != null and end_date != null">
+            where date between #{start_date} and #{end_date}
+        </if>
         order by date desc
+        limit #{startno}, #{items}
     </select>
 
     <!--  등록된 주문 개수  -->
