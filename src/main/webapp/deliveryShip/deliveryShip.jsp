@@ -28,8 +28,9 @@
             <li style="width: 85%; display: flex; flex-direction: row;">
                 <select style="width: 150px; height: 40px; margin-right: 5px;" class="form-control font12">
                     <option>전체</option>
-                    <option>홍길동</option>
-                    <option>강감찬</option>
+                    <cr:forEach var="dsnm" items="${dsnm}">
+                    <option value="${dsnm.dcode}">${dsnm.deliveryname} (${dsnm.dspot})</option>
+                    </cr:forEach>
                 </select>
                 <button type="button" class="btn btn-success font12" style="width: 100px; height: 40px; margin-left:10px; margin-right: 10px;">검색</button><font style="font-size: 12px; color: red;">&nbsp;&nbsp;※ 배송기사별로 할당된 오더를 확인 할 수 있습니다.</font>
             </li>
@@ -93,6 +94,6 @@
 
 
 
-<script src="../js/deliveryInsert.js?v=<%=sf.format(today)%>"></script>
+<script src="../js/deliveryShip.js?v=<%=sf.format(today)%>"></script>
 <!-- Footer -->
 <%@ include file="../footer.jsp"%>

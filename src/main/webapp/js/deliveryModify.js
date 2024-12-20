@@ -51,7 +51,7 @@ var idReg = /^\d+$/;
 	function deliveryMain(){
 		if(confirm("배송기사 수정을 취소하시겠습니까?")){
 			
-		location.href="/delivery/deliveryMain.do";
+		location.href="/deliveryList/deliveryMain.do";
 		}
 		
 	}
@@ -152,7 +152,7 @@ var idReg = /^\d+$/;
 			  }
 			  */
 	        f1.method = "POST";
-	        f1.action = "/delivery/deliveryModifyok.do?didx="+didx;
+	        f1.action = "/deliveryList/deliveryModifyok.do?didx="+didx;
 	        f1.submit();
 		}
 	}

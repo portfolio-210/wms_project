@@ -1,10 +1,10 @@
 function deliveryInsert(){
-	location.href='/delivery/deliveryInsert.jsp'
+	location.href='/deliveryList/deliveryInsert.jsp'
 };
 
 // 수정
 function deliveryModify(didx){
-	location.href='/delivery/deliveryModify.do?didx='+didx;
+	location.href='/deliveryList/deliveryModify.do?didx='+didx;
 };
 
 
@@ -88,7 +88,7 @@ function approveCk(apck,a){
 
 	
 	
-	f1.action = "/delivery/deliveryApprove.do";
+	f1.action = "/deliveryList/deliveryApprove.do";
 	f1.method = "get";
 	f1.submit();
 	

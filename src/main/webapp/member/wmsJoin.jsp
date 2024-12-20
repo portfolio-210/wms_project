@@ -17,9 +17,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>이행 물류 시스템</title>
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="./css/bootstrap.css?v=1">
-    <link rel="stylesheet" href="./css/default.css?v=20241124">
-    <script src="./js/wmsJoin.js?v=<%=sf.format(today)%>"></script>
+    <link rel="stylesheet" href="../css/bootstrap.css?v=1">
+    <link rel="stylesheet" href="../css/default.css?v=20241124">
+    <script src="../js/wmsJoin.js?v=<%=sf.format(today)%>"></script>
 </head>
 <body style="position: relative;">
 

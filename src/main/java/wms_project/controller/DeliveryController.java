@@ -62,7 +62,7 @@ public class DeliveryController implements security {
 	public static int endno = 15; // 비트윈에 종료값
 	
 	
-	@GetMapping("/delivery/deliveryMain.do")
+	@GetMapping("/deliveryList/deliveryMain.do")
 	public String deliveryMain(
 	    @RequestParam(value="pageno", required = false) Integer pageno,
 	    @RequestParam(value= "spot", required = false) String spot,
@@ -209,7 +209,7 @@ public class DeliveryController implements security {
 	
 	
 	
-	@PostMapping("/delivery/deliveryInsertok.do")
+	@PostMapping("/deliveryList/deliveryInsertok.do")
 	public String deliveryInsertok( @ModelAttribute("delivery") DeliveryDTO dto,
 									@RequestParam("dimgnmf") MultipartFile files, 
 									HttpServletResponse res, 
@@ -255,7 +255,7 @@ public class DeliveryController implements security {
 				this.output=this.js.no("첨부파일 용량은 최대 2MB까지만 등록 가능합니다.");
 			}else {	
 				
-				String url = req.getServletContext().getRealPath("/imgUpload/");
+				String url = req.getServletContext().getRealPath("/deliveryList/imgUpload/");
 				String type = filenm.substring(filenm.lastIndexOf("."));
 				int no = random.nextInt(40)+1;	
 				String new_nm = si.format(date);
@@ -264,7 +264,7 @@ public class DeliveryController implements security {
 	
 					dto.setDimgnm(filenm);
 					dto.setDimgrenm(new_nm+no+type);
-					dto.setDimgurl("./imgUpload/");
+					dto.setDimgurl("./deliveryList/imgUpload/");
 			}
 		}
 		else {
@@ -281,7 +281,7 @@ public class DeliveryController implements security {
 			int result = ds.deliveryInsert(dto);
 			
 			if(result > 0) {
-				this.output=this.js.ok("배송기사 등록이 완료 되었습니다.", "/delivery/deliveryMain.do");
+				this.output=this.js.ok("배송기사 등록이 완료 되었습니다.", "/deliveryList/deliveryMain.do");
 			}
 			else {
 				this.output=this.js.no("배송기사 등록에 실패하였습니다. 다시 시도해 주세요.");
@@ -299,7 +299,7 @@ public class DeliveryController implements security {
 	
 	//배송기사 사원번호 자동생성 (AJAX)
 	@CrossOrigin("*")
-	@GetMapping("/delivery/deliveryCode.do")
+	@GetMapping("/deliveryList/deliveryCode.do")
 	public String deliveryCode(HttpServletResponse res) throws Exception {	
 		
 		PrintWriter pw = res.getWriter();
@@ -314,7 +314,7 @@ public class DeliveryController implements security {
 	
 	
 	//배송기사 현황 바꾸기
-	@GetMapping("/delivery/deliveryApprove.do")
+	@GetMapping("/deliveryList/deliveryApprove.do")
 	public String deliveryApprove(@RequestParam("dapprove") String approve,
 	                               @RequestParam("didx") String idx, 
 	                               Model m) {
@@ -326,7 +326,7 @@ public class DeliveryController implements security {
 	        int result = ds.deliveryApprove(dto);
 		        if (result > 0) {
 		        	//System.out.println(result);
-		        	this.output=this.js.ok("배송기사의 현황이 [ "+ approve +" ] 변경 되었습니다.", "/delivery/deliveryMain.do");
+		        	this.output=this.js.ok("배송기사의 현황이 [ "+ approve +" ] 변경 되었습니다.", "/deliveryList/deliveryMain.do");
 		        } else {
 		        	this.output=this.js.no("배송기사의 현황 수정을 실패하였습니다. 다시 시도해 주세요.");
 		        }
@@ -340,18 +340,18 @@ public class DeliveryController implements security {
 	}
 	
 	//수정 idx값으로 조회
-	@GetMapping("/delivery/deliveryModify.do")
+	@GetMapping("/deliveryList/deliveryModify.do")
 	public String deliveryModify(@RequestParam("didx") String didx,
 								Model m) {
 		DeliveryDTO ddto = ds.deliveryModifyIdx(didx);
 		m.addAttribute("ddto", ddto);
 		
-		return "delivery/deliveryModify";
+		return "deliveryList/deliveryModify";
 	}
 	
 	
 
-	@PostMapping("/delivery/deliveryModifyok.do")
+	@PostMapping("/deliveryList/deliveryModifyok.do")
 	public String deliveryModifyok(@ModelAttribute("modify") DeliveryDTO dto,
 	                               @RequestParam("dimgnmf") MultipartFile files, 
 	                               HttpServletResponse res, 
@@ -395,7 +395,7 @@ public class DeliveryController implements security {
 	        if (files.isEmpty()) {
 	            this.output = this.js.no("파일을 선택해주세요.");
 	        } else {
-	            String url = req.getServletContext().getRealPath("/imgUpload/");
+	            String url = req.getServletContext().getRealPath("/deliveryList/imgUpload/");
 	            System.out.println(url);
 	            String type = filenm.substring(filenm.lastIndexOf("."));
 	            int no = random.nextInt(40) + 1;    
@@ -406,7 +406,7 @@ public class DeliveryController implements security {
 
 	            dto.setDimgnm(filenm);
 	            dto.setDimgrenm(new_nm + no + type);
-	            dto.setDimgurl("./imgUpload/");
+	            dto.setDimgurl("./deliveryList/imgUpload/");
 	            dto.setDimgck("Y");
 	        }
 	    }
@@ -416,7 +416,7 @@ public class DeliveryController implements security {
 	        int result = ds.deliveryModify(dto);
 
 	        if (result > 0) {
-	            this.output = this.js.ok("배송기사 수정이 완료 되었습니다.", "/delivery/deliveryMain.do");
+	            this.output = this.js.ok("배송기사 수정이 완료 되었습니다.", "/deliveryList/deliveryMain.do");
 	        } else {
 	            this.output = this.js.no("배송기사 수정을 실패하였습니다. 다시 시도해 주세요.");
 	        }

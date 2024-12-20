@@ -34,23 +34,19 @@ public class MemberController implements security {
 	@Autowired
     OfficeService os;
 	
-
-	
-	
-	
 	String output = null;
 	javascript js = new javascript();
 	
 	 // 메인페이지
-    @GetMapping("/wmsMain.do")
+    @GetMapping("/member/wmsMain.do")
     public String main(Model m, HttpServletRequest req) {    
 
-        return "wmsMain"; 
+        return "/member/wmsMain"; 
     }
     
     
     
-    @GetMapping("wmsJoin.do")
+    @GetMapping("/member/wmsJoin.do")
     public String wmsJoin(Model m) {
     	List<OfficeDTO> all = os.office_list();
     	m.addAttribute("all", all);
@@ -60,7 +56,7 @@ public class MemberController implements security {
     
     
  // 회원가입
- 	@PostMapping("/wmsJoinok.do")
+ 	@PostMapping("/member/wmsJoinok.do")
  	public String joinok(@ModelAttribute("join") MemberDTO dto,
  							Model m)throws Exception {	
  	
@@ -91,7 +87,7 @@ public class MemberController implements security {
  	
  // 아이디 중복체크
  	@CrossOrigin("*")
- 	@PostMapping("/idcheck.do")
+ 	@PostMapping("/member/idcheck.do")
  	public String idcheck(@RequestParam("mid") String mid, 
  			HttpServletResponse res) throws Exception {	
  				
@@ -109,7 +105,7 @@ public class MemberController implements security {
  	}
  	
  	// 로그인OK.do
-    @PostMapping("/wmsLoginok.do")
+    @PostMapping("/member/wmsLoginok.do")
     public String loginok(@RequestParam("mid") String mid, 
     						@RequestParam("mpass") String mpass,
     						@RequestParam(value = "local_id", required = false) String local_id,
@@ -167,7 +163,7 @@ public class MemberController implements security {
     }
     
     //로그아웃
-  	@GetMapping("/logout.do")
+  	@GetMapping("/member/logout.do")
   	public String logout(HttpServletRequest req, 
   						Model m) {
 
