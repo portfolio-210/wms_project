@@ -3,9 +3,30 @@
 <mapper namespace="wms_project.mapper.OrderMapper">
 
     <insert id="insert_order" parameterType="wms_project.dto.ShippingDTO">
-        insert into shipping (aidx, aproductcode, aproductname, acustomernm, acustomerhp, acustomeraddr, accountnm)
-        values (#{aidx}, #{aproductcode}, #{aproductname}, #{acustomernm}, #{acustomerhp}, #{acustomeraddr}, #{accountnm})
+        insert into shipping (aidx, aordercode, aproductcode, aproduct, acustomer, ahp, addr, account, acode, adeliveryck, date,
+            bstorage, bstoragecode, bpalett, bpalettcode, bapprove,
+            deliveryname, dcode, dspot, dapprove, stracking, sqrimg, sqrurl, shipstate)
+        values ('0', #{aordercode}, #{aproductcode}, #{aproduct}, #{acustomer}, #{ahp}, #{addr}, #{account}, #{acode}, #{adeliveryck}, now(),
+            #{bstorage}, #{bstoragecode}, #{bpalett}, #{bpalettcode}, #{bapprove},
+            #{deliveryname}, #{dcode}, #{dspot}, #{dapprove}, #{stracking}, #{sqrimg}, #{sqrurl}, #{shipstate})
     </insert>
+
+    <select id="order_list" parameterType="Map" resultType="wms_project.dto.ShippingDTO">
+        select aidx, aordercode, aproduct, aproductcode, acustomer, ahp, addr, date, adeliveryck, shipstate from shipping
+        <if test="start_date != null and end_date != null">
+            where date between #{start_date} and #{end_date}
+        </if>
+        order by date desc
+        limit #{startno}, #{items}
+    </select>
+
+    <!--  등록된 주문 개수  -->
+    <select id="order_count" parameterType="Map">
+        select count(*) from shipping
+        <if test="start_date != null and end_date != null">
+            where date between #{start_date} and #{end_date}
+        </if>
+    </select>
 
 
 </mapper>

@@ -13,6 +13,8 @@ import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
+import java.util.Map;
 
 @Service
 public class OrderServiceImp implements OrderService {
@@ -48,5 +50,19 @@ public class OrderServiceImp implements OrderService {
             e.getStackTrace();
         }
         return new_name;
+    }
+
+    //주문 등록 리스트
+    @Override
+    public List<ShippingDTO> order_list(Map<String, Object> paramValue) {
+        List<ShippingDTO> result = om.order_list(paramValue);
+        return result;
+    }
+
+    //등록된 주문 개수
+    @Override
+    public int order_count(Map<String, Object> paramValue) {
+        int result = om.order_count(paramValue);
+        return result;
     }
 }

@@ -34,3 +34,13 @@ function insert_order(){
         file_frm.submit();
     }
 }
+
+//페이징
+function go_page(i, start_date, end_date){
+    let url = "orderMain.do?pageno=" + i;
+    if(start_date && end_date){
+        url += "&start_date=" + encodeURIComponent(start_date);
+        url += "&end_date=" + encodeURIComponent(end_date);
+    }
+    location.href = url;
+}

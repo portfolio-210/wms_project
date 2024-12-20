@@ -38,7 +38,7 @@
         <ul class="ul-2">
             <li class="num_font13_bold">오더등록 건수</li>
             <li style="display: flex; flex-direction: row;">
-                <span class="font14_bold">총 <font style="color:red;">0</font> 건</span>
+                <span class="font14_bold">총 <font style="color:red;">${total}</font> 건</span>
             </li>
             <li class="num_font13_bold">거래처별 등록현황</li>
             <li>
@@ -67,27 +67,36 @@
               </tr>
             </thead>
             <tbody style="background-color: #f1f1ef;">
+            <!-- palette 리스트 출력 시작 -->
+            <cr:forEach var="order" items="${all}" varStatus="idx">
                 <tr align="center" style="line-height: 30px;">
-                    <td>1</td>
-                    <td>630960421494</td>
-                    <td>LG 냉장고</td>
-                    <td>123456</td>
-                    <td>홍길동</td>
-                    <td>010123456789</td>
-                    <td align="left">서울특별시 영등포구 당산1가 12-22</td>
-                    <td>2024-12-05</td>
-                    <td>N</td>
+                    <td>${total - ((pageno-1)*15 + idx.index)}</td>
+                    <td>${order.aordercode}</td>
+                    <td>${order.aproduct}</td>
+                    <td>${order.aproductcode}</td>
+                    <td>${order.acustomer}</td>
+                    <td>${order.ahp}</td>
+                    <td align="left">${order.addr}</td>
+                    <td>${order.date.substring(0,10)}</td>
+                    <td>${order.adeliveryck}</td>
                     <td>
                         <button type="button" class="btn btn-danger font12" style="width: 60px; height: 30px;">삭제</button> 
                     </td>
                   </tr>
+              </cr:forEach>
+            <!-- palette 리스트 출력 끝 -->
             </tbody>
           </table>
      </div>
      <div class="mb-3">
+        <!-- 페이징 시작 -->
         <ul class="pageing">
-          <li>1</li>
+            <cr:set var="page" value="${total/15 + (1-((total/15)%1))}"/>
+            <cr:forEach var="i" begin="1" end="${page}">
+                <li style="cursor: pointer;" onclick="go_page(${i}, '${start_date}', '${end_date}')">${i}</li>
+            </cr:forEach>
         </ul>
+        <!-- 페이징 끝 -->
       </div>
     </div>
   </div>
