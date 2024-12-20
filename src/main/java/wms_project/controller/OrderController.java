@@ -53,8 +53,10 @@ public class OrderController {
         paramValue.put("startno", startno);
 
         List<ShippingDTO> all = os.order_list(paramValue);
+        List<String> account_all = os.search_account();
 
         m.addAttribute("all", all);
+        m.addAttribute("account_all", account_all);
         m.addAttribute("total", total);
         m.addAttribute("pageno", pageno);
         m.addAttribute("start_date", start_date);

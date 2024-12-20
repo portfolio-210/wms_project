@@ -11,10 +11,11 @@
             #{deliveryname}, #{dcode}, #{dspot}, #{dapprove}, #{stracking}, #{sqrimg}, #{sqrurl}, #{shipstate})
     </insert>
 
+    <!-- 등록된 주문 리스트 -->
     <select id="order_list" parameterType="Map" resultType="wms_project.dto.ShippingDTO">
         select aidx, aordercode, aproduct, aproductcode, acustomer, ahp, addr, date, adeliveryck, shipstate from shipping
         <if test="start_date != null and end_date != null">
-            where date between #{start_date} and #{end_date}
+            where date >= concat(#{start_date}, ' 00:00:00') and date &lt;= concat(#{end_date}, ' 23:59:59')
         </if>
         order by date desc
         limit #{startno}, #{items}
@@ -24,9 +25,13 @@
     <select id="order_count" parameterType="Map">
         select count(*) from shipping
         <if test="start_date != null and end_date != null">
-            where date between #{start_date} and #{end_date}
+            where date >= concat(#{start_date}, ' 00:00:00') and date &lt;= concat(#{end_date}, ' 23:59:59')
         </if>
     </select>
 
+    <!-- 등록된 주문의 거래처 -->
+    <select id="search_account">
+        select account from shipping group by account
+    </select>
 
 </mapper>

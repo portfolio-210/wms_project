@@ -43,9 +43,9 @@
             <li class="num_font13_bold">거래처별 등록현황</li>
             <li>
                 <select style="width: 200px; height: 40px; margin-right: 5px;" class="form-control font12">
-                    <option>NH 홈쇼핑</option>
-                    <option>GS 홈쇼핑</option>
-                    <option>공영 홈쇼핑</option>
+                <cr:forEach var="order" items="${account_all}">
+                    <option>${order}</option>
+                </cr:forEach>
                 </select>
             </li>
         </ul> 

@@ -65,4 +65,11 @@ public class OrderServiceImp implements OrderService {
         int result = om.order_count(paramValue);
         return result;
     }
+
+    //등록된 주문 거래처 종류
+    @Override
+    public List<String> search_account() {
+        List<String> result = om.search_account();
+        return result;
+    }
 }
