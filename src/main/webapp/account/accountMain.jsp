@@ -90,7 +90,23 @@
 
      <div class="mb-3">
         <ul class="pageing">
-        <c:set var="pages" value="${total / 15 + (1 - (total / 15) % 1)}"/>
+        
+        <!--<c:set var="pages" value="${total / endno + (1 - (total / endno) % 1)}"/>-->
+        
+        
+        <c:if test="${total%endno == 0}">
+    <c:set var="pages" value="${total/endno}"/>
+</c:if>
+<c:if test="${total != endno}">
+    <c:set var="pages" value="${total / endno + (1 - (total / endno) % 1)}"/>
+</c:if>
+        
+        
+        
+        
+        
+        
+        
         <c:forEach var="no" begin="1" end="${pages}" step="1">
           <li onclick="page_go(${no}, '${search}')" style="cursor: pointer;">${no}</li>
          </c:forEach>

@@ -9,7 +9,7 @@ var pwReg = /^(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z\d]{6,}$/;
 var idReg = /^\d+$/;
 
 function deliveryMain(){
-	location.href="/delivery/deliveryMain.do";
+	location.href="/deliveryList/deliveryMain.do";
 	
 }
 
@@ -68,7 +68,7 @@ function deliverySubmit() {
 
 if(f1.dspot.value == ""){
 		alert('비정상적인 접근입니다. 로그인 페이지로 이동합니다.');
-		location.href = '/delivery/deliveryMain.do';
+		location.href = '/deliveryList/deliveryMain.do';
 		return false;
 	}
 	else if(f1.dcode.value == ""){
@@ -198,7 +198,7 @@ if(f1.dspot.value == ""){
 		  }
 		f1.didnum.value = id1.value + "-" + id2.value;
         f1.method = "POST";
-        f1.action = "/delivery/deliveryInsertok.do";
+        f1.action = "/deliveryList/deliveryInsertok.do";
         f1.submit();
 	}
 }

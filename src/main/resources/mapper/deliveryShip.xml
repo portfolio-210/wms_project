@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="wms_project.mapper.DeliveryShipMapper">
+
+<!-- 리스트 + 페이징 + 검색 -->
+<select id="ShipList" resultType="wms_project.dto.DeliveryShipDTO" parameterType="Map">
+	SELECT aidx, aordercode, aproductcode, aproduct, acustomer, ahp, date, deliveryname, dcode, stracking, sqrimg, sqrurl, shipstate
+	FROM shipping
+	ORDER BY aidx DESC
+	LIMIT ${startno}, ${endno}
+</select>
+
+<!-- shipping 테이블에서 배정된 기사만  select 옵션에 출력 -->
+<select id="ShipName" resultType="wms_project.dto.DeliveryShipDTO">
+        SELECT s.aidx, s.deliveryname, s.dcode, s.dspot
+        FROM shipping s
+        JOIN (
+            SELECT MAX(aidx) AS max_aidx, dcode
+            FROM shipping
+            WHERE dcode != 'N'
+            GROUP BY dcode, deliveryname, dspot
+        ) subquery ON s.aidx = subquery.max_aidx AND s.dcode = subquery.dcode
+        ORDER BY s.aidx DESC;
+</select>
+
+
+</mapper>

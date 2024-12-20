@@ -24,9 +24,9 @@ public interface AccountMapper {
 	
 	//위에꺼 말고 새로
 	// 리스트 + 검색 + 페이징
-	List<AccountDTO> accountList(Map<String, Object> paramValue);
+	public List<AccountDTO> accountList(Map<String, Object> paramValue);
 	// 카운트 검색
-	int accountCtn(Map<String, Object> paramValue);
+	public int accountCtn(Map<String, Object> paramValue);
 	
 	
 	

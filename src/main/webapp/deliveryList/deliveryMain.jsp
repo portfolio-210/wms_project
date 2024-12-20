@@ -24,25 +24,19 @@
     
     
  <!-- 소속 검색 form -->
- <form id="f2" onsubmit="return sh(1)">
+ <form id="f2" onsubmit="return sh()">
     <div class="mb-3" style="position: relative;">
- 	   <input type="hidden" id="" name="" value="">
         <ul class="ul-2">
+        
+        <!-- 
             <li class="num_font13_bold">소속</li>
             <li style="width: 85%; display: flex; flex-direction: row;">
-            	<!-- 
-                <select style="width: 200px; height: 40px;" class="form-control font12">          
-                    <option value="all">전체</option>
-                    <c:forEach var="office" items="${spot}">
-						<option value="${office.officename}">${office.officename}</option>
-                    </c:forEach>
-                </select>
-                 -->
+           
 				<c:choose>
 				    <c:when test="${sessionScope.mspot eq '본사'}">
 				        <select name="spot"  style="width: 200px; height: 40px;" class="form-control font12">
 				            <option value="전체">전체</option>
-				            <c:forEach var="office" items="${spot}">
+				            <c:forEach var="office" items="${office}">
 				                <option value="${office.officename}">${office.officename}</option>
 				            </c:forEach>
 				        </select>
@@ -50,8 +44,8 @@
 				    
 				    <c:otherwise>
 				        <select name="spot" style="width: 200px; height: 40px;" class="form-control font12">
-				            <c:forEach var="office" items="${spot}">
-				                <!-- mspot과 동일한 값만 출력 -->
+				            <c:forEach var="office" items="${office}">
+				         
 				                <c:if test="${office.officename eq sessionScope.mspot}">
 				                    <option value="${office.officename}">${office.officename}</option>
 				                </c:if>
@@ -63,6 +57,38 @@
                 
                 <button type="button" class="btn btn-primary font12" style="width: 70px; height: 40px; margin-left:10px; margin-right: 10px;" onclick="sh(1)">검색</button>   
             </li>
+            
+             -->
+             
+            <li class="num_font13_bold">소속</li>
+			<li style="width: 85%; display: flex; flex-direction: row;">
+			    <c:choose>
+			        <c:when test="${sessionScope.mspot eq '본사'}">
+			            <!-- 본사일 경우 모든 지점 출력 -->
+			            <select name="spot" style="width: 200px; height: 40px;" class="form-control font12">
+			                <option value="전체">전체</option>
+			                <c:forEach var="office" items="${office}">
+			                    <option value="${office.officename}">${office.officename}</option>
+			                </c:forEach>
+			            </select>
+			        </c:when>
+			        <c:otherwise>
+			            <!-- 본사 외의 지점일 경우 해당 지점만 출력 -->
+			            <select name="spot" style="width: 200px; height: 40px;" class="form-control font12">
+			                <c:forEach var="office" items="${office}">
+			                    <c:if test="${office.officename eq sessionScope.mspot}">
+			                        <option value="${office.officename}">${office.officename}</option>
+			                    </c:if>
+			                </c:forEach>
+			            </select>
+			        </c:otherwise>
+			    </c:choose>
+			
+			    <button type="button" class="btn btn-primary font12" style="width: 70px; height: 40px; margin-left:10px; margin-right: 10px;" onclick="sh(1)">검색</button>
+			</li>
+             
+             
+             
         </ul>
         
         
@@ -145,11 +171,12 @@
           </table>
      </div>
      
+     
      <div class="mb-3">
         <ul class="pageing">
         <c:set var="pages" value="${total / 15 + (1 - (total / 15) % 1)}"/>
         <c:forEach var="no" begin="1" end="${pages}" step="1">
-          <li onclick="page_go(${no})" style="cursor: pointer;">${no}</li>
+          <li onclick="page_go(${no}, '${search}')" style="cursor: pointer;">${no}</li>
          </c:forEach>
         </ul>
       </div>

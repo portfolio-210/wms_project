@@ -4,9 +4,9 @@
     pageEncoding="UTF-8"%>
 
 <!-- Header -->
-<%@ include file="./header.jsp"%>
+<%@ include file="../header.jsp"%>
 <!-- Nav -->
-<%@ include file="./nav.jsp"%>   
+<%@ include file="../nav.jsp"%>   
    
 
 <main role="main" style="height: 850px;">
@@ -69,4 +69,4 @@
 </main>
 
 <!-- Footer -->
-<%@ include file="./footer.jsp"%>
+<%@ include file="../footer.jsp"%>

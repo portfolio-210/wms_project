@@ -39,7 +39,6 @@ public class PaletteController {
         paramValue.put("search", search);
         paramValue.put("mspot", mspot);
 
-        int total = ps.count_palette(paramValue);
         int startno = 0;
         int items = 15;
         if(pageno == null){
@@ -51,6 +50,7 @@ public class PaletteController {
         paramValue.put("startno", startno);
 
         List<PaletteDTO> result = ps.palette_list_paging(paramValue);
+        int total = ps.count_palette(paramValue);
 
         m.addAttribute("all", result);
         m.addAttribute("total", total);
