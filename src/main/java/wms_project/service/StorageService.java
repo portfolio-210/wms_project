@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Map;
 
 import wms_project.dto.ProductDTO;
-import wms_project.dto.ProductsDTO;
 import wms_project.dto.StorageDTO;
 
 public interface StorageService {
@@ -28,7 +27,7 @@ public interface StorageService {
     //거래처 이름으로 거래처 코드 찾기
     String getAcode(String acompany);
     //상품 입고하기
-    int insertStore(ProductsDTO productsDto);
+    int insertStore(Map<String, Object> params);
     
     //창고에 따른 상품 리스트 출력하기
     List<ProductDTO> productlist(String selectstorage);
@@ -41,4 +40,10 @@ public interface StorageService {
     
         
     void updateProduct(Map<String, String> params);
+    
+    //사용자에 맞는 창고 안에 있는 모든 파레트의 정보
+    List<Map<String, Object>> paletteall(String mspot);
+    
+    //모든 파레트의 정보
+    List<Map<String, Object>> paletteSearchall();
 }

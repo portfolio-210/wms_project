@@ -9,12 +9,13 @@
 <%@ include file="../header.jsp"%>
 <!-- Nav -->
 <%@ include file="../nav.jsp"%>   
+<script src="https://unpkg.com/xlsx/dist/xlsx.full.min.js"></script>
 
 <main role="main" style="height: auto;">
   <div class="container">
     <div>
     <p class="sub_title font16_bold">상품 창고 입고</p>
-    <form id="form" method="post" action="productInsert.do" onsubmit="return insertstore()">   
+   <!--   <form id="form" method="post" action="productInsert.do" onsubmit="return insertstore()"> -->   
     <div class="mb-3" style="position: relative;">
         <ul class="ul-2">
             <li class="num_font13_bold">입고 창고명</li>
@@ -54,16 +55,16 @@
             </thead>
             <tbody style="background-color: #f1f1ef;">
              <c:forEach var="index" begin="0" end="14">
-                <tr align="center" style="line-height: 30px;" class="row1" data-index="${index}">
-                    <td><input type="text" id="acompany_${index}" name="acompany_${index}"  style="width: 100px; height: 40px;" class="form-control font12"></td>
-                    <td><input type="text" id="acode_${index}" name="acode_${index}" style="width: 100px; height: 40px;" class="form-control font12" ></td>
-                    <td><input type="text" id="pdname_${index}" name="pdname_${index}" style="width: 200px; height: 40px;" class="form-control font12"></td>
-                    <td><input type="text" id="pdcode_${index}" name="pdcode_${index}" style="width: 100px; height: 40px;" class="form-control font12"></td>                  
-                    <td><input type="text" id="pdamount_${index}" name="pdamount_${index}" style="width: 70px; height: 40px;" class="form-control font12" maxlength="5"></td>
-                    <td><input type="text" id="sname_${index}" name="sname_${index}" style="width: 100px; height: 40px;" class="form-control font12"></td>
-                    <td><input type="text" id="scode_${index}" name="scode_${index}" style="width: 80px; height: 40px;" class="form-control font12"></td>
-                    <td><input type="text" id="pname_${index}" name="pname_${index}" style="width: 100px; height: 40px;" class="form-control font12"></td>
-                    <td><input type="text" id="pddate_${index}" name="pddate_${index}" style="width: 100px; height: 40px;" class="form-control font12" readonly></td>
+                <tr align="center" style="line-height: 30px;" class="row1">
+                    <td><input type="text" id="acompany" name="acompany"  style="width: 100px; height: 40px;" class="form-control font12"></td>
+                    <td><input type="text" id="acode" name="acode" style="width: 100px; height: 40px;" class="form-control font12" ></td>
+                    <td><input type="text" id="pdname" name="pdname" style="width: 200px; height: 40px;" class="form-control font12"></td>
+                    <td><input type="text" id="pdcode" name="pdcode" style="width: 100px; height: 40px;" class="form-control font12"></td>                  
+                    <td><input type="text" id="pdamount" name="pdamount" style="width: 70px; height: 40px;" class="form-control font12" maxlength="5"></td>
+                    <td><input type="text" id="sname" name="sname" style="width: 100px; height: 40px;" class="form-control font12"></td>
+                    <td><input type="text" id="scode" name="scode" style="width: 80px; height: 40px;" class="form-control font12"></td>
+                    <td><input type="text" id="pname" name="pname" style="width: 100px; height: 40px;" class="form-control font12"></td>
+                    <td><input type="text" id="pddate" name="pddate" style="width: 100px; height: 40px;" class="form-control font12" readonly></td>
                   </tr>
                   </c:forEach>
             </tbody>
@@ -76,9 +77,8 @@
       </div>
       <div class="mb-3" style="text-align: right;">
       <button type="button" class="btn btn-success font12" style="width: 100px; height: 40px;" onclick="excel_view('1')">EXCEL 등록</button> 
-      <button type="submit" class="btn btn-danger font12" style="width: 100px; height: 40px;">입고 등록</button> 
+      <button type="button" class="btn btn-danger font12" style="width: 100px; height: 40px;" onclick="insertstore()">입고 등록</button> 
       </div>
-      </form>
     </div>
   </div>
   
@@ -90,15 +90,15 @@
             <span class="excel_fileview">
                 <ol>
                     <li>EXCEL 업로드</li>
-                    <li><input type="file" name="excelfile" accept=".xls"></li>
+                    <li><input type="file" id="excelFile" name="excelfile" onchange="handleFile(event)" accept=".xls"></li>
                 </ol>
                 <ol>
                     <li>EXCEL 예시파일</li>
-                    <li><a href="#"><em class="downfile">[다운로드]</em></a> ※예시파일에 맞게 입력하셔야만 정상적으로 등록이 됩니다.</li>
+                    <li><a href="/storage/product.xls" download><em class="downfile">[다운로드]</em></a> ※예시파일에 맞게 입력하셔야만 정상적으로 등록이 됩니다.</li>
                 </ol>
                 <div class="btn_excel">
-                    <input type="button" value="상품입고" class="btn_css">
-                </div>
+                    <input type="button" id="Button" value="상품입고" class="btn_css">
+                </div>                
             </span>
         </div>
     </div>
@@ -115,6 +115,10 @@
     }
 
    </script>
+
+
+
+
 </main>
 <!-- Footer -->
 <%@ include file="../footer.jsp"%>

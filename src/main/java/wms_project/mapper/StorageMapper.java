@@ -7,7 +7,6 @@ import java.util.Map;
 import org.apache.ibatis.annotations.Mapper;
 
 import wms_project.dto.ProductDTO;
-import wms_project.dto.ProductsDTO;
 import wms_project.dto.StorageDTO;
 
 @Mapper
@@ -33,7 +32,7 @@ public interface StorageMapper {
     //거래처 이름으로 거래처 코드 찾기
     String getAcode(String acompany); 
     //상품 입고하기
-    int insertStore(ProductsDTO productsDTO);
+    int insertStore(Map<String, Object> params);
     //창고에 따른 상품 리스트 출력하기
     List<ProductDTO> productlist(String selectstorage);
     //체크한 행의 컬럼값들 가져오기
@@ -43,4 +42,9 @@ public interface StorageMapper {
     int	updateProduct1(ProductDTO newProduct);
     
     void updateProduct(Map<String, String> params);
+    //사용자에 맞는 창고 안에 있는 모든 파레트의 정보
+    List<Map<String, Object>> paletteall(String mspot);
+    //모든 파레트의 정보
+    List<Map<String, Object>> paletteSearchall();
+    	
 }

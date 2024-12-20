@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 
 import wms_project.dto.ConfigDTO;
 import wms_project.dto.ProductDTO;
-import wms_project.dto.ProductsDTO;
 import wms_project.dto.StorageDTO;
 import wms_project.mapper.StorageMapper;
 import wms_project.service.StorageService;
@@ -76,10 +75,10 @@ public class StorageServiceImp implements StorageService {
     }
     //상품 입고
     @Override
-    public int insertStore(ProductsDTO productsDto) {
-    	
-    	
-	    return sm.insertStore(productsDto);
+    public int insertStore(Map<String, Object> params){   	   	
+	    return sm.insertStore(params);
+	    
+	    
     }
     //선택 창고에 따른 리스트 출력
     @Override
@@ -108,6 +107,17 @@ public class StorageServiceImp implements StorageService {
     	
     	sm.updateProduct(params);
     	
+    }
+    
+    //사용자에 맞는 창고 안에 있는 모든 파레트의 정보
+    @Override
+    public List<Map<String, Object>> paletteall(String mspot) {
+    	return sm.paletteall(mspot);
+    }
+    //모든 파레트의 정보
+    @Override
+    public List<Map<String, Object>> paletteSearchall() {
+    	return sm.paletteSearchall();
     }
 
 }

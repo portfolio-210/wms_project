@@ -88,7 +88,7 @@
      </div>
      <div class="mb-3">
         <ul class="pageing">
-        <c:set var="pages" value="${total / 15 + (1-((total/15)%1))}" />
+        <c:set var="pages" value="${total / 15 + 1-(total/15)%1}" />
            <c:forEach begin="1" end="${pages}" var="i">
            <li style="cursor: pointer;" onclick="goToPage(${i}, '${part1}', '${part2}', '${search}')">
       		${i}

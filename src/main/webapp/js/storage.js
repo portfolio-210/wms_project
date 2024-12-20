@@ -280,28 +280,37 @@ document.getElementById("storage").addEventListener("change", function () {
 	if (selectedRow) {
 	const rowIndex = selectedRow.getAttribute('data-index'); // 선택된 행의 인덱스
     // 창고명 및 창고코드 필드에 값 설정
-    document.getElementById(`sname_${rowIndex}`).value = sname;
-    document.getElementById(`scode_${rowIndex}`).value = scode;
+	// 선택된 행에서 sname 및 scode 필드 찾기
+	       const snameInput = selectedRow.querySelector('input[name="sname"]');
+	       const scodeInput = selectedRow.querySelector('input[name="scode"]');
+		   
+		   // 창고명 및 창고코드 필드에 값 설정
+		           snameInput.value = sname;
+		           scodeInput.value = scode;
+				   
 			if (sname !== "") {
-	            document.getElementById(`sname_${rowIndex}`).readOnly = true;
-	            document.getElementById(`scode_${rowIndex}`).readOnly = true;
+				snameInput.readOnly = true;
+				scodeInput.readOnly = true;
 	        } else {
 	            // 선택된 창고명이 비어 있으면 readonly 해제
-	            document.getElementById(`sname_${rowIndex}`).readOnly = false;
-	            document.getElementById(`scode_${rowIndex}`).readOnly = false;
+				snameInput.readOnly = false;
+				scodeInput.readOnly = false;
 	        }
 	}else {
             // 선택된 행이 없을 경우 첫 번째 행에 값 설정
-            document.getElementById(`sname_0`).value = sname; // 첫 번째 행에 창고명 설정
-            document.getElementById(`scode_0`).value = scode; // 첫 번째 행에 창고코드 설정
-					if (sname !== "") {
-			            document.getElementById(`sname_0`).readOnly = true; // 읽기 전용 설정
-			            document.getElementById(`scode_0`).readOnly = true; // 읽기 전용 설정
-			        } else {
-			            // 선택된 창고명이 비어 있으면 readonly 해제
-			            document.getElementById(`sname_0`).readOnly = false;
-			            document.getElementById(`scode_0`).readOnly = false;
-			        }
+			const firstRow = document.querySelector('.row1');
+			const snameInput = firstRow.querySelector('input[name="sname"]');
+			const scodeInput = firstRow.querySelector('input[name="scode"]');
+			snameInput.value = sname; // 첫 번째 행에 창고명 설정
+			       scodeInput.value = scode; // 첫 번째 행에 창고코드 설정
+			       // 읽기 전용 설정
+			       if (sname !== "") {
+			           snameInput.readOnly = true; // 읽기 전용 설정
+			           scodeInput.readOnly = true; // 읽기 전용 설정
+			       } else {
+			           snameInput.readOnly = false; // 읽기 전용 해제
+			           scodeInput.readOnly = false; // 읽기 전용 해제
+			       }
         }
 		
 		
@@ -313,23 +322,20 @@ document.getElementById("palette").addEventListener("change", function () {
 	const selectedRow = document.querySelector('.row1.selected');
 
 	if (selectedRow) {
-	const rowIndex = selectedRow.getAttribute('data-index');
-    // 파렛트 이름 필드에 값 설정
-		
-    	document.getElementById(`pname_${rowIndex}`).value = pname;
-		if(pname !==""){
-		document.getElementById(`pname_${rowIndex}`).readOnly = true;
-		}else{
-		document.getElementById(`pname_${rowIndex}`).readOnly = false;
-		}
+		// 선택된 행에서 pname 필드 찾기
+		        const pnameInput = selectedRow.querySelector('input[name="pname"]');
+				// 파렛트 이름 필드에 값 설정
+				pnameInput.value = pname;				       
+				// 읽기 전용 설정
+				pnameInput.readOnly = pname !== "";
 	}else {
-            // 선택된 행이 없을 경우 첫 번째 행에 값 설정
-	document.getElementById(`pname_0`).value = pname;
-	if(pname !==""){
-	document.getElementById(`pname_0`).readOnly = true;
-	}else{
-	document.getElementById(`pname_0`).readOnly = false;
-			}
+        // 선택된 행이 없을 경우 첫 번째 행에 값 설정
+		const firstRow = document.querySelector('.row1'); // 첫 번째 행 선택
+		const pnameInput = firstRow.querySelector('input[name="pname"]');
+
+		 pnameInput.value = pname; // 첫 번째 행에 파렛트 이름 설정
+		 // 읽기 전용 설정
+		 pnameInput.readOnly = pname !== ""; // pname이 비어 있지 않으면 읽기 전용
         }
 });
 
@@ -346,12 +352,11 @@ document.getElementById("palette").addEventListener("change", function () {
     });
 
 // 거래처 이름 입력 이벤트 처리
-document.querySelectorAll('input[id^="acompany_"]').forEach(input => {
+document.querySelectorAll('input[name^="acompany"]').forEach(input => {
     input.addEventListener("input", function () {
-        const index = this.id.split('_')[1]; // 인덱스 추출
-        const acompany = this.value.trim(); // 입력된 거래처 이름
-		console.log(acompany);
-        const acodeInput = document.getElementById(`acode_${index}`); // 해당 거래처 코드 입력 필드
+		const selectedRow = this.closest('.row1'); // 현재 입력 필드의 부모 행 찾기
+		const acompany = this.value.trim(); // 입력된 거래처 이름
+		const acodeInput = selectedRow.querySelector('input[name="acode"]'); // 해당 거래처 코드 입력 필드 필드
     if (acompany !== "") {
         // AJAX 요청
         fetch(`/account/getAccountCode?acompany=${encodeURIComponent(acompany)}`)
@@ -378,36 +383,50 @@ document.querySelectorAll('input[id^="acompany_"]').forEach(input => {
 
 //입고버튼 클릭시
 function insertstore() {
-var form = document.getElementById('form');
 // 각 입력 필드를 배열로 가져오기
-const acompany = form.querySelectorAll('input[name^="acompany"]');
-const acode = form.querySelectorAll('input[name^="acode"]');
-const pdcode = form.querySelectorAll('input[name^="pdcode"]');
-const pdname = form.querySelectorAll('input[name^="pdname"]');
-const pdamount = form.querySelectorAll('input[name^="pdamount"]');
-const sname = form.querySelectorAll('input[name^="sname"]');
-const scode = form.querySelectorAll('input[name^="scode"]');
-const pname = form.querySelectorAll('input[name^="pname"]');
+var acompany = document.getElementsByName("acompany");
+var acode = document.getElementsByName("acode");
+var pdcode = document.getElementsByName("pdcode");
+var pdname = document.getElementsByName("pdname");
+var pdamount = document.getElementsByName("pdamount");
+var sname = document.getElementsByName("sname");
+var scode = document.getElementsByName("scode");
+var pname = document.getElementsByName("pname");
+var pddate = document.getElementsByName("pddate");
 let rowFull = false; // 최소한 하나의 유효한 행이 있는지 체크
 let rowEmpty = false; // 유효하지 않은 행이 있는지 체크
+const insert= [];
 	
-for (let i = 0; i < acompany.length; i++) {
-	        // 각 행의 값 확인
-	        const company = acompany[i].value;
-	        const code = acode[i].value;
-	        const pdcode1 = pdcode[i].value;
-	        const pdname1 = pdname[i].value;
-	        const pdamount1 = pdamount[i].value;
-	        const sname1 = sname[i].value;
-	        const scode1 = scode[i].value;
-	        const pname1 = pname[i].value;
-
+		for (let i = 0; i < acompany.length; i++) {
+			
+			var acompanyVal = acompany[i].value;
+			var acodeVal = acode[i].value;
+			var pdcodeVal = pdcode[i].value;
+			var pdnameVal = pdname[i].value;
+			var pdamountVal = pdamount[i].value;
+			var snameVal = sname[i].value;
+			var scodeVal = scode[i].value;
+			var pnameVal = pname[i].value;
+			var pddateVal = pddate[i].value;
+			
+			if(acompanyVal){
+			insert.push({"acompany":acompanyVal,
+				"acode":acodeVal,
+				"pdcode":pdcodeVal,
+				"pdname":pdnameVal,
+				"pdamount":pdamountVal,
+				"sname":snameVal,
+				"scode":scodeVal,
+				"pname":pnameVal,
+				"pddate":pddateVal});	
+								
+			}	        						
 	        // 모든 필드가 채워진 경우
-	        if (company && code && pdcode1 && pdname1 && pdamount1 && sname1 && scode1 && pname1) {
+	        if (acompanyVal && acodeVal && pdcodeVal && pdnameVal && pdamountVal && snameVal && scodeVal && pnameVal && pddateVal) {
 	            rowFull = true; // 유효한 행이 있음
 	        }
 	        // 하나라도 비어 있는 경우
-	        else if (company || code || pdcode1 || pdname1 || pdamount1 || sname1 || scode1 || pname1) {
+	        else if (acompanyVal || acodeVal || pdcodeVal || pdnameVal || pdamountVal || snameVal || scodeVal || pnameVal || pddateVal) {
 	            rowEmpty = true; // 유효하지 않은 행이 있음
 	        }
 	    }
@@ -419,16 +438,33 @@ for (let i = 0; i < acompany.length; i++) {
 	    }
 
 	    // 최소 하나의 유효한 행이 있을 경우 폼 제출
-	    if (rowFull) {
-	       
-			return true;
-	    } else {
-	        alert("최소 한 행의 데이터를 입력해야 합니다.");
-			return false; // 함수 종료
+	    if (!rowFull) {
+			alert("최소 한 행의 데이터를 입력해야 합니다.");
+						return false; // 함수 종료
+		
 	    }
+		
+			var html;
+			var data;
+			   html = new XMLHttpRequest();
+			   html.onreadystatechange = function(){
+			      if(html.readyState==4 && html.status==200){
+			      if(this.response=="ok"){
+						alert("정상적으로 이동이 완료 되었습니다.");
+						window.location.reload();
+				  }
+			            
+			      }
+			   }
+			   console.log(JSON.stringify(insert));
+			   html.open("POST","/storage/insertStore.do",true);
+			   html.send(JSON.stringify(insert));
+			  
 		
 
 }
+
+
 
 // 현재 날짜를 'YYYY-MM-DD' 형식으로 반환하는 함수
 function getCurrentDate() {
@@ -440,9 +476,10 @@ function getCurrentDate() {
 }
 
 // 각 acode 입력 필드에 대해 이벤트 리스너 등록
-document.querySelectorAll('input[name^="acompany_"]').forEach((input, index) => {
+document.querySelectorAll('input[name^="acompany"]').forEach(input => {
     input.addEventListener('input', function() {
-        const pddateField = document.getElementById(`pddate_${index}`); // 해당 행의 pddate 입력 필드
+		const selectedRow = this.closest('.row1'); // 현재 입력 필드의 부모 행 찾기
+		const pddateField = selectedRow.querySelector('input[name="pddate"]'); // 해당 행의 pddate 입력 필드
         if (this.value) { // acode에 값이 있는 경우
             pddateField.value = getCurrentDate(); // 현재 날짜 설정
         } else { // acode에 값이 없는 경우
@@ -519,7 +556,7 @@ function collectCheckedData() {
 	      if(html.readyState==4 && html.status==200){
 	      if(this.response=="ok"){
 				alert("정상적으로 이동이 완료 되었습니다.");
-				window.location.reload();
+				window.location.href = "/storage/storageList.do";
 		  }
 	            
 	      }
@@ -532,7 +569,73 @@ function collectCheckedData() {
 
   // return true;  // 데이터 수집이 완료되면 폼 제출 허용
  }
+
+function handleFile(e) {
 	
+   const file = e.target.files[0];
+   const reader = new FileReader();
+
+   reader.onload = (evt) => {
+     const bstr = evt.target.result;
+     const wb = XLSX.read(bstr, { type: 'binary' });
+     const wsname = wb.SheetNames[0];
+     const ws = wb.Sheets[wsname];
+     const data = XLSX.utils.sheet_to_json(ws, { header: 1 }); // header: 1은 첫 번째 행을 헤더로 사용
+
+	 const headers = data[0];
+	         const insert = [];
+
+	         for (let i = 1; i < data.length; i++) {
+	             const row = data[i];
+	             if (row.length === headers.length) {
+	                 const rowData = {
+	                     "acompany": row[0],
+	                     "acode": row[1],
+	                     "pdname": row[2],
+	                     "pdcode": row[3],
+	                     "pdamount": row[4],
+	                     "sname": row[5],
+	                     "scode": row[6],
+	                     "pname": row[7],
+	                     "pddate": row[8]
+	                 };
+	                 insert.push(rowData);
+	             }
+	         }
+
+	         console.log(insert); // 변환된 데이터 출력
+			 document.getElementById("Button").onclick = function() {
+			             insertstoreExcel(insert); // 배열을 인자로 전달
+			document.getElementById("excelFile").value = "";		
+			         };
+	     };
+
+	// "거래처명" => pname
+   reader.readAsBinaryString(file);
+
+ }
+ 
+ //엑셀파일 등록 후 입고 버튼을 눌렀을 때 작동되는 함수
+ function insertstoreExcel(insert){
+	
+	
+	var html;
+				var data;
+				   html = new XMLHttpRequest();
+				   html.onreadystatechange = function(){
+				      if(html.readyState==4 && html.status==200){
+				      if(this.response=="ok"){
+							alert("정상적으로 이동이 완료 되었습니다.");
+							window.location.href = "/storage/storageList.do";
+					  }
+				            
+				      }
+				   }
+				   console.log(JSON.stringify(insert));
+				   html.open("POST","/storage/insertStore.do",true);
+				   html.send(JSON.stringify(insert));
+	
+ }
 
 
 

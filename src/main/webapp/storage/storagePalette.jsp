@@ -8,11 +8,7 @@
 <!-- Nav -->
 <%@ include file="../nav.jsp" %>
 
-<%
-    wms_project.dto.StorageDTO member = (wms_project.dto.StorageDTO) request.getAttribute("member");
-%>
-
-<main role="main" style="height: 850px;">
+<main role="main" style="height: auto;">
   <div class="container">
     <div>
     <p class="sub_title font16_bold">파렛트별 현황</p>
@@ -20,8 +16,11 @@
         <ul class="ul-2">
             <li class="num_font13_bold">파렛트 현황</li>
             <li style="display: flex;">
-                <select style="width: 200px; height: 40px;" class="form-control font12">
+                <select id="paletteTo" onchange="" style="width: 200px; height: 40px;" class="form-control font12">
                     <option>파렛트 이름 리스트명</option>
+                    <c:forEach var="paletteTo" items="${all}">
+                    <option value="${paletteTo.sname},${paletteTo.pname}">${paletteTo.pname}(${paletteTo.sname})</option>
+                    </c:forEach>
                 </select>
             </li>
             <li class="num_font13_bold">변경 파렛트</li>
@@ -49,24 +48,20 @@
               </tr>
             </thead>
             <tbody style="background-color: #f1f1ef;">
+                 <c:forEach var="palette" items="${paletteall}">            
                 <tr align="center" style="line-height: 30px;">
                     <td><input type="checkbox"></td>
-                    <td>
-                        T-12
-                    </td>
-                    <td>
-                        P_123456
-                    </td>
-                    <td align="left">
-                        LG 32인치 144Hz 게이밍 와이드 모니터
-                    </td>
-                    <td>LG_144_32</td>
-                    <td>수원창고1</td>
-                    <td>100EA</td>
+                    <td>${palette.pname}</td>
+                    <td>${palette.pcode}</td>
+                    <td align="left">${palette.pdname}</td>
+                    <td>${palette.pdcode}</td>
+                    <td>${palette.sname}</td>
+                    <td>${palette.pdamount}EA</td>
                     <td>
                         <input type="text" style="width: 90px; height: 40px;" maxlength="5" class="form-control font12" value="0">
                     </td>
-                  </tr>
+                  </tr>                 
+                  </c:forEach>
             </tbody>
           </table>
      </div>
