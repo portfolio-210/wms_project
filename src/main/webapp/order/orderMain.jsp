@@ -34,7 +34,7 @@
                 <a href="./shipping.xls" style="color:#333;" download="shipping.xls">※ EXCEL 샘플 [다운로드]</a>
             </li>
         </ul>
-        <form>
+        </form>
         <ul class="ul-2">
             <li class="num_font13_bold">오더등록 건수</li>
             <li style="display: flex; flex-direction: row;">

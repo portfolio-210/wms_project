@@ -48,7 +48,7 @@
             <thead>
               <tr align="center" style="line-height: 30px;">
                 <th scope="col" style="width:30px; height: 30px;">
-                    <input type="checkbox" id="selectAll" onclick="toggleAll(this)">
+                    <input type="checkbox" id="toggleAll" onclick="toggleAll(this)">
                 </th>
                 <th scope="col" style="width: 150px;">거래처명</th>
                 <th scope="col" style="width: 260px;">상품명</th>
@@ -99,6 +99,19 @@ function toggleAll(source) {
         checkbox.checked = source.checked; // 전체 선택 체크박스의 상태로 설정
     });
 }
+//개별 체크박스의 상태를 확인하는 함수
+function updateToggleAll() {
+    const checkboxes = document.querySelectorAll('.product-checkbox');
+    const allChecked = [...checkboxes].every(checkbox => checkbox.checked); // 모든 체크박스가 체크되었는지 확인
+    const toggleAllCheckbox = document.getElementById('toggleAll'); // 전체 체크박스의 ID로 요소 가져오기
+    toggleAllCheckbox.checked = allChecked; // 전체 체크박스 상태 업데이트
+}
+
+// HTML 체크박스에 이벤트 추가
+document.querySelectorAll('.product-checkbox').forEach(checkbox => {
+    checkbox.addEventListener('change', updateToggleAll); // 개별 체크박스 변경 시 updateToggleAll 호출
+});
+
 function updateHiddenField(selectElement) {
 	 // 선택된 옵션 가져오기
     const selectedOption = selectElement.options[selectElement.selectedIndex];

@@ -104,7 +104,7 @@
     <update id="updateProduct1" parameterType="wms_project.dto.ProductDTO">
     UPDATE product
     SET pdamount = pdamount + #{quantity}
-    WHERE pdcode = #{pdcode} AND scode = #{instorecode} AND pname = #{pname};
+    WHERE pdcode = #{pdcode} AND scode = #{instorecode} AND pname = #{pname}
 	</update>
       
     <select id="selectProduct" parameterType="String" resultType="wms_project.dto.ProductDTO">
@@ -113,8 +113,7 @@
     WHERE pdidx = #{pdidx}   
     </select>
     
-    <!-- 사용자에 맞는 창고 안에 있는 모든 파레트의 정보 -->
-    
+    <!-- 사용자에 맞는 창고 안에 있는 모든 파레트의 정보 -->   
     <select id="paletteall" resultType="Map">
 	SELECT p.pname, p.sname
     FROM product p
@@ -123,12 +122,33 @@
     GROUP BY p.pname, p.sname 
     </select>
     
+    <!-- 선택되지 않은 모든 파레트의 정보 -->
+    <select id="paletteAnother" resultType="Map">
+    SELECT pname, sname, scode
+	FROM product	
+	WHERE NOT (sname = #{sname} AND pname = #{pname})
+	GROUP BY pname, sname, scode
+    </select>
+    
     <select id="paletteSearchall" resultType="Map">
 	SELECT p.* , p2.pcode 
 	FROM product p
-	JOIN palette p2 ON p.pname = p2.pname 
+	JOIN palette p2 ON p.pname = p2.pname
+	WHERE p.sname = #{sname} AND p.pname = #{pname} AND p.pdamount > 0
     </select>
     
+    
+     <!-- 옮기는 팔레트가 기존 팔레트와 이름이 다르며 같은 물건이 없을 때 -->
+    <insert id="movePalette" parameterType="wms_project.dto.ProductDTO">
+    	INSERT INTO product (acompany, acode, pdcode, pdname, pdamount, sname, scode, pname, pddate)
+    	VALUES (#{acompany}, #{acode}, #{pdcode}, #{pdname}, #{quantity}, #{instorename}, #{instorecode}, #{instorepalette}, now())
+    </insert>
+    <!-- 입고하는 창고에 같은 물건이 있고 같은 파레트에 있을 때 -->
+    <update id="updateProduct2" parameterType="wms_project.dto.ProductDTO">
+    UPDATE product
+    SET pdamount = pdamount + #{quantity}
+    WHERE pdcode = #{pdcode} AND scode = #{instorecode} AND pname = #{instorepalette};
+	</update>
     
     
 </mapper>

@@ -70,11 +70,6 @@
             </tbody>
           </table>
      </div>
-     <div class="mb-3">
-        <ul class="pageing">
-          <li>1</li>
-        </ul>
-      </div>
       <div class="mb-3" style="text-align: right;">
       <button type="button" class="btn btn-success font12" style="width: 100px; height: 40px;" onclick="excel_view('1')">EXCEL 등록</button> 
       <button type="button" class="btn btn-danger font12" style="width: 100px; height: 40px;" onclick="insertstore()">입고 등록</button> 
@@ -94,7 +89,7 @@
                 </ol>
                 <ol>
                     <li>EXCEL 예시파일</li>
-                    <li><a href="/storage/product.xls" download><em class="downfile">[다운로드]</em></a> ※예시파일에 맞게 입력하셔야만 정상적으로 등록이 됩니다.</li>
+                    <li><a href="./product.xls" download="product.xls"><em class="downfile">[다운로드]</em></a> ※예시파일에 맞게 입력하셔야만 정상적으로 등록이 됩니다.</li>
                 </ol>
                 <div class="btn_excel">
                     <input type="button" id="Button" value="상품입고" class="btn_css">
@@ -108,6 +103,7 @@
         var excel_pop = document.getElementById("excelbk");
         if(n=="1"){
             excel_pop.style.display = "block";
+            window.scrollTo(0, 0);
         }
         else{
             excel_pop.style.display = "none";

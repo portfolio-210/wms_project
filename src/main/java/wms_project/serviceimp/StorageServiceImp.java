@@ -92,7 +92,7 @@ public class StorageServiceImp implements StorageService {
     	
     	return sm.selectProduct(pdidx);
     }
-    
+    //새로운 창고로 물건 이동시키기
     @Override
     public void moveProduct(ProductDTO newProduct) {
     	int row = sm.updateProduct1(newProduct);
@@ -101,6 +101,17 @@ public class StorageServiceImp implements StorageService {
     	sm.moveProduct(newProduct);
     	}
     }
+    //새로운 팔레트로 물건 이동시키기
+    @Override
+    public void movePalette(ProductDTO newProduct) {
+    	int row = sm.updateProduct2(newProduct);
+    	
+    	if(row == 0) {
+        sm.movePalette(newProduct);
+        	}
+    	
+    }
+    
     
     @Override
     public void updateProduct(Map<String, String> params) {
@@ -114,10 +125,17 @@ public class StorageServiceImp implements StorageService {
     public List<Map<String, Object>> paletteall(String mspot) {
     	return sm.paletteall(mspot);
     }
+    //선택되지 않은 모든 파레트의 정보
+    @Override
+    public List<Map<String, String>> paletteAnother(Map<String, String> params) {
+    	
+    	return sm.paletteAnother(params);
+    }
+    
     //모든 파레트의 정보
     @Override
-    public List<Map<String, Object>> paletteSearchall() {
-    	return sm.paletteSearchall();
+    public List<Map<String, Object>> paletteSearchall(Map<String, String> params) {
+    	return sm.paletteSearchall(params);
     }
 
 }

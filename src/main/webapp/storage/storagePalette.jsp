@@ -16,17 +16,20 @@
         <ul class="ul-2">
             <li class="num_font13_bold">파렛트 현황</li>
             <li style="display: flex;">
-                <select id="paletteTo" onchange="" style="width: 200px; height: 40px;" class="form-control font12">
+                <select id="paletteTo" onchange="paletteTo1()" style="width: 200px; height: 40px;" class="form-control font12">
                     <option>파렛트 이름 리스트명</option>
                     <c:forEach var="paletteTo" items="${all}">
-                    <option value="${paletteTo.sname},${paletteTo.pname}">${paletteTo.pname}(${paletteTo.sname})</option>
+                    <option value="${paletteTo.sname},${paletteTo.pname}"<c:if test="${paletteTo.sname == param.sname && paletteTo.pname == param.pname}">selected</c:if>>${paletteTo.pname}(${paletteTo.sname})</option>
                     </c:forEach>
                 </select>
             </li>
             <li class="num_font13_bold">변경 파렛트</li>
             <li>
-                <select style="width: 200px; height: 40px;" class="form-control font12">
+                <select id="paletteFrom" style="width: 200px; height: 40px;" class="form-control font12">
                     <option>재고 이동할 파렛트명</option>
+                    <c:forEach var="another" items="${palettAnother}">
+                    <option value="${another.sname},${another.pname},${another.scode}">${another.pname}(${another.sname})</option>
+                    </c:forEach>
                 </select>
             </li>
         </ul> 
@@ -36,7 +39,7 @@
             <thead>
               <tr align="center" style="line-height: 30px;">
                 <th scope="col" style="width:30px; height: 30px;">
-                    <input type="checkbox">
+                    <input type="checkbox" id="toggleAll" onclick="toggleAll(this)">
                 </th>
                 <th scope="col" style="width: 100px;">파렛트명</th>
                 <th scope="col" style="width: 120px;">파렛트 코드</th>
@@ -50,7 +53,7 @@
             <tbody style="background-color: #f1f1ef;">
                  <c:forEach var="palette" items="${paletteall}">            
                 <tr align="center" style="line-height: 30px;">
-                    <td><input type="checkbox"></td>
+                    <td><input type="checkbox" name="checkbox" value="${palette.pdidx}" class="product-checkbox"></td>
                     <td>${palette.pname}</td>
                     <td>${palette.pcode}</td>
                     <td align="left">${palette.pdname}</td>
@@ -58,7 +61,7 @@
                     <td>${palette.sname}</td>
                     <td>${palette.pdamount}EA</td>
                     <td>
-                        <input type="text" style="width: 90px; height: 40px;" maxlength="5" class="form-control font12" value="0">
+                        <input type="text" name="quantity" oninput="validateQuantity(this, ${palette.pdamount});" style="width: 90px; height: 40px;" maxlength="5" class="form-control font12" value="">
                     </td>
                   </tr>                 
                   </c:forEach>
@@ -71,7 +74,7 @@
         </ul>
       </div>
       <div class="mb-3" style="text-align: right;">
-      <button type="button" class="btn btn-danger font12" style="width: 100px; height: 40px;">파렛트 이동</button> 
+      <button type="button" class="btn btn-danger font12" style="width: 100px; height: 40px;" onclick="paletteMove()">파렛트 이동</button> 
       </div>
     </div>
   </div>
@@ -79,4 +82,42 @@
 
 <!-- Footer -->
 <%@ include file="../footer.jsp" %>
+<script>
+function toggleAll(source) {
+    const checkboxes = document.querySelectorAll('.product-checkbox');
+    checkboxes.forEach((checkbox) => {
+        checkbox.checked = source.checked; // 전체 선택 체크박스의 상태로 설정
+    });
+}
+//개별 체크박스의 상태를 확인하는 함수
+function updateToggleAll() {
+    const checkboxes = document.querySelectorAll('.product-checkbox');
+    const allChecked = [...checkboxes].every(checkbox => checkbox.checked); // 모든 체크박스가 체크되었는지 확인
+    const toggleAllCheckbox = document.getElementById('toggleAll'); // 전체 체크박스의 ID로 요소 가져오기
+    toggleAllCheckbox.checked = allChecked; // 전체 체크박스 상태 업데이트
+}
+
+// HTML 체크박스에 이벤트 추가
+document.querySelectorAll('.product-checkbox').forEach(checkbox => {
+    checkbox.addEventListener('change', updateToggleAll); // 개별 체크박스 변경 시 updateToggleAll 호출
+});
+
+function validateQuantity(inputElement, availableAmount) {
+    const value = inputElement.value;
+
+    // 숫자가 아닌 경우
+    if (value && isNaN(value)) {
+        alert("숫자만 입력할 수 있습니다."); // 경고 메시지
+        inputElement.value = ''; // 빈 문자열로 설정
+        return;
+    }
+
+    // 입력값이 비어있지 않고 현재 재고 수량보다 큰 경우
+    if (value && parseInt(value) > availableAmount) {
+        alert(`이동 수량은 현재 재고보다 많을 수 없습니다.`);
+        inputElement.value = availableAmount; // 재고 수량으로 설정
+    }
+}
+</script>
 <script src="../js/storage.js?v=<%= sf.format(today) %>"></script>
+

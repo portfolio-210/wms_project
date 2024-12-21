@@ -41,10 +41,16 @@ public interface StorageMapper {
     void moveProduct(ProductDTO newProduct);
     int	updateProduct1(ProductDTO newProduct);
     
+    //새로운 팔레트로 물건 이동시키기
+    void movePalette(ProductDTO newProduct);
+    int	updateProduct2(ProductDTO newProduct);
+    
     void updateProduct(Map<String, String> params);
     //사용자에 맞는 창고 안에 있는 모든 파레트의 정보
-    List<Map<String, Object>> paletteall(String mspot);
+    List<Map<String, Object>> paletteall(String mspot);   
+    //선택되지 않은 모든 파레트의 정보
+    List<Map<String, String>> paletteAnother(Map<String, String> params);
     //모든 파레트의 정보
-    List<Map<String, Object>> paletteSearchall();
+    List<Map<String, Object>> paletteSearchall(Map<String, String> params);
     	
 }

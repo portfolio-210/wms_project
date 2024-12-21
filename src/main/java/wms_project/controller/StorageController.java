@@ -54,19 +54,92 @@ public class StorageController {
 	StorageService ss;
 
 	PrintWriter pw = null;
+	
+	@PostMapping("/storage/movePalette.do")
+	public String movePalette(@RequestBody String data, HttpServletResponse res) {
 
+		
+		try {
+			this.pw = res.getWriter();
+			JSONArray ja = new JSONArray(data);
+			// System.out.println(ja);
+			// System.out.println(ja.length());
+
+			int w = 0;
+
+			while (w < ja.length()) {
+				Map<String, String> params = new HashMap<>();
+
+				JSONObject jo = (JSONObject) ja.getJSONObject(w);
+				String pdidx = jo.get("pdidx").toString();
+				String quantity = jo.get("quantity").toString();
+				String instorename = jo.get("instorename").toString();
+				String instorecode = jo.get("instorecode").toString();
+				String instorepalette = jo.get("instorepalette").toString();
+				System.out.println(pdidx + ":" + quantity + ":" + instorename + ":" + instorecode+":"+instorepalette);
+
+				params.put("pdidx", pdidx);
+				params.put("quantity", quantity);
+
+				ss.updateProduct(params); // 선택한 창고에서 이동시키기(수량감소)
+				ProductDTO productInfo = ss.selectProduct(pdidx); // 이동한 상품의 정보들 추출
+
+				// 새로운 창고에 재고 추가
+				ProductDTO newProduct = new ProductDTO();
+				newProduct.setAcompany(productInfo.getAcompany());
+				newProduct.setAcode(productInfo.getAcode());
+				newProduct.setPdcode(productInfo.getPdcode());
+				newProduct.setPdname(productInfo.getPdname());
+				newProduct.setQuantity(quantity); // 이동할 수량
+				newProduct.setInstorename(instorename);
+				newProduct.setInstorecode(instorecode);
+				newProduct.setInstorepalette(instorepalette);
+
+				ss.movePalette(newProduct);
+
+				w++;
+			}
+			
+			System.out.println(w);
+			this.pw.print("ok");
+
+		} catch (Exception e) {
+			e.printStackTrace();
+
+		}
+		
+		
+		
+	 return null;
+	}
+
+	
+	
 	@GetMapping("/storage/storagePalette.do")
-	public String storagePaletteString(HttpServletRequest req, Model m) {
+	public String storagePaletteString(@RequestParam(value ="sname", required = false) String sname,
+									@RequestParam(value ="pname", required = false) String pname,
+			HttpServletRequest req, Model m) {
 		HttpSession sess = req.getSession();
 		String mspot = (String) sess.getAttribute("mspot");
+		Map<String, String> params = new HashMap<>();
+		params.put("sname", sname);
+		params.put("pname", pname);
+		
+		
 		List<Map<String, Object>> all = ss.paletteall(mspot);
-		List<Map<String, Object>> paletteall = ss.paletteSearchall();
+		List<Map<String, Object>> paletteall = ss.paletteSearchall(params);
+		List<Map<String, String>> palettAnother = ss.paletteAnother(params);
 
+		
 		m.addAttribute("all", all);
 		m.addAttribute("paletteall", paletteall);
+		m.addAttribute("params",params);
+		m.addAttribute("palettAnother",palettAnother);
 		return null;
 	}
 
+	
+	
 	// , @RequestParam("to") String to
 	@PostMapping("/storage/moveProduct.do")
 	public String moveProduct(@RequestBody String data, HttpServletResponse res) {

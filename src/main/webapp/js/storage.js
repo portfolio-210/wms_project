@@ -618,8 +618,9 @@ function handleFile(e) {
  //엑셀파일 등록 후 입고 버튼을 눌렀을 때 작동되는 함수
  function insertstoreExcel(insert){
 	
+
 	
-	var html;
+				var html;
 				var data;
 				   html = new XMLHttpRequest();
 				   html.onreadystatechange = function(){
@@ -631,12 +632,102 @@ function handleFile(e) {
 				            
 				      }
 				   }
-				   console.log(JSON.stringify(insert));
+				   
 				   html.open("POST","/storage/insertStore.do",true);
 				   html.send(JSON.stringify(insert));
 	
  }
 
+ /////////////////////////////////////////////////////////////////////////////////
+ //팔레트 재고 이동 부분
+ 
+ function paletteTo1() {
+	const selectElement = document.getElementById('paletteTo');
+     // 선택된 값 가져오기
+     const selectedValue = selectElement.value;
+     const [sname, pname] = selectedValue.split(',');
+	 
 
+     // URL 설정
+     const url = `/storage/storagePalette.do?sname=${encodeURIComponent(sname)}&pname=${encodeURIComponent(pname)}`;
+
+     // GET 요청
+     window.location.href = url; // 페이지 이동
+ }
+
+ function paletteMove() {
+     const checkboxes = document.getElementsByName('checkbox');
+ 	 const quantities = document.getElementsByName('quantity');
+	 const selectElement = document.getElementById('paletteFrom');
+	     // 선택된 값 가져오기
+	 const selectedValue = selectElement.value;
+	 const [sname2, pname2, scode2] = selectedValue.split(',');
+	  
+     const checked = [];
+ 	let empty = false;
+ 	let nocheck = false;
+   	
+ 	 
+ 	 for (let i = 0; i < checkboxes.length; i++) {
+ 	         if (checkboxes[i].checked) {
+ 	             const quantity = quantities[i].value; // 수량 값 가져오기
+ 				 const pdidx = checkboxes[i].value;
+ 				 
+ 				 // 체크박스 확인
+ 				      if (!checkboxes[i].checked && quantity) {
+ 				          alert('먼저 이동할 상품을 체크해주세요.'); // 체크박스가 체크되어 있지 않으면 경고
+ 				          quantities[i].value = ''; // 수량 입력란 비우기
+ 				          nocheck = true; // 체크되지 않은 상태 기록
+ 				      } else if (checkboxes[i].checked) {
+ 	             if (quantity) {
+ 	                 checked.push({ "pdidx": pdidx, "quantity": quantity, "instorename" : sname2, "instorecode": scode2, "instorepalette": pname2 });
+ 					 }
+ 	             } else {
+ 	                 empty = true; // 수량이 비어있는 경우
+ 	             }
+ 	         }
+ 	     }
+
+ 	if (selectedValue === ""){
+ 		alert('물건을 이동할 창고를 선택해주세요.');
+ 		return false; // 체크된 제품이 없으면 제출하지 않음		
+ 	}
+             
+ 	if(empty){		
+ 		alert('수량을 입력해주세요.'); // 수량이 비어있으면 경고
+ 	  return false; // 수량이 없는 경우 제출하지 않음
+ 	}
+ 	
+ 	if(nocheck){
+ 		alert('체크박스에 체크가 되어있는지 확인해주세요.');
+ 		return false;
+ 	}
+  
+
+     if (checked.length === 0) {
+         alert('하나의 제품을 선택해주세요.');
+         return false; // 체크된 제품이 없으면 제출하지 않음
+     }
+ 	
+ 	var html;
+ 	var data;
+ 	   html = new XMLHttpRequest();
+ 	   html.onreadystatechange = function(){
+ 	      if(html.readyState==4 && html.status==200){
+ 	      if(this.response=="ok"){
+ 				alert("정상적으로 이동이 완료 되었습니다.");
+ 				window.location.href = "/storage/storagePalette.do";
+ 		  }
+ 	            
+ 	      }
+ 	   }
+ 	   //console.log(JSON.stringify(checked));
+ 	   html.open("POST","/storage/movePalette.do",true);
+ 	   html.send(JSON.stringify(checked));
+ 	   //html.send(JSON.stringify(checked));
+ 	
+
+   // return true;  // 데이터 수집이 완료되면 폼 제출 허용
+  }
 
 
