@@ -124,9 +124,11 @@ function complete_insert(){
             const pcodePattern = /^P\d{4}$/;        //파렛트코드 : P + 숫자 4개 형식
             if(!pnamePattern.test(pname.value)){
                 alert("파렛트명은 '알파벳-숫자' 형식으로 입력하셔야 합니다.\n예) T-12");
+                pname.readOnly = false;
                 pname.focus();
             }else if(!pcodePattern.test(pcode.value)){
                 alert("파렛트 코드는 'P'와 숫자 4개를 입력하셔야 합니다.\n예) P0001");
+                pcode.readOnly = false;
                 pcode.focus();
             }else {
                 frm.method="post";
@@ -148,16 +150,18 @@ function cancel_insert(){
 ///paletteModify.jsp - 파렛트 수정 페이지 관련 javascript
 
 //사용중 -> 미사용중으로 체크 변경 시
-document.addEventListener('DOMContentLoaded', function(){
+document.addEventListener('DOMContentLoaded', function () {
     const radioY = document.querySelector('input[name="pusing"][value="Y"]');
     const radioN = document.querySelector('input[name="pusing"][value="N"]');
-
-    radioN.addEventListener('change', function(){
-        if(radioN.checked){
-            alert("해당 파렛트 미사용 시 재고 관련 사항의 제약을 받습니다.");
-        }
-    });
+    if (radioN) { // radioN이 존재할 경우에만 이벤트 리스너 추가
+        radioN.addEventListener('change', function () {
+            if (radioN.checked) {
+                alert("해당 파렛트 미사용 시 재고 관련 사항의 제약을 받습니다.");
+            }
+        });
+    }
 });
+
 
 //내용 수정한 팔레트 수정완료 버튼
 function complete_modify(){

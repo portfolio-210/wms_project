@@ -101,7 +101,7 @@
         <!-- 페이징 시작 -->
         <div class="mb-3">
             <ul class="pageing">
-            <cr:set var="page" value="${total / 15 + (1-((total/15)%1))}"/>
+            <cr:set var="page" value="${total%15 == 0? total/15 : total/15 + (1-((total/15)%1))}"/>
             <cr:forEach begin="1" end="${page}" var="i">
                 <li style="cursor: pointer;" onclick="go_page(${i}, '${search}')">${i}</li>
             </cr:forEach>
