@@ -68,8 +68,15 @@ public class OrderServiceImp implements OrderService {
 
     //등록된 주문 거래처 종류
     @Override
-    public List<String> search_account() {
-        List<String> result = om.search_account();
+    public List<String> account_list() {
+        List<String> result = om.account_list();
+        return result;
+    }
+
+    //주문 삭제
+    @Override
+    public int delete_order(String aidx) {
+        int result = om.delete_order(aidx);
         return result;
     }
 }

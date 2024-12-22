@@ -5,11 +5,10 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.apache.poi.ss.usermodel.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import wms_project.dto.ShippingDTO;
 import wms_project.service.OrderService;
@@ -36,10 +35,12 @@ public class OrderController {
     @GetMapping("/order/orderMain.do")
     public String order_list(Model m, @RequestParam(value = "start_date", required = false) String start_date,
                              @RequestParam(value = "end_date", required = false) String end_date,
-                             @RequestParam(value = "pageno", required = false) Integer pageno){
+                             @RequestParam(value = "pageno", required = false) Integer pageno,
+                             @RequestParam(value = "account", required = false) String account){
         Map<String, Object> paramValue = new HashMap<>();
         paramValue.put("start_date", start_date);
         paramValue.put("end_date", end_date);
+        paramValue.put("account", account);
 
         int total = os.order_count(paramValue);
         int items = 15;
@@ -53,7 +54,7 @@ public class OrderController {
         paramValue.put("startno", startno);
 
         List<ShippingDTO> all = os.order_list(paramValue);
-        List<String> account_all = os.search_account();
+        List<String> account_all = os.account_list();
 
         m.addAttribute("all", all);
         m.addAttribute("account_all", account_all);
@@ -61,6 +62,7 @@ public class OrderController {
         m.addAttribute("pageno", pageno);
         m.addAttribute("start_date", start_date);
         m.addAttribute("end_date", end_date);
+        m.addAttribute("account", account);
 
         return null;
     }
@@ -135,6 +137,37 @@ public class OrderController {
         } finally {
             this.pw.close();
         }
+        return null;
+    }
+
+    //등록된 주문 삭제
+    @PostMapping("/order/delete_order.do")
+    public String delete_order(@RequestParam(value = "aidx", required = false) String aidx, HttpServletResponse res){
+        res.setContentType("text/html;charset=utf-8");
+        try {
+            this.pw = res.getWriter();
+            int result = os.delete_order(aidx);
+            if(result > 0){
+                this.pw.print("<script>" +
+                        "alert('해당 오더를 삭제하였습니다.');" +
+                        "location.href='/order/orderMain.do';" +
+                        "</script>");
+            }
+            else{
+                this.pw.print("<script>" +
+                        "alert('오더 삭제를 실패했습니다.\n잠시 후 다시 시도해주세요.');" +
+                        "history.go(-1);" +
+                        "</script>");
+            }
+        } catch (Exception e) {
+            this.pw.print("<script>" +
+                    "alert('오더 삭제를 실패했습니다.\n잠시 후 다시 시도해주세요.');" +
+                    "history.go(-1);" +
+                    "</script>");
+        } finally {
+            this.pw.close();
+        }
+
         return null;
     }
 

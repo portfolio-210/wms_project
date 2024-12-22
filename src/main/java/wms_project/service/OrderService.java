@@ -17,5 +17,8 @@ public interface OrderService {
     //등록 주문 개수
     int order_count(Map<String, Object> paramValue);
     //등록된 주문 거래처 종류
-    List<String> search_account();
+    List<String> account_list();
+    //주문 삭제
+    int delete_order(String aidx);
+
 }

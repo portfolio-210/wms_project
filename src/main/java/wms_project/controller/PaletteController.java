@@ -113,7 +113,7 @@ public class PaletteController {
             }
             else{
                 this.pw.print("<script>" +
-                        "alert('삭제에 실패했습니다.\n삭제할 팔레트를 다시 한번 확인하고잠시 후에 다시 시도해주세요.');" +
+                        "alert('삭제에 실패했습니다.\n삭제할 팔레트를 다시 한번 확인하고 잠시 후에 다시 시도해주세요.');" +
                         "history.go(-1);" +
                         "</script>");
             }
