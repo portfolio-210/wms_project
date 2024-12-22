@@ -155,13 +155,13 @@ public class OrderController {
             }
             else{
                 this.pw.print("<script>" +
-                        "alert('오더 삭제를 실패했습니다.\n잠시 후 다시 시도해주세요.');" +
+                        "alert('배송 중인 오더는 삭제할 수 없습니다.');" +
                         "history.go(-1);" +
                         "</script>");
             }
         } catch (Exception e) {
             this.pw.print("<script>" +
-                    "alert('오더 삭제를 실패했습니다.\n잠시 후 다시 시도해주세요.');" +
+                    "alert('시스템 오류로 인해 오더 삭제를 실패했습니다.\n잠시 후 다시 시도해주세요.');" +
                     "history.go(-1);" +
                     "</script>");
         } finally {
@@ -179,7 +179,7 @@ public class OrderController {
             sdto.setBstoragecode("N");
             sdto.setBpalett("N");
             sdto.setBpalettcode("N");
-            sdto.setBapprove("N");
+            sdto.setBapprove("Y");
         }
         if(sdto.getDcode() == null){
             sdto.setDcode("N");

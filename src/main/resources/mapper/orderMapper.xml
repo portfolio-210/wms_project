@@ -13,7 +13,7 @@
 
     <!-- 등록된 주문 리스트 -->
     <select id="order_list" parameterType="Map" resultType="wms_project.dto.ShippingDTO">
-        select aidx, aordercode, aproduct, aproductcode, acustomer, ahp, addr, date, adeliveryck, shipstate, account from shipping where 1=1
+        select aidx, aordercode, aproduct, aproductcode, acustomer, ahp, addr, date, adeliveryck, shipstate, account from shipping where shipstate != '배송완료'
         <if test="start_date != null and !start_date.isEmpty() and end_date != null and !end_date.isEmpty()">
             and date >= concat(#{start_date}, ' 00:00:00') and date &lt;= concat(#{end_date}, ' 23:59:59')
         </if>
@@ -26,7 +26,7 @@
 
     <!--  등록된 주문 개수  -->
     <select id="order_count" parameterType="Map" resultType="Integer">
-        select count(*) from shipping where 1=1
+        select count(*) from shipping where shipstate != '배송완료'
         <if test="start_date != null and !start_date.isEmpty() and end_date != null and !end_date.isEmpty()">
             and date >= concat(#{start_date}, ' 00:00:00') and date &lt;= concat(#{end_date}, ' 23:59:59')
         </if>
@@ -42,7 +42,7 @@
 
     <!-- 거래처 삭제 -->
     <delete id="delete_order" parameterType="String">
-        delete from shipping where aidx = #{aidx}
+        delete from shipping where aidx = #{aidx} and shipstate != '배송중'
     </delete>
 
 
