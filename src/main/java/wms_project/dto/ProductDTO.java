@@ -16,5 +16,5 @@ public class ProductDTO {
 	 private String quantity; // 수량
 	 private String instorecode; // 옮길 창고 코드
 	 private String instorename; // 옮길 창고 이름
-	 private String instorepalette;
+	 private String instorepalette; //옮길 파레트 이름
 }

@@ -64,7 +64,7 @@ if (session == null ||
         <div class="dropdown-menu">
           <a class="dropdown-item" href="../storage/storageMain.do">창고리스트</a>
           <a class="dropdown-item" href="../storage/storageInsert.do">창고등록</a>
-          <a class="dropdown-item" href="#">배송기사 배정</a>
+          <a class="dropdown-item" href="../storeDelivery/storeDelivery.do">배송기사 배정</a>
         </div>
       </li>
       <li class="nav-item dropdown" style="width:120px;">

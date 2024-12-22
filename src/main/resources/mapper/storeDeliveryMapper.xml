@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="wms_project.mapper.StoreDeliveryMapper">
+
+<select id="order_list" parameterType="Map" resultType="wms_project.dto.ShippingDTO">
+        select aidx, aordercode, aproduct, aproductcode, acustomer, ahp, addr, date, adeliveryck, shipstate from shipping
+        where shipstate != '배송완료' AND dapprove = "Y"
+        <if test="radio != null and radio != 'undefined'">
+        AND adeliveryck = #{radio}
+    	</if>
+        <if test="startDate != null and startDate != '' and endDate != null and endDate != ''">
+        AND date BETWEEN #{startDate} AND #{endDate}
+    	</if>   	
+        order by date desc
+</select>
+
+<select id="deliverymenlist" parameterType="Map" resultType="wms_project.dto.DeliveryDTO">
+        select dname, dspot, didx from delivery
+        where dspot = #{mspot}
+        and dapprove = "근무중"
+ 
+</select>
+
+<update id="useDeliverymen" parameterType="Map">
+	UPDATE shipping
+    SET adeliveryck = "Y", deliveryname = #{dname}, dcode = #{didx}, dspot = #{dspot}  
+    WHERE aidx = #{aidx}	
+</update>
+
+<update id="DeleteDeliverymen" parameterType="Int">
+	UPDATE shipping
+    SET dapprove = "N" , adeliveryck = "N"
+    WHERE aidx = #{aidx} AND shipstate != "배송중"	
+</update>
+
+
+
+</mapper>
