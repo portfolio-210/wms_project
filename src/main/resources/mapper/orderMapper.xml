@@ -26,9 +26,9 @@
 
     <!--  등록된 주문 개수  -->
     <select id="order_count" parameterType="Map" resultType="Integer">
-        select count(*) from shipping
+        select count(*) from shipping where 1=1
         <if test="start_date != null and !start_date.isEmpty() and end_date != null and !end_date.isEmpty()">
-            where date >= concat(#{start_date}, ' 00:00:00') and date &lt;= concat(#{end_date}, ' 23:59:59')
+            and date >= concat(#{start_date}, ' 00:00:00') and date &lt;= concat(#{end_date}, ' 23:59:59')
         </if>
         <if test="account != null and !account.isEmpty()">
             and account = #{account}
