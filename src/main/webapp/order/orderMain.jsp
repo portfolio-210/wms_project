@@ -43,7 +43,7 @@
             <li class="num_font13_bold">거래처별 등록현황</li>
             <li>
                 <select name="accountnm" id="accountnm" onchange="search_account('${start_date}', '${end_date}')" style="width: 200px; height: 40px; margin-right: 5px;" class="form-control font12">
-                    <option value="N">거래처를 선택해주세요</option>
+                    <option value="">거래처를 선택해주세요</option>
                 <cr:forEach var="account" items="${account_all}">
                     <option value="${account}">${account}</option>
                 </cr:forEach>
@@ -68,7 +68,7 @@
               </tr>
             </thead>
             <tbody style="background-color: #f1f1ef;">
-            <!-- palette 리스트 출력 시작 -->
+            <!-- order 리스트 출력 시작 -->
             <cr:forEach var="order" items="${all}" varStatus="idx">
                 <tr align="center" style="line-height: 30px;">
                     <td>${total - ((pageno-1)*15 + idx.index)}</td>
@@ -85,7 +85,7 @@
                     </td>
                   </tr>
               </cr:forEach>
-            <!-- palette 리스트 출력 끝 -->
+            <!-- order 리스트 출력 끝 -->
             </tbody>
           </table>
      </div>

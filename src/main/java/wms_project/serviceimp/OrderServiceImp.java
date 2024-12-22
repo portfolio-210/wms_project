@@ -73,13 +73,6 @@ public class OrderServiceImp implements OrderService {
         return result;
     }
 
-    //거래처별 주문 리스트
-    @Override
-    public List<ShippingDTO> search_account(String account) {
-        List<ShippingDTO> result = om.search_account(account);
-        return result;
-    }
-
     //주문 삭제
     @Override
     public int delete_order(String aidx) {

@@ -39,7 +39,9 @@ function insert_order(){
 function search_account(start_date, end_date){
     var account = document.getElementById("accountnm").value;
     console.log(account);
-    alert("작업중......");
+    console.log(start_date);
+    console.log(end_date);
+    location.href="/order/orderMain.do?account=" + account + "&start_date=" + start_date + "&end_date=" + end_date;
 }
 
 //등록된 주문 삭제
@@ -67,6 +69,9 @@ function go_page(i, start_date, end_date, account){
     if(start_date && end_date){
         url += "&start_date=" + encodeURIComponent(start_date);
         url += "&end_date=" + encodeURIComponent(end_date);
+    }
+    if(account != "N"){
+        url += "&account=" + encodeURIComponent(account);
     }
     location.href = url;
 }

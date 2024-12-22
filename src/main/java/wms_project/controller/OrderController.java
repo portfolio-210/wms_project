@@ -5,6 +5,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.apache.poi.ss.usermodel.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -34,10 +35,12 @@ public class OrderController {
     @GetMapping("/order/orderMain.do")
     public String order_list(Model m, @RequestParam(value = "start_date", required = false) String start_date,
                              @RequestParam(value = "end_date", required = false) String end_date,
-                             @RequestParam(value = "pageno", required = false) Integer pageno){
+                             @RequestParam(value = "pageno", required = false) Integer pageno,
+                             @RequestParam(value = "account", required = false) String account){
         Map<String, Object> paramValue = new HashMap<>();
         paramValue.put("start_date", start_date);
         paramValue.put("end_date", end_date);
+        paramValue.put("account", account);
 
         int total = os.order_count(paramValue);
         int items = 15;
@@ -59,36 +62,8 @@ public class OrderController {
         m.addAttribute("pageno", pageno);
         m.addAttribute("start_date", start_date);
         m.addAttribute("end_date", end_date);
+        m.addAttribute("account", account);
 
-        return null;
-    }
-
-    //거래처별 등록 현황(AJAX) - 작업중,,,,
-    @CrossOrigin("*")
-    @PostMapping("/order/searchAccount.do")
-    public String search_account(@RequestParam(value = "account", required = false) String account,
-                                 @RequestParam(value = "start_date", required = false) String start_date,
-                                 @RequestParam(value = "end_date", required = false) String end_date,
-                                 HttpServletResponse res){
-        res.setContentType("text/html;charset=utf-8");
-        try {
-            this.pw = res.getWriter();
-            List<ShippingDTO> result = null;
-            System.out.println(account);
-
-            if(account.equals("N") || account == null){
-                System.out.println("빈 값");
-            } else {
-                result = os.search_account(account);
-                System.out.println(result);
-                this.pw.print(result);
-            }
-        } catch (Exception e) {
-            this.pw.print("<script>" +
-                    "alert('서버 문제로 인해 검색이 되지 않습니다.\n잠시 후 다시 이용해주세요.');" +
-                    "history.go(-1);" +
-                    "</script>");
-        }
         return null;
     }
 
