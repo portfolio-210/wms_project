@@ -13,7 +13,16 @@
 
     <!-- 물품 검색 팝업 상품 리스트 출력 -->
     <select id="product_list" parameterType="Map" resultType="wms_project.dto.ProductDTO">
-        select pdidx, sname, pname, pdcode, pdname, pdamount, pddate from product where pdcode = #{aproductcode}
+        select pdidx, sname, pname, pdcode, pdname, pdamount, pddate from product
+        where pdcode = #{aproductcode}
+        <choose>
+            <when test="part == '상품명'">
+                and pdname like concat('%',#{search},'%')
+            </when>
+            <when test="part == '상품코드'">
+                and pdcode like concat('%',#{search},'%')
+            </when>
+        </choose>
     </select>
 
 </mapper>

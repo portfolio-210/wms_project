@@ -44,17 +44,22 @@ public class shipmentController {
 
     //물품 검색 팝업 페이지 출력
     @GetMapping("/shipment/shipmentPopList.do")
-    public String pop_list(@RequestParam(value = "pdcodes", required = false) String pdcodes, Model m){
+    public String pop_list(@RequestParam(value = "pdcodes", required = false) String pdcodes,
+                           @RequestParam(value = "part", required = false) String part,
+                           @RequestParam(value = "search", required = false) String search,
+                           Model m){
         String[] aproductcodes = pdcodes.split(",");
-        List<ProductDTO> all = new ArrayList<>();
         Map<String, Object> paramValue = new HashMap<>();
+        paramValue.put("part", part);
+        paramValue.put("search", search);
+        List<ProductDTO> all = new ArrayList<>();
         for (String aproductcode : aproductcodes) {
             paramValue.put("aproductcode", aproductcode);
             List<ProductDTO> product = ss.product_list(paramValue);
             all.addAll(product);
         }
-
         m.addAttribute("all", all);
+        m.addAttribute("pdcodes", pdcodes);
         return null;
     }
 }

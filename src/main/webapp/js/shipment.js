@@ -80,3 +80,18 @@ function open_popup(){
         window.open(url, "popupWindow", "width=750px, height=500px");
     }
 }
+
+//물품 검색 팝업 - 검색 버튼 클릭
+function search_product(){
+    var part = frm.part;
+    var search = frm.search;
+    var pdcodes = frm.pdcodes;
+    if(search = ""){
+        alert("검색할 상품을 입력해주세요.");
+    }
+    else{
+        frm.method="get";
+        frm.action="../shipment/shipmentPopList.do";
+        frm.submit();
+    }
+}

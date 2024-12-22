@@ -11,17 +11,20 @@
     <div>
     <p class="sub_title font16_bold">물품검색</p>
     <div class="mb-3" style="position: relative;">
+        <form id="frm">
         <ul class="ul-2">
             <li class="num_font13_bold">검색형식</li>
             <li style="width: 85%; display: flex; flex-direction: row;">
-                <select style="width: 100px; height: 40px; margin-right: 5px;" class="form-control font12">
-                    <option>상품명</option>
-                    <option>상품코드</option>
+                <input type="hidden" name="pdcodes" value="${pdcodes}">
+                <select name="part" style="width: 100px; height: 40px; margin-right: 5px;" class="form-control font12">
+                    <option value="상품명">상품명</option>
+                    <option value="상품코드">상품코드</option>
                 </select>
-                <input type="text" style="width: 150px; height: 40px;" class="form-control font12" placeholder="검색어를 입력하세요">
-                <button type="button" class="btn btn-primary font12" style="width: 70px; height: 40px; margin-left:10px; margin-right: 10px;">검색</button>
+                <input type="text" name="search" style="width: 150px; height: 40px;" class="form-control font12" placeholder="검색어를 입력하세요">
+                <button type="button" onclick="search_product()" class="btn btn-primary font12" style="width: 70px; height: 40px; margin-left:10px; margin-right: 10px;">검색</button>
             </li>
         </ul>
+        </form>
      </div>
      <div class="mb-3">
         <table class="table table-striped font12">
@@ -69,6 +72,6 @@
 </main>
 
 <!-- 스크립트 자동 업데이트 -->
-<script src="../js/office.js?=${sf.format(today)}"></script>
+<script src="../js/shipment.js?=${sf.format(today)}"></script>
 <!-- Footer -->
 <cr:import url="../footer.jsp" />
