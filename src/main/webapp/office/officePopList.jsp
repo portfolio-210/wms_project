@@ -72,7 +72,7 @@
 		</div>
     </div>
     <div class="mb-3" style="text-align: right;">
-		<button type="button" class="btn btn-danger font12" style="width: 100px; height: 40px; margin-right: 40px;">
+		<button type="button" onclick="close_popup()" class="btn btn-danger font12" style="width: 100px; height: 40px; margin-right: 40px;">
 		  창닫기
 		</button> 
     </div>

@@ -173,6 +173,11 @@ function searchAll_member(){
 	location.href="../office/officePopList.do";
 }
 
+//팝업 창닫기
+function close_popup(){
+    window.close();
+}
+
 //팝업 관리자 적용 버튼 클릭
 function apply_member(midx){
 console.log(midx);

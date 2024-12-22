@@ -95,3 +95,8 @@ function search_product(){
         frm.submit();
     }
 }
+
+//팝업 창닫기
+function close_popup(){
+    window.close();
+}
