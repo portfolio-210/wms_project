@@ -13,9 +13,9 @@
 
     <!-- 등록된 주문 리스트 -->
     <select id="order_list" parameterType="Map" resultType="wms_project.dto.ShippingDTO">
-        select aidx, aordercode, aproduct, aproductcode, acustomer, ahp, addr, date, adeliveryck, shipstate from shipping
+        select aidx, aordercode, aproduct, aproductcode, acustomer, ahp, addr, date, adeliveryck, shipstate, account from shipping where 1=1
         <if test="start_date != null and end_date != null">
-            where date >= concat(#{start_date}, ' 00:00:00') and date &lt;= concat(#{end_date}, ' 23:59:59')
+            and date >= concat(#{start_date}, ' 00:00:00') and date &lt;= concat(#{end_date}, ' 23:59:59')
         </if>
         order by date desc
         limit #{startno}, #{items}
@@ -29,9 +29,25 @@
         </if>
     </select>
 
+    <!-- 거래처별 주문 리스트 -->
+    <select id="search_account" parameterType="String" resultType="wms_project.dto.ShippingDTO">
+        select aidx, aordercode, aproduct, aproductcode, acustomer, ahp, addr, date, adeliveryck, shipstate from shipping
+        <if test="account != 'N'">
+            where account = #{account}
+        </if>
+        order by date desc
+    </select>
+
     <!-- 등록된 주문의 거래처 -->
-    <select id="search_account">
+    <select id="account_list" resultType="String">
         select account from shipping group by account
     </select>
+
+    <!-- 거래처 삭제 -->
+    <delete id="delete_order" parameterType="String">
+        delete from shipping where aidx = #{aidx}
+    </delete>
+
+
 
 </mapper>

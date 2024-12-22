@@ -35,8 +35,34 @@ function insert_order(){
     }
 }
 
+//거래처별 등록 현황
+function search_account(start_date, end_date){
+    var account = document.getElementById("accountnm").value;
+    console.log(account);
+    alert("작업중......");
+}
+
+//등록된 주문 삭제
+function delete_order(aidx){
+    console.log(aidx);
+    if(confirm("해당 오더를 삭제 하시겠습니까?")){
+        const form = document.createElement("form");
+        form.method="post";
+        form.action="../order/delete_order.do";
+
+        const input = document.createElement("input");
+        input.type="hidden";
+        input.name="aidx";
+        input.value = aidx;
+
+        form.appendChild(input);
+        document.body.appendChild(form);
+        form.submit();
+    }
+}
+
 //페이징
-function go_page(i, start_date, end_date){
+function go_page(i, start_date, end_date, account){
     let url = "orderMain.do?pageno=" + i;
     if(start_date && end_date){
         url += "&start_date=" + encodeURIComponent(start_date);

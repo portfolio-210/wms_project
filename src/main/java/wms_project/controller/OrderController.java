@@ -7,9 +7,7 @@ import org.apache.poi.ss.usermodel.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import wms_project.dto.ShippingDTO;
 import wms_project.service.OrderService;
@@ -53,7 +51,7 @@ public class OrderController {
         paramValue.put("startno", startno);
 
         List<ShippingDTO> all = os.order_list(paramValue);
-        List<String> account_all = os.search_account();
+        List<String> account_all = os.account_list();
 
         m.addAttribute("all", all);
         m.addAttribute("account_all", account_all);
@@ -62,6 +60,35 @@ public class OrderController {
         m.addAttribute("start_date", start_date);
         m.addAttribute("end_date", end_date);
 
+        return null;
+    }
+
+    //거래처별 등록 현황(AJAX) - 작업중,,,,
+    @CrossOrigin("*")
+    @PostMapping("/order/searchAccount.do")
+    public String search_account(@RequestParam(value = "account", required = false) String account,
+                                 @RequestParam(value = "start_date", required = false) String start_date,
+                                 @RequestParam(value = "end_date", required = false) String end_date,
+                                 HttpServletResponse res){
+        res.setContentType("text/html;charset=utf-8");
+        try {
+            this.pw = res.getWriter();
+            List<ShippingDTO> result = null;
+            System.out.println(account);
+
+            if(account.equals("N") || account == null){
+                System.out.println("빈 값");
+            } else {
+                result = os.search_account(account);
+                System.out.println(result);
+                this.pw.print(result);
+            }
+        } catch (Exception e) {
+            this.pw.print("<script>" +
+                    "alert('서버 문제로 인해 검색이 되지 않습니다.\n잠시 후 다시 이용해주세요.');" +
+                    "history.go(-1);" +
+                    "</script>");
+        }
         return null;
     }
 
@@ -135,6 +162,37 @@ public class OrderController {
         } finally {
             this.pw.close();
         }
+        return null;
+    }
+
+    //등록된 주문 삭제
+    @PostMapping("/order/delete_order.do")
+    public String delete_order(@RequestParam(value = "aidx", required = false) String aidx, HttpServletResponse res){
+        res.setContentType("text/html;charset=utf-8");
+        try {
+            this.pw = res.getWriter();
+            int result = os.delete_order(aidx);
+            if(result > 0){
+                this.pw.print("<script>" +
+                        "alert('해당 오더를 삭제하였습니다.');" +
+                        "location.href='/order/orderMain.do';" +
+                        "</script>");
+            }
+            else{
+                this.pw.print("<script>" +
+                        "alert('오더 삭제를 실패했습니다.\n잠시 후 다시 시도해주세요.');" +
+                        "history.go(-1);" +
+                        "</script>");
+            }
+        } catch (Exception e) {
+            this.pw.print("<script>" +
+                    "alert('오더 삭제를 실패했습니다.\n잠시 후 다시 시도해주세요.');" +
+                    "history.go(-1);" +
+                    "</script>");
+        } finally {
+            this.pw.close();
+        }
+
         return null;
     }
 

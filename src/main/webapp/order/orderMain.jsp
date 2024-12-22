@@ -1,8 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="f" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/sql" prefix="s" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="cr" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/sql" prefix="sql" %>
 <!-- Header -->
 <%@ include file="../header.jsp"%>
 <!-- Nav -->
@@ -19,8 +19,8 @@
         <ul class="ul-2">
             <li class="num_font13_bold">오더등록 일자별</li>
             <li style="width: 85%; display: flex; flex-direction: row;">
-                <input type="date" name="start_date" id="start_date" style="width: 150px; height: 40px;" class="form-control font12">&nbsp;-&nbsp;
-                <input type="date" name="end_date" id="end_date" style="width: 150px; height: 40px;" class="form-control font12">
+                <input type="date" name="start_date" id="start_date" value="${start_date}" style="width: 150px; height: 40px;" class="form-control font12">&nbsp;-&nbsp;
+                <input type="date" name="end_date" id="end_date" value="${end_date}" style="width: 150px; height: 40px;" class="form-control font12">
                 <button type="button" onclick="search_order()" class="btn btn-primary font12" style="width: 70px; height: 40px; margin-left:10px; margin-right: 10px;">검색</button>
             </li>
         </ul>
@@ -42,9 +42,10 @@
             </li>
             <li class="num_font13_bold">거래처별 등록현황</li>
             <li>
-                <select style="width: 200px; height: 40px; margin-right: 5px;" class="form-control font12">
-                <cr:forEach var="order" items="${account_all}">
-                    <option>${order}</option>
+                <select name="accountnm" id="accountnm" onchange="search_account('${start_date}', '${end_date}')" style="width: 200px; height: 40px; margin-right: 5px;" class="form-control font12">
+                    <option value="N">거래처를 선택해주세요</option>
+                <cr:forEach var="account" items="${account_all}">
+                    <option value="${account}">${account}</option>
                 </cr:forEach>
                 </select>
             </li>
@@ -80,7 +81,7 @@
                     <td>${order.date.substring(0,10)}</td>
                     <td>${order.adeliveryck}</td>
                     <td>
-                        <button type="button" class="btn btn-danger font12" style="width: 60px; height: 30px;">삭제</button> 
+                        <button type="button" onclick="delete_order('${order.aidx}')" class="btn btn-danger font12" style="width: 60px; height: 30px;">삭제</button>
                     </td>
                   </tr>
               </cr:forEach>
@@ -93,7 +94,7 @@
         <ul class="pageing">
             <cr:set var="page" value="${total%15 == 0? total/15 : total/15 + (1-((total/15)%1))}"/>
             <cr:forEach var="i" begin="1" end="${page}">
-                <li style="cursor: pointer;" onclick="go_page(${i}, '${start_date}', '${end_date}')">${i}</li>
+                <li style="cursor: pointer;" onclick="go_page(${i}, '${start_date}', '${end_date}', '${account}')">${i}</li>
             </cr:forEach>
         </ul>
         <!-- 페이징 끝 -->
