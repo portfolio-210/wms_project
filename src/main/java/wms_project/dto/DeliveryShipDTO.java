@@ -6,7 +6,8 @@ import lombok.Data;
 
 @Data
 @Repository("dsdto")
-public class DeliveryShipDTO {
+public class   DeliveryShipDTO  {
+
 	int aidx;
 	
 	String aordercode, aproductcode, aproduct, acustomer, ahp, addr, account, acode, adeliveryck, date;

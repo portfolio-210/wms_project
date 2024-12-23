@@ -44,23 +44,7 @@ public class AccountServiceImp implements AccountService {
 			return result;
 		};
 		
-/*
-		@Override
-		public List<AccountDTO> accountList(){
-			Map<String, String> pg = new HashMap<>();
-			pg.put("startno", String.valueOf(AccountController.startno));	// 0번부터 mapper에 #{이걸로해놈}
-			pg.put("endno", String.valueOf(AccountController.endno));	// 0번부터 mapper에 #{이걸로해놈} 컨트롤러에 스태틱 가져옴
-			List<AccountDTO> all = am.accountList(pg);
-			return all;
-		};
-		
-		@Override
-		public List<AccountDTO> accountSearch(String search) {
-			List<AccountDTO> result = am.accountSearch(search);
-			return result;
-		};
-	*/	
-		
+
 		// 리스트
 		@Override
 		public List<AccountDTO> accountList(Map<String, Object> paramValue) {
@@ -76,16 +60,6 @@ public class AccountServiceImp implements AccountService {
 			return result;
 		}
 		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-	
 
 		// modify 수정페이지
 		@Override

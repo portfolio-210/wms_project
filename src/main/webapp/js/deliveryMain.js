@@ -12,11 +12,11 @@ function sh(type) {
     var spot = document.querySelector('select[name="spot"]').value;  // 소속
     var part = document.querySelector('select[name="part"]').value;  // 담당기사 검색 기준
     var search = document.querySelector('#search').value.trim();  // 검색어, 공백 제거
-
+	
 
 	
 	    // 소속 검색
-    if (type === 1) {
+    if (type == 1) {
         // 소속이 '전체'일 때와 지점 선택 시 처리
         if (spot === "전체") {
             // 모든 데이터를 출력 (mspot에 관계없이)
@@ -28,10 +28,12 @@ function sh(type) {
     }
 
     // 담당기사 검색
-    if (type === 2) {
-        var mspot = '<%= sessionScope.mspot %>'; // 세션에서 지점 정보 가져오기
+    if (type == 2) {
+        var mspot = '<%=sessionScope.mspot%>'; // 세션에서 지점 정보 가져오기
         var url = './deliveryMain.do?part=' + part;  // 기본 URL
-
+	
+		var mspot2 = document.getElementById("mspot").value;
+		console.log(mspot2);
         // 검색어가 비어 있는지 체크
         if (search === "") {
             if (part === "기사명") {
@@ -54,13 +56,15 @@ function sh(type) {
         url += '&search=' + search;
 
         // 본사일 경우, 모든 지점에서 검색
-        if (mspot === '본사') {
+		
+        if (mspot2 === '본사') {
             window.location.href = url;
         } else {
             // 특정 지점만 검색
-            url += '&spot=' + mspot;
+            url += '&spot=' + mspot2;
             window.location.href = url;
         }
+		
     }
 }
 

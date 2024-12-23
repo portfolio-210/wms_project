@@ -30,18 +30,18 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import wms_project.dto.AccountDTO;
-import wms_project.dto.DeliveryDTO;
+import wms_project.dto.DeliveryListDTO;
 import wms_project.dto.OfficeDTO;
-import wms_project.service.DeliveryService;
+import wms_project.service.DeliveryListService;
 import wms_project.service.OfficeService;
 
 @Controller
-public class DeliveryController implements security {
+public class DeliveryListController implements security {
 
 	@Resource(name="deliverydto")
-	DeliveryDTO dto;
+	DeliveryListDTO dto;
 	@Autowired
-	DeliveryService ds;
+	DeliveryListService ds;
 	
 	// office의 지점을 가져와서 핸들링 검색기능 구현
 	@Resource(name="OfficeDTO")
@@ -71,7 +71,6 @@ public class DeliveryController implements security {
 	    HttpSession session,
 	    Model m) {
 		
-		System.out.println("배송기사의 pageno : "+ pageno);
 	    if (pageno == null) {
 	    	pageno = 1;
 	    	this.startno = 0;
@@ -94,14 +93,14 @@ public class DeliveryController implements security {
 	    //params.put("pageno", pageno);
 	    
 	    // 배송기사 목록 조회
-	    List<DeliveryDTO> all = ds.deliveryList(params);
+	    List<DeliveryListDTO> all = ds.deliveryList(params);
 	    
 	    // 지점 리스트
 	    List<OfficeDTO> office = os.office_list();
 	    
 	    // 총 데이터 개수
 	    String result = ds.deliveryMspotCtn(mspot);
-	    System.out.println("총계수는 얼마 : " + result);
+	   // System.out.println("총계수는 얼마 : " + result);
 	    // 모델에 데이터 추가
 	    m.addAttribute("office", office);
 	    m.addAttribute("all", all);
@@ -114,103 +113,11 @@ public class DeliveryController implements security {
 	    return null;
 	}
 
-	/*
-	@GetMapping("/delivery/deliveryMain.do")
-	public String deliveryMain(@RequestParam(value= "pageno", required = false) Integer pageno,
-								@RequestParam(value= "spot", required = false) String spot,
-								@RequestParam(value = "part", required = false) String part,
-								@RequestParam(value = "search", required = false) String search,
-								HttpSession session,
-								Model m) {
-		
-		Map<String, Object> paramValue = new HashMap<>();
-		paramValue.put("search", search);
-		paramValue.put("spot", spot);
-		paramValue.put("part", part);
-	
-		
-		int total = ds.deliveryCount(paramValue);
 
-		if(pageno == null) {
-			pageno = 1;
-			this.startno = 0;
-			this.endno = 15;
-			
-		}else {	// URI가 파라미터가 있을경우
-			this.startno = (pageno-1) * 15;	//15개씩 출력
-			this.endno = 15;
-		}
-		paramValue.put("endno", this.endno);
-		paramValue.put("startno", this.startno);
-		
-		List<OfficeDTO> office = os.office_list();
-    	m.addAttribute("office", office);
-	    
-		List<DeliveryDTO> all = ds.deliveryList();
-		m.addAttribute("all", all);
-		m.addAttribute("total", total);
-		m.addAttribute("userpage",pageno);	
-		m.addAttribute("search",search);	
-		m.addAttribute("spot",spot);	
-		m.addAttribute("part",part);	
-
-		
-	
-		return null;
-	}
-	*/
-	
-	
-	
-	
-	/* 원래내꺼!!
-	@GetMapping("/delivery/deliveryMain.do")
-	public String deliveryMain(
-			@RequestParam(value="pageno", required = false) Integer pageno,
-			@RequestParam(value= "spot", required = false) String spot,
-			@RequestParam(value = "part", required = false) String part,
-			@RequestParam(value = "search", required = false) String search,
-			HttpSession session,
-			Model m
-			) {
-		
-		
-
-		if(pageno==null) {
-			this.startno = 0;
-			this.endno = 15;
-			
-		}else {	// URI가 파라미터가 있을경우
-			this.startno = (pageno-1) * 15;	//15개씩 출력
-			this.endno = 15;
-		}		
-	
-		
-		String mspot = (String) session.getAttribute("mspot");
-	    String result = ds.deliveryMspotCtn(mspot);
-		
-
-	    List<OfficeDTO> office = os.office_list();
-    	m.addAttribute("office", office);
-	    
-		List<DeliveryDTO> all = ds.deliveryList();
-		m.addAttribute("all", all);
-		m.addAttribute("total", result);
-		m.addAttribute("userpage",pageno);	
-
-		return null;
-	}
-	*/
-	
-	
-	
-	
-	
-	
 	
 	
 	@PostMapping("/deliveryList/deliveryInsertok.do")
-	public String deliveryInsertok( @ModelAttribute("delivery") DeliveryDTO dto,
+	public String deliveryInsertok( @ModelAttribute("delivery") DeliveryListDTO dto,
 									@RequestParam("dimgnmf") MultipartFile files, 
 									HttpServletResponse res, 
 									HttpServletRequest req,
@@ -343,7 +250,7 @@ public class DeliveryController implements security {
 	@GetMapping("/deliveryList/deliveryModify.do")
 	public String deliveryModify(@RequestParam("didx") String didx,
 								Model m) {
-		DeliveryDTO ddto = ds.deliveryModifyIdx(didx);
+		DeliveryListDTO ddto = ds.deliveryModifyIdx(didx);
 		m.addAttribute("ddto", ddto);
 		
 		return "deliveryList/deliveryModify";
@@ -352,7 +259,7 @@ public class DeliveryController implements security {
 	
 
 	@PostMapping("/deliveryList/deliveryModifyok.do")
-	public String deliveryModifyok(@ModelAttribute("modify") DeliveryDTO dto,
+	public String deliveryModifyok(@ModelAttribute("modify") DeliveryListDTO dto,
 	                               @RequestParam("dimgnmf") MultipartFile files, 
 	                               HttpServletResponse res, 
 	                               HttpServletRequest req,
@@ -422,7 +329,7 @@ public class DeliveryController implements security {
 	        }
 	    } catch (Exception e) {
 	        //e.printStackTrace();
-	        this.output = this.js.no("데이터 오류로 인하여 등록 되지 않습니다. 다시 시도해 주세요"+e);
+	        this.output = this.js.no("데이터 오류로 인하여 등록 되지 않습니다. 다시 시도해 주세요");
 	    }
 
 	    m.addAttribute("output", output);

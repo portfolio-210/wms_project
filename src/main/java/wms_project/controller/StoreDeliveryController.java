@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import wms_project.dto.DeliveryDTO;
+import wms_project.dto.DeliveryListDTO;
 import wms_project.dto.ProductDTO;
 import wms_project.dto.ShippingDTO;
 import wms_project.service.StoreDeliveryService;
@@ -121,7 +121,7 @@ public class StoreDeliveryController {
 		
 		
 		List<ShippingDTO>list = sds.order_list(params);
-		List<DeliveryDTO>deliverymenlist = sds.deliverymenlist(mspot);
+		List<DeliveryListDTO>deliverymenlist = sds.deliverymenlist(mspot);
 		
 		
 		m.addAttribute("dlist",deliverymenlist);

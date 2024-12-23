@@ -2,26 +2,108 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="wms_project.mapper.DeliveryShipMapper">
 
-<!-- 리스트 + 페이징 + 검색 -->
-<select id="ShipList" resultType="wms_project.dto.DeliveryShipDTO" parameterType="Map">
-	SELECT aidx, aordercode, aproductcode, aproduct, acustomer, ahp, date, deliveryname, dcode, stracking, sqrimg, sqrurl, shipstate
-	FROM shipping
-	ORDER BY aidx DESC
-	LIMIT ${startno}, ${endno}
-</select>
+	<!-- 리스트 + 페이징 + 검색 
+	<select id="ShipList" resultType="wms_project.dto.DeliveryShipDTO" parameterType="Map">
+		SELECT aidx, aordercode, aproductcode, aproduct, acustomer, ahp, 
+				date, deliveryname, dcode,
+				bapprove,dapprove, 
+				stracking, sqrimg, sqrurl, shipstate
+		FROM shipping
+	
+		WHERE dcode != 'N' AND bapprove != 'Y' AND dapprove !='Y'
+		ORDER BY aidx DESC
+		LIMIT 0, 15
+	</select>
+	-->
+	
+	<select id="ShipList" resultType="wms_project.dto.DeliveryShipDTO" parameterType="Map">
+	    SELECT aidx, aordercode, aproductcode, aproduct, acustomer, ahp, 
+	           date, deliveryname, dcode,
+	           bapprove, dapprove, date, 
+	           stracking, sqrimg, sqrurl, shipstate
+	    FROM shipping
+	    WHERE dcode != 'N' 
+	      AND bapprove != 'Y' 
+	      AND dapprove != 'Y'
+	      <if test="start != null and end != null">
+	        AND date >= concat(#{start}, ' 00:00:00') and date &lt;= concat(#{end}, ' 23:59:59')
+	      </if>
+	      <if test="dcode != null and dcode !='전체'">
+	        AND dcode = #{dcode}
+	      </if>
+	    ORDER BY aidx DESC
+	    LIMIT ${startno},${endno}
+	</select>
+	
+	
+	<!-- 전체 카운트 -->
+	<select id="ShipCtn" resultType="Integer" parameterType="Map">
+	    SELECT COUNT(*) AS ctn
+	    FROM shipping
+	    WHERE dcode != 'N' 
+	      AND bapprove != 'Y' 
+	      AND dapprove != 'Y'
+	      <if test="start != null and end != null">
+	        AND date >= concat(#{start}, ' 00:00:00') and date &lt;= concat(#{end}, ' 23:59:59')
+	      </if>
+	      <if test="dcode != null and dcode !='전체'">
+	        AND dcode = #{dcode}
+	      </if>
+	</select>
+	
+	
+	
+	
+	<!-- shipping 테이블에서 배정된 기사만  select 옵션에 출력 -->
+	<select id="ShipName" resultType="wms_project.dto.DeliveryShipDTO">
+	        SELECT s.aidx, s.deliveryname, s.dcode, s.dspot
+	        FROM shipping s
+	        JOIN (
+	            SELECT MAX(aidx) AS max_aidx, dcode
+	            FROM shipping
+	            WHERE dcode != 'N'
+	            GROUP BY dcode, deliveryname, dspot
+	        ) subquery ON s.aidx = subquery.max_aidx AND s.dcode = subquery.dcode
+	        ORDER BY s.aidx DESC;
+	</select>
 
-<!-- shipping 테이블에서 배정된 기사만  select 옵션에 출력 -->
-<select id="ShipName" resultType="wms_project.dto.DeliveryShipDTO">
-        SELECT s.aidx, s.deliveryname, s.dcode, s.dspot
-        FROM shipping s
-        JOIN (
-            SELECT MAX(aidx) AS max_aidx, dcode
-            FROM shipping
-            WHERE dcode != 'N'
-            GROUP BY dcode, deliveryname, dspot
-        ) subquery ON s.aidx = subquery.max_aidx AND s.dcode = subquery.dcode
-        ORDER BY s.aidx DESC;
-</select>
+	
+
+
+	<!-- 운송장 번호 생성 -->
+	<update id="ShipTracking" parameterType="wms_project.dto.DeliveryShipDTO">
+		UPDATE shipping
+		SET stracking=#{stracking}
+		WHERE aidx=#{aidx} AND stracking = 'N'
+	</update>
+
+	<!-- 운송장 번호 조회(있으면 업데이트 안되게) -->
+	<select id="ShipTR" parameterType="String" resultType="String">
+		SELECT stracking, aidx
+		FROM shipping
+		WHERE aidx=#{aidx} 
+	</select>
+
+
+	<!-- QR만들기전 운송장 번호 조회-->
+	<select id="ShipQR" resultType="String" parameterType="String">
+		SELECT sqrimg
+		FROM shipping
+		WHERE stracking != 'N' 
+		AND sqrimg ='N' 
+		AND sqrurl ='N' 
+		AND aidx=#{aidx}
+	</select>
+	 
+	 
+	<!-- QR생성 -->
+	<update id="QRmake" parameterType="wms_project.dto.DeliveryShipDTO">
+	UPDATE shipping
+	SET sqrimg=#{sqrimg}, sqrurl=#{sqrurl}
+	WHERE aidx=#{aidx} AND stracking != 'N'
+	</update>
+
+	
 
 
 </mapper>

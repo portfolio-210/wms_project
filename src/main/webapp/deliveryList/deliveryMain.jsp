@@ -24,42 +24,9 @@
     
     
  <!-- 소속 검색 form -->
- <form id="f2" onsubmit="return sh()">
+	<input type="hidden" id="mspot" value="<%=mspot%>">
     <div class="mb-3" style="position: relative;">
         <ul class="ul-2">
-        
-        <!-- 
-            <li class="num_font13_bold">소속</li>
-            <li style="width: 85%; display: flex; flex-direction: row;">
-           
-				<c:choose>
-				    <c:when test="${sessionScope.mspot eq '본사'}">
-				        <select name="spot"  style="width: 200px; height: 40px;" class="form-control font12">
-				            <option value="전체">전체</option>
-				            <c:forEach var="office" items="${office}">
-				                <option value="${office.officename}">${office.officename}</option>
-				            </c:forEach>
-				        </select>
-				    </c:when>
-				    
-				    <c:otherwise>
-				        <select name="spot" style="width: 200px; height: 40px;" class="form-control font12">
-				            <c:forEach var="office" items="${office}">
-				         
-				                <c:if test="${office.officename eq sessionScope.mspot}">
-				                    <option value="${office.officename}">${office.officename}</option>
-				                </c:if>
-				            </c:forEach>
-				        </select>
-				    </c:otherwise>
-				</c:choose>
-                
-                
-                <button type="button" class="btn btn-primary font12" style="width: 70px; height: 40px; margin-left:10px; margin-right: 10px;" onclick="sh(1)">검색</button>   
-            </li>
-            
-             -->
-             
             <li class="num_font13_bold">소속</li>
 			<li style="width: 85%; display: flex; flex-direction: row;">
 			    <c:choose>
@@ -105,7 +72,7 @@
             </li>
         </ul>
      </div>
-    </form>
+
      
      
      
@@ -132,7 +99,7 @@
             <!-- 거래처가 없는경우 -->
              <c:if test="${empty all}">
 		        <tr>
-		            <td colspan="10" height="60px" align="center" style="color: #777; font-size: 14px; ">등록된 배송기사 리스트가 없습니다.</td>
+		            <td colspan="10" height="80px" align="center" style="color: #777; font-size: 14px; ">등록된 배송기사 리스트가 없습니다.</td>
 		        </tr>
     		</c:if>
             

@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.messaging.handler.annotation.support.MethodArgumentTypeMismatchException;
 import org.springframework.ui.Model;
@@ -24,13 +25,21 @@ import com.google.zxing.client.j2se.MatrixToImageConfig;
 import com.google.zxing.client.j2se.MatrixToImageWriter;
 import com.google.zxing.common.BitMatrix;
 
-
+import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import wms_project.dto.DeliveryShipDTO;
+import wms_project.service.DeliveryShipService;
 
 @RestController
 public class QrController {
 
+	@Resource(name="dsdto")
+	DeliveryShipDTO dto;
+	
+	@Autowired
+	private DeliveryShipService dss;
+	
 	String output = null;
 	javascript js = new javascript();
 	

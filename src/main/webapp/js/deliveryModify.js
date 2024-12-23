@@ -139,18 +139,7 @@ var idReg = /^\d+$/;
 	        return false;
 	    }
 		else{
-			/*
-			if(f1.dimgnmf.value == "") { // else if로 수정
-				console.log(f1.dimgnmf.value)
-			     alert("증명사진을 등록하지 않으면 배송 출고 시 \n해당 택배기사의 정보는 출력되지않습니다.");
-				 if (confirm("사진을 추가하시겠습니까?")) {
-				       return false;
-				}
-				else{
-					
-				}
-			  }
-			  */
+			
 	        f1.method = "POST";
 	        f1.action = "/deliveryList/deliveryModifyok.do?didx="+didx;
 	        f1.submit();

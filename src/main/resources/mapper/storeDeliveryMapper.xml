@@ -14,7 +14,7 @@
         order by date desc
 </select>
 
-<select id="deliverymenlist" parameterType="Map" resultType="wms_project.dto.DeliveryDTO">
+<select id="deliverymenlist" parameterType="Map" resultType="wms_project.dto.DeliveryListDTO">
         select dname, dspot, didx from delivery
         where dspot = #{mspot}
         and dapprove = "근무중"

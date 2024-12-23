@@ -6,7 +6,7 @@ import lombok.Data;
 
 @Data
 @Repository("deliverydto")
-public class DeliveryDTO {
+public class DeliveryListDTO {
 	int didx;
 	String dcode, dspot, dname, dpass, demail, dhp, didnum;
 	String dimgnm, dimgrenm, dimgurl, dimgck;

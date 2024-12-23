@@ -18,20 +18,6 @@
 	    SELECT COUNT(*) AS ctn FROM account
 	</select>
 	
-	<!-- 리스트 출력 (원래 리스트 출력)
-	<select id="accountList" resultType="wms_project.dto.AccountDTO" parameterType="String">
-		SELECT aidx, acompany, acode, anum, aname, ahp, aindustry, atype, apost, aroad, addr 
-		FROM account 
-		WHERE approve = 'Y' ORDER BY aidx DESC LIMIT ${startno},${endno}
-	</select>
-	 -->
-	<!-- (검색 만든건데 합쳐야함!!)
-	<select id="accountSearch" resultType="wms_project.dto.AccountDTO" parameterType="String">
-		SELECT aidx, acompany, acode, anum, aname, ahp, aindustry, atype, apost, aroad, addr 
-		FROM account 
-		WHERE acompany LIKE concat('%',#{search},'%') and approve = 'Y' ORDER BY aidx DESC
-	</select>
- -->
 
 	<!-- 원래 리스트 출력에 + 검색 + 페이징 합치기 -->
 	<select id="accountList" parameterType="Map" resultType="wms_project.dto.AccountDTO">

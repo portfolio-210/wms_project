@@ -12,6 +12,7 @@ public class javascript {
 				+ "</script>";
 		return this.output;
 	}
+	
 	public String no(String aa) {
 		this.output = "<script>"
 				+ "alert('"+aa+"');"
@@ -19,6 +20,7 @@ public class javascript {
 				+ "</script>";
 		return this.output;
 	}
+
 	public String script(String aa) {
 		this.output = "<script>"
 				+ ""+aa+";"

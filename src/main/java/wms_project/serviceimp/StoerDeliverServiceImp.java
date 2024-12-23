@@ -6,8 +6,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-
-import wms_project.dto.DeliveryDTO;
+import wms_project.dto.DeliveryListDTO;
 import wms_project.dto.ShippingDTO;
 import wms_project.mapper.StoreDeliveryMapper;
 import wms_project.service.StoreDeliveryService;
@@ -29,7 +28,7 @@ public class StoerDeliverServiceImp implements StoreDeliveryService {
 	}
 	
 	@Override
-	public List<DeliveryDTO> deliverymenlist(String mspot) {
+	public List<DeliveryListDTO> deliverymenlist(String mspot) {
 		
 		return sdm.deliverymenlist(mspot);
 	}
