@@ -16,51 +16,45 @@ public class DeliveryShipServiceImp implements DeliveryShipService {
 	@Autowired
 	private DeliveryShipMapper dsm;
 	
-	// 배송 기사별 현황 옵션 출력
 	@Override
 	public List<DeliveryShipDTO> ShipName() {
 		List<DeliveryShipDTO> dsnm = dsm.ShipName();
 		return dsnm;
-	}
+	};
 	
-	// 배송 리스트 출력
 	@Override
 	public List<DeliveryShipDTO> ShipList(Map<String, Object> list) {
 		List<DeliveryShipDTO> result = dsm.ShipList(list);
 		return result;
-	}
-	
+	};
 	
 	@Override
 	public int ShipCtn(Map<String, Object> ctn) {
 		int result = dsm.ShipCtn(ctn);
 		return result;
 	}
-	
+	;
 	@Override
 	public int ShipTracking(DeliveryShipDTO dto) {
 		int result = dsm.ShipTracking(dto);
 		return result;
-	}
+	};
 	
 	@Override
 	public String ShipTR(String aidx) {
 		String result = dsm.ShipTR(aidx);
 		return result;
-	}
+	};
 	
 	@Override
 	public String ShipQR(String aidx){
 		String result = dsm.ShipQR(aidx);
 		return result;
-	}
+	};
 	
 	@Override
 	public int QRmake(DeliveryShipDTO dto) {
 		int result = dsm.QRmake(dto);
 		return result;
-	}
-
-	
-	
+	};
 }

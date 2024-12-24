@@ -9,20 +9,6 @@ function copyAddress(address) {
       alert('주소가 복사되었습니다\n[' + address+']');
   }
 
-
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-
-
 $(function(){
 
     $("#menus").click(function(){
@@ -45,7 +31,6 @@ $(function(){
         }
     });
 
-    //로그아웃
     $("#login_out").click(function(){
         if(confirm("로그아웃 하시겠습니까?")){
             location.href="/deliveryMobile/logout.do";
@@ -53,7 +38,6 @@ $(function(){
     });
 
 
-    //햄버거 메뉴
     $("#s_menu_ul>li").click(function(){
         var idx = $(this).index();
         var $gourl = "";
@@ -72,28 +56,62 @@ $(function(){
 });
 
 	//배송준비
-	function ma(state){
-		alert("배송준비");
-		location.href = "/deliveryMobile/mobileMain.do?state="+state;
+	function ma(state,idx){
+		//대기
+		if(state == "대기"){
+			f1.method = "post";
+			f1.action = "/deliveryMobile/mobileState.do?state=배송중&idx="+idx;
+			f1.submit();
+		}
+		else{
+			alert("시스템 오류입니다. 다시 시도해주세요");
+			return false;
+		}
 	}
 	
 	//배송중
-	function mb(){
-		alert("배송중");
+	function mb(state,idx){
+		if(state == "배송중"){
+			f1.method = "post";
+			f1.action = "/deliveryMobile/mobileState.do?state=촬영하기&idx="+idx;
+			f1.submit();
+		}
+		else{
+			alert("시스템 오류입니다. 다시 시도해주세요");
+			return false;
+		}
 	}
 	
 	//촬영하기
-	function mc(){
-		alert("촬영하기");
-		
+	function mc(state,idx){
+		if(state == "촬영하기"){
+			console.log(f1.cam.value);
+			//만약 저 밸류값 사진이 없음!!! 핸들링 XX
+			f1.method = "post";
+			f1.action = "/deliveryMobile/mobileState.do?state=송장확인&idx="+idx;
+			//f1.submit();
+		}
+		else{
+			alert("시스템 오류입니다. 다시 시도해주세요");
+			return false;
+		}
+	
 	}
 
 	//완료하기
-	function md(){
-		alert("완료하기");
+	function md(state,idx){
+		if(state == "완료하기"){
+			if(confirm("배송 완료 처리하시겠습니까?")){
+			f1.method = "post";
+			f1.action = "/deliveryMobile/mobileState.do?state=완료하기&idx="+idx;
+			f1.submit();
+			}
+		}
+		else{
+			alert("시스템 오류입니다. 다시 시도해주세요");
+			return false;
+		}
 	}
-
-	
 	
 	function repage(){
 		location.href="/deliveryMobile/mobileMain.do";

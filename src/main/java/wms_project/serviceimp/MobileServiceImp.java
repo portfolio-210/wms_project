@@ -20,11 +20,17 @@ public class MobileServiceImp implements MobileService {
 	public List<MobileDTO> MobileLogin(String deliver_id) {
 		List<MobileDTO> result = mm.MobileLogin(deliver_id);
 		return result;
-	}
+	};
 	
 	@Override
 	public List<MobileDTO> MobileList(Map<String, Object> list) {
 		List<MobileDTO> result = mm.MobileList(list);
 		return result;
-	}
+	};
+	
+	@Override
+	public int MobileState(MobileDTO dto) {
+		int result = mm.MobileState(dto);
+		return result;
+	};
 }

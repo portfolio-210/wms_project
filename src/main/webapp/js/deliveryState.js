@@ -1,8 +1,6 @@
 function searchBtn(){
 	var search = document.querySelector('#search').value.trim();
 	var part = document.querySelector('select[name="part"]').value;
-
-
 	
 	if(search == ""){
 		if(part == "이름"){
@@ -37,10 +35,6 @@ function page_go(n,search){
 
 
 
-
-
 function allBtn(){
 	location.href="/deliveryState/deliveryState.do";
 }
-
-

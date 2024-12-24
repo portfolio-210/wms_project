@@ -1,10 +1,10 @@
 var idCK = false;  
-var phoneReg = /^\d{3}-\d{3,4}-\d{4}$/;// 휴대폰 번호만
-var nameReg = /^[가-힣]{2,4}$/;		//이름
+var phoneReg = /^\d{3}-\d{3,4}-\d{4}$/;
+var nameReg = /^[가-힣]{2,4}$/;
 var hpReg = /^\d{3}\d{4}\d{4}$|^\d{3}\d{3}\d{4}$|^\d{2}\d{4}\d{4}$|^\d{2}\d{3}\d{4}$|^\d{4}\d{4}$/;
 var numReg = /([0-9]{3})-?([0-9]{2})-?([0-9]{5})/;
 var faxReg = /^(?:\+82-\d{1,2}-\d{3,4}-\d{4}|\d{2,3}-\d{3,4}-\d{4})$/;
-var emailReg = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;	//메일
+var emailReg = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;	
 var pwReg = /^(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z\d]{6,}$/;
 var idReg = /^\d+$/;
 
@@ -13,17 +13,13 @@ function deliveryMain(){
 	
 }
 
-// 사진 파일 업로드 핸들링!
 document.getElementById('dimgnm').addEventListener('change', function(event) {
     var fileInput = event.target;
-    var file = fileInput.files[0]; // 선택한 파일
+    var file = fileInput.files[0];
     if (file) {
       var fileName = file.name;
-      var fileExtension = fileName.split('.').pop().toLowerCase(); // 파일 확장자
-
-      // 원하는 확장자만 허용 (예: jpg, png, gif)
+      var fileExtension = fileName.split('.').pop().toLowerCase(); 
       var validExtensions = ['jpg', 'jpeg', 'png', 'gif'];
-
       if (validExtensions.indexOf(fileExtension) === -1) {
         alert('허용되지 않는 파일 형식입니다.\nJPG, PNG, GIF 파일만 업로드할 수 있습니다.');
         fileInput.value = ''; // 파일 선택 초기화
@@ -35,9 +31,7 @@ document.getElementById('dimgnm').addEventListener('change', function(event) {
   
  function codeCk(){
 	let http = new XMLHttpRequest();
-	let ctn = "";	// 백엔드에게 받는 카운트값
-	
-	
+	let ctn = "";
 	http.onreadystatechange = function(){
 		if(http.readyState == 4 && http.status == 200){	
 			ctn = http.responseText.trim();
@@ -61,7 +55,6 @@ document.getElementById('dimgnm').addEventListener('change', function(event) {
 } 
 
 
-
 function deliverySubmit() {
     var id1 = document.getElementById("id1");
     var id2 = document.getElementById("id2");
@@ -83,12 +76,6 @@ if(f1.dspot.value == ""){
 		alert("사원번호를 생성해 주세요.");
 		return false;
 	}
-	/*
-	else if(idCK == false){
-		alert("사원번호를 생성해 주세요.");
-		return false;	
-	}
-*/
     else if(f1.dname.value == "") {
         alert("이름을 입력해 주세요.");
         f1.dname.focus();
@@ -142,7 +129,7 @@ if(f1.dspot.value == ""){
         id1.focus();
         return false;			
     }
-    else if(id1.value.length < 6) { // 주민등록 번호 길이 체크 수정
+    else if(id1.value.length < 6) { 
         alert("주민등록 번호를 입력해주세요");
         id1.value = "";			
         id2.value = "";
@@ -193,7 +180,6 @@ if(f1.dspot.value == ""){
 			       return false;
 			}
 			else{
-				
 			}
 		  }
 		f1.didnum.value = id1.value + "-" + id2.value;

@@ -43,23 +43,19 @@ public class DeliveryListController implements security {
 	@Autowired
 	DeliveryListService ds;
 	
-	// office의 지점을 가져와서 핸들링 검색기능 구현
 	@Resource(name="OfficeDTO")
 	OfficeDTO odto;
 	@Autowired
     OfficeService os;
 	
-	//세션
 	@Autowired
     HttpSession session;
-	
 	
 	String output = null;
 	javascript js = new javascript();
 	
-	//페이징
-	public static int startno = 0;	// 비트윈에 시작값 
-	public static int endno = 15; // 비트윈에 종료값
+	public static int startno = 0;	
+	public static int endno = 15; 
 	
 	
 	@GetMapping("/deliveryList/deliveryMain.do")
@@ -76,13 +72,11 @@ public class DeliveryListController implements security {
 	    	this.startno = 0;
 	        this.endno = 15;
 	    } else {
-	        this.startno = (pageno - 1) * 15; // 15개씩 출력
+	        this.startno = (pageno - 1) * 15; 
 	        this.endno = 15;
 	    }
 
 	    String mspot = (String) session.getAttribute("mspot");
-	    
-	    // 지점에 맞는 배송기사 리스트 조회
 	    Map<String, Object> params = new HashMap<>();
 	    params.put("mspot", mspot);
 	    params.put("spot", spot);
@@ -90,18 +84,11 @@ public class DeliveryListController implements security {
 	    params.put("search", search);
 	    params.put("startno", this.startno);
 	    params.put("endno", this.endno);
-	    //params.put("pageno", pageno);
 	    
-	    // 배송기사 목록 조회
 	    List<DeliveryListDTO> all = ds.deliveryList(params);
-	    
-	    // 지점 리스트
 	    List<OfficeDTO> office = os.office_list();
-	    
-	    // 총 데이터 개수
 	    String result = ds.deliveryMspotCtn(mspot);
-	   // System.out.println("총계수는 얼마 : " + result);
-	    // 모델에 데이터 추가
+	    
 	    m.addAttribute("office", office);
 	    m.addAttribute("all", all);
 	    m.addAttribute("total", result);
@@ -127,12 +114,9 @@ public class DeliveryListController implements security {
 		SimpleDateFormat si = new SimpleDateFormat("yyyyMMddhhmmss");
 		Random random = new Random();
 		
-		// 사진 첨부 핸들링
 		if("".equals(dto.getDimgnm())) {
 			dto.setDimgnm("N");
 		} 
-		
-		
 		if ("N".equals(dto.getDimgnm())) {
 		    dto.setDimgrenm("N");
 		    dto.setDimgurl("N");
@@ -143,54 +127,38 @@ public class DeliveryListController implements security {
 		    dto.setDimgck("Y");
 		}
 		
-		
-		// 패스워드 보안
 		String userpw = dto.getDpass();
 		StringBuilder repass = secode(userpw);
 		dto.setDpass(repass.toString());
 		
-		// 사진 첨부
-		
-		
 		String filenm = files.getOriginalFilename();
 		long filesize = files.getSize();
-		
 	
 		if(filesize != 0) {
-		
 			if (filesize > 2097152) {
 				this.output=this.js.no("첨부파일 용량은 최대 2MB까지만 등록 가능합니다.");
 			}else {	
-				
 				String url = req.getServletContext().getRealPath("/deliveryList/imgUpload/");
 				String type = filenm.substring(filenm.lastIndexOf("."));
 				int no = random.nextInt(40)+1;	
 				String new_nm = si.format(date);
-	
 				FileCopyUtils.copy(files.getBytes(), new File(url+new_nm+no+type));
-	
-					dto.setDimgnm(filenm);
-					dto.setDimgrenm(new_nm+no+type);
-					dto.setDimgurl("./deliveryList/imgUpload/");
+				dto.setDimgnm(filenm);
+				dto.setDimgrenm(new_nm+no+type);
+				dto.setDimgurl("./deliveryList/imgUpload/");
 			}
-		}
-		else {
+		}else {
 			dto.setDimgnm("N");
 			dto.setDimgrenm("N");
 		    dto.setDimgurl("N");
 		    dto.setDimgck("N");
 		}
 	
-		
-			            
 		try {
-			// 사진 없이 등록하면 dimgnm 컬럼에 "N"값으로 변경
 			int result = ds.deliveryInsert(dto);
-			
 			if(result > 0) {
 				this.output=this.js.ok("배송기사 등록이 완료 되었습니다.", "/deliveryList/deliveryMain.do");
-			}
-			else {
+			}else {
 				this.output=this.js.no("배송기사 등록에 실패하였습니다. 다시 시도해 주세요.");
 			}
 		} catch (Exception e) {
@@ -204,7 +172,6 @@ public class DeliveryListController implements security {
 
 	
 	
-	//배송기사 사원번호 자동생성 (AJAX)
 	@CrossOrigin("*")
 	@GetMapping("/deliveryList/deliveryCode.do")
 	public String deliveryCode(HttpServletResponse res) throws Exception {	
@@ -219,8 +186,6 @@ public class DeliveryListController implements security {
 	}
 	
 	
-	
-	//배송기사 현황 바꾸기
 	@GetMapping("/deliveryList/deliveryApprove.do")
 	public String deliveryApprove(@RequestParam("dapprove") String approve,
 	                               @RequestParam("didx") String idx, 
@@ -232,7 +197,6 @@ public class DeliveryListController implements security {
 	    try {
 	        int result = ds.deliveryApprove(dto);
 		        if (result > 0) {
-		        	//System.out.println(result);
 		        	this.output=this.js.ok("배송기사의 현황이 [ "+ approve +" ] 변경 되었습니다.", "/deliveryList/deliveryMain.do");
 		        } else {
 		        	this.output=this.js.no("배송기사의 현황 수정을 실패하였습니다. 다시 시도해 주세요.");
@@ -241,12 +205,10 @@ public class DeliveryListController implements security {
 	        e.printStackTrace();
 	        this.output=this.js.no("데이터 오류로 인하여 수정 되지 않습니다. 다시 시도해 주세요"+ e.getMessage());
 	    }
-	    
 	    m.addAttribute("output", output);
 	    return "output"; 
 	}
 	
-	//수정 idx값으로 조회
 	@GetMapping("/deliveryList/deliveryModify.do")
 	public String deliveryModify(@RequestParam("didx") String didx,
 								Model m) {
@@ -269,13 +231,9 @@ public class DeliveryListController implements security {
 	    SimpleDateFormat si = new SimpleDateFormat("yyyyMMddhhmmss");
 	    Random random = new Random();
 	    
-	
-	    
-	    // 사진 첨부 핸들링
 	    if (dto.getDimgnm() == null) {
 	        dto.setDimgnm("N");
 	    }
-	    
 	    if ("N".equals(dto.getDimgnm())) {
 	        dto.setDimgrenm("N");
 	        dto.setDimgurl("N");
@@ -286,16 +244,13 @@ public class DeliveryListController implements security {
 		    dto.setDimgck("Y");
 	    }
 
-	    // 패스워드 보안
 	    String userpw = dto.getDpass();
 	    StringBuilder repass = secode(userpw);
 	    dto.setDpass(repass.toString());
 
-	    // 사진 첨부
 	    String filenm = files.getOriginalFilename();
 	    long filesize = files.getSize();
 
-	    
 	    if (filesize > 2097152) {
 	        this.output = this.js.no("첨부파일 용량은 최대 2MB까지만 등록 가능합니다.");
 	    } else {
@@ -307,40 +262,25 @@ public class DeliveryListController implements security {
 	            String type = filenm.substring(filenm.lastIndexOf("."));
 	            int no = random.nextInt(40) + 1;    
 	            String new_nm = si.format(date);
-	            
-	            // 파일 복사
 	            FileCopyUtils.copy(files.getBytes(), new File(url + new_nm + no + type));
-
 	            dto.setDimgnm(filenm);
 	            dto.setDimgrenm(new_nm + no + type);
 	            dto.setDimgurl("./deliveryList/imgUpload/");
 	            dto.setDimgck("Y");
 	        }
 	    }
-
 	    try {
-	        // 사진 없이 등록하면 dimgnm 컬럼에 "N"값으로 변경
 	        int result = ds.deliveryModify(dto);
-
 	        if (result > 0) {
 	            this.output = this.js.ok("배송기사 수정이 완료 되었습니다.", "/deliveryList/deliveryMain.do");
 	        } else {
 	            this.output = this.js.no("배송기사 수정을 실패하였습니다. 다시 시도해 주세요.");
 	        }
 	    } catch (Exception e) {
-	        //e.printStackTrace();
 	        this.output = this.js.no("데이터 오류로 인하여 등록 되지 않습니다. 다시 시도해 주세요");
 	    }
 
 	    m.addAttribute("output", output);
 	    return "output";
 	}
-	
-	
-	
-	
-	
-	
-	
-	
 }

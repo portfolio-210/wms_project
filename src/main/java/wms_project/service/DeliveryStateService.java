@@ -7,8 +7,6 @@ import wms_project.dto.DeliveryStateDTO;
 import wms_project.mapper.DeliveryStateMapper;
 
 public interface DeliveryStateService {
-
 	public List<DeliveryStateDTO> shipstatus(Map<String, Object> list);
-	
 	public int stateCtn(Map<String, Object> ctn);
 }

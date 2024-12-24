@@ -45,8 +45,6 @@ public class DeliveryShipController {
 	String output = null;
 	javascript js = new javascript();
 	
-	// 메인페이지
-	
 	@GetMapping("/deliveryShip/deliveryShip.do")
 	public String deliveryShip(
 			@RequestParam(value = "start", required = false) String start,
@@ -55,21 +53,16 @@ public class DeliveryShipController {
 			@RequestParam(value = "pageno", required = false) Integer pageno,
 			Model m) {
 		
-		int startno = 0;    //글 시작 번호
-        int endno = 15;     //한 페이지에 출력될 행 개수
+		int startno = 0;   
+        int endno = 15;     
         if(pageno == null){
             pageno = 1;
         } else {
             startno = (pageno-1) * 15;
         }
 		
-		
-		
-		//배송기사별 현황 출력
 		List<DeliveryShipDTO> dsnm = dss.ShipName();
 		m.addAttribute("dsnm", dsnm);
-		
-		
 		
 		Map<String, Object> ctn = new HashMap<>();
 		ctn.put("dcode", dcode);
@@ -80,8 +73,6 @@ public class DeliveryShipController {
 		
 		int total = dss.ShipCtn(ctn);
 		m.addAttribute("total", total);
-		//System.out.println(total);
-
 		
 		Map<String, Object> list = new HashMap<>();
 		list.put("dcode", dcode);
@@ -92,15 +83,10 @@ public class DeliveryShipController {
 		
 		List<DeliveryShipDTO> all = dss.ShipList(list);
 		m.addAttribute("all",all);
-		//m.addAttribute("total",total);
-
 		
 		return null;
 	}
 	
-	
-	
-	//운송장 번호 생성
 
 	@PostMapping("/deliveryShip/deliveryTracking.do")
 	public String deliveryTracking(@RequestParam(value = "aidx", required = false) String aidx, Model m) {
@@ -110,16 +96,11 @@ public class DeliveryShipController {
 	        return "output";
 	    }
 
-	    // 배열로 aidx받은 값 
 	    String[] idxArray = aidx.split(",");
-	    //중복된 운송장 번호 리스트
 	    List<String> trdu = new ArrayList<>();
-	    
 	    
 	    for (String aidxStr : idxArray) {
 	        int aidxInt = Integer.parseInt(aidxStr);
-
-	        // 운송장 번호 생성
 	        Date date = new Date();
 	        SimpleDateFormat si = new SimpleDateFormat("yyyyMMddss");
 	        Random random = new Random();
@@ -127,7 +108,6 @@ public class DeliveryShipController {
 	        int no = 1000 + random.nextInt(9000);
 	        String trno = trnm + no;
 
-	        // 기존 운송장 번호 확인
 	        String existingTracking = dss.ShipTR(aidxStr); // aidx에 대한 기존 운송장 번호 조회
 	        if ("N".equals(existingTracking)) {
 	            DeliveryShipDTO dto = new DeliveryShipDTO();
@@ -148,25 +128,15 @@ public class DeliveryShipController {
 	            }
 	        } else {
 	        	trdu.add(existingTracking);
-	           // System.out.println("이미 운송장 번호가 생성된 항목: " + aidxStr);
 	            String a1 = dss.ShipTR(aidxStr);
-	            
-	      
-	         
-	            System.out.println("a1 : "+ a1);
-	            System.out.println("aidxStr : " + aidxStr);
-	            System.out.println();
 	            this.output = this.js.ok("이미 생성된 운송장 번호가 있습니다. ["+aidxStr+"]","/deliveryShip/deliveryShip.do");
 	        }
 	    }
-	    
-	    //이미 생성된 운송장 번호 출력
 	    if (!trdu.isEmpty()) {
 	        String trduList = String.join(", ", trdu);
 	        
 	        this.output = this.js.no("이미 생성된 운송장은 제외후 생성됩니다.\\n기존 운송장번호 : [" + trduList + "]");
 	    }
-	  
 	    m.addAttribute("output", output);
 	    return "output";
 	}
@@ -179,31 +149,16 @@ public class DeliveryShipController {
 			HttpServletRequest req,
 			HttpServletResponse res,
 			Model m) throws Exception {
-	//System.out.println(aidx);
 	
-	
-	 // 배열로 aidx받은 값 
     String[] idxArray = aidx.split(",");
-    //중복된 운송장 번호 리스트
-    List<String> trdu = new ArrayList<>();	// aidx넣을 빈값
-    //System.out.println("trdu값 : " + trdu);
+    List<String> trdu = new ArrayList<>();
     
     for(String aidxStr : idxArray) {
     	
-    	// 선택한 aidx값
     	int aidxInt = Integer.parseInt(aidxStr);
-    	//System.out.println("aidxInt : " +aidxInt);
-    	
-    	//송장번호
     	String trck = dss.ShipTR(aidxStr);
-    	//System.out.println("trck : " + trck);
-    	
-    	//qrimg 값!!
     	String qrimg = dss.ShipQR(aidxStr);
-    	//System.out.println("qrimg : " + qrimg);
     	
-
-    	// 운송장 번호가 N이 아니면!!!
     	if("N".equals(trck)) {
     		 this.output = this.js.no("송장번호가 없는 오더 제외하고, QR코드가 생성되었습니다.\\nQR코드가 생성되지않은 오더는 운송장 먼처 생성해주세요.");
     	}
@@ -214,26 +169,22 @@ public class DeliveryShipController {
     		String url = "http://localhost:8080/deliveryShip/deliveryQr.do?tacking="+trck;
     		int size = 300;
     		BitMatrix bm = new MultiFormatWriter().encode(url, BarcodeFormat.QR_CODE, size, size);
-    	
-    		int qrcode = 0xFFFF8629;	// QR색상
-			int qrbscolor = 0xFFFFFFFF;	// QR 배경색
+
+    		int qrcode = 0xFFFF8629;	
+			int qrbscolor = 0xFFFFFFFF;	
 			MatrixToImageConfig mc = new MatrixToImageConfig(qrcode,qrbscolor);	
-    	
 			ByteArrayOutputStream bs = null;
-			
 			bs = new ByteArrayOutputStream();
 			MatrixToImageWriter.writeToStream(bm, "PNG", bs, mc);
+			
 			String fileurl = req.getServletContext().getRealPath("/deliveryShip/qrImg/"); 
 			FileCopyUtils.copy(bs.toByteArray(), new File(fileurl + trck + ".png"));
 			bs.flush();
-			
 			try {
 				DeliveryShipDTO dto = new DeliveryShipDTO();
 				dto.setAidx(aidxInt);
 				dto.setSqrimg(trck+".png");
 				dto.setSqrurl("./deliveryShip/qrImg/");
-				
-				//qr 저장하는곳
 				int result = dss.QRmake(dto);
 				System.out.println(result);
 				 if (result > 0) {
@@ -249,13 +200,4 @@ public class DeliveryShipController {
 	    m.addAttribute("output", output);
 	    return "output";
 	}
-	
-	
-	
-	
-	
-	
-	
-
-	
-}//end
+}

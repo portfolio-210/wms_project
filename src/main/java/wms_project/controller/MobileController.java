@@ -100,16 +100,11 @@ public class MobileController implements security {
 	
 	@GetMapping("/deliveryMobile/mobileMain.do")
 	public String mobileMain(
-			@RequestParam(value = "state", required = false) String state,
 			HttpServletRequest req,
 			Model m) {
 		
-		
-		System.out.println("상태는? : "+state);
-		
-		
-		
 		Map<String, Object> list = new HashMap<>();
+		
 		
 		List<MobileDTO> result = ms.MobileList(list);
 		m.addAttribute("result", result);
@@ -118,6 +113,33 @@ public class MobileController implements security {
 	}
 	
 	
+	
+	@PostMapping("/deliveryMobile/mobileState.do")
+	public String mobileState(
+			@RequestParam(value = "state", required = false) String state,
+			@RequestParam(value = "idx", required = false) Integer idx,
+			Model m) {
+		dto.setMobileck(state);
+		dto.setDidx(idx);
+		
+		if(state == "배송중") {
+			dto.setSts(state);
+			dto.setMobileck(state);
+			dto.setDidx(idx);
+		}
+		else if(state== "촬영하기") {
+			
+		}
+		
+		
+		try {
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		
+		return null;
+	}
 	
 	
 	

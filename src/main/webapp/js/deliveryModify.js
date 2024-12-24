@@ -36,18 +36,14 @@ var idReg = /^\d+$/;
 	});
 	
 	document.getElementById('deleteBtn').addEventListener('click', function() {
-	    // 파일 입력 값을 초기화
 	    document.getElementById('dimgnm').value = '';
-
 	});
 
 	document.getElementById('deleteBtn').addEventListener('click', function() {
 	        alert("증명사진을 등록하지 않으면 배송 출고 시 \n해당 택배기사의 정보는 출력되지않습니다.");
-	    });
+	});
 
 		
-	
-	//취소버튼
 	function deliveryMain(){
 		if(confirm("배송기사 수정을 취소하시겠습니까?")){
 			
@@ -55,8 +51,8 @@ var idReg = /^\d+$/;
 		}
 		
 	}
-
-	// 사진 파일 업로드 핸들링!
+	
+	
 	document.querySelectorAll('#dimgnm').forEach(function(fileInput) {
 	    fileInput.addEventListener('change', function(event) {
 	        var file = event.target.files[0]; // 선택한 파일
@@ -74,9 +70,6 @@ var idReg = /^\d+$/;
 	        }
 	    });
 	});
-
-
-	  
 
 
 	function deliverySubmit(didx) {

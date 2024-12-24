@@ -9,10 +9,9 @@
 		AND dapprove='근무중'
 		AND dimgck='Y'   
 	</select>
-	
 
 	<select id="MobileList" resultType="wms_project.dto.MobileDTO" parameterType="Map">
-		SELECT dcode,acustomer,ahp,addr,stracking,shipstate,mobileck
+		SELECT didx,dcode,acustomer,ahp,addr,stracking,shipstate,mobileck
 		FROM mobile
 		WHERE adeliveryck = 'Y'
 		AND bapprove = 'N'
@@ -21,6 +20,11 @@
 		AND stracking != 'N'
 		AND mobileck != 'N' 
 	</select>
-
+	
+	<update id="MobileState" parameterType="wms_project.dto.MobileDTO">
+		UPDATE mobile
+		SET mobileck =#{state}, shipstate=#{sts}
+		WHERE didx=#{idx}
+	</update>
 
 </mapper>

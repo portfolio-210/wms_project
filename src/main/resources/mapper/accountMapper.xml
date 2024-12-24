@@ -2,24 +2,19 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="wms_project.mapper.AccountMapper">
 	
-	<!-- 거래처 등록 -->
 	 <insert id="account_insert" parameterType="wms_project.dto.AccountDTO">
 	    INSERT INTO account (acode, acompany, aname, aindustry, ahp, anum, atype, afax, apost, aroad, addr, approve, adate)
 	    VALUES (#{acode}, #{acompany}, #{aname}, #{aindustry}, #{ahp}, #{anum}, #{atype}, #{afax}, #{apost}, #{aroad}, #{addr}, 'Y', now())
 	</insert>
 
-	<!-- 중복체크 -->
 	<select id="search_company" resultType="String" parameterType="String">
 		SELECT COUNT(*) AS ctn FROM account WHERE acompany=#{acompany} ORDER BY aidx DESC 
 	</select>
 	
-	<!-- 데이터의 총 갯수를 가져오는 - 코드 생성 -->
 	 <select id="account_ctn" resultType="String" parameterType="String">
 	    SELECT COUNT(*) AS ctn FROM account
 	</select>
 	
-
-	<!-- 원래 리스트 출력에 + 검색 + 페이징 합치기 -->
 	<select id="accountList" parameterType="Map" resultType="wms_project.dto.AccountDTO">
 		SELECT aidx, acompany, acode, anum, aname, ahp, aindustry, atype, apost, aroad, addr
 		FROM account
@@ -30,7 +25,6 @@
 		LIMIT ${startno},${endno}
 	</select>
 	
-	<!-- 서치 기준으로 카운트 -->
 	<select id="accountCtn" parameterType="Map" resultType="Integer">
 		SELECT COUNT(*) FROM account 
 			<if test="search != null">
@@ -38,24 +32,10 @@
 			</if>
 	</select>
 	
-	
-	
-	
-	
-	
-	
-	
-
-	
-
-	
-	<!-- 페이징 count -->
 	<select id="accountListCtn" parameterType="Integer">
 	    SELECT COUNT(*) AS ctn FROM account WHERE approve = 'Y'
 	</select>
 	
-	
-	<!-- 글수정 idx값 가져오기 -->
 	<select id="accountIdx" resultType="wms_project.dto.AccountDTO" parameterType="String">
 		SELECT * FROM account WHERE aidx = #{aidx}
 	</select>
@@ -65,11 +45,8 @@
 		afax = #{afax}, apost = #{apost}, aroad = #{aroad}, addr = #{addr}, amodify = now() WHERE aidx = #{aidx}
 	</update>
 
-	  
 	<update id="accountDelete"  parameterType="String">
 		UPDATE account SET approve ='N' where aidx = #{aidx}
 	</update>
 	
-
- 
 </mapper>

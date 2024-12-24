@@ -16,21 +16,15 @@ public class DeliveryStateServiceImp implements DeliveryStateService {
 	@Autowired
 	private DeliveryStateMapper dssm;
 	
-	
 	@Override
 	public List<DeliveryStateDTO> shipstatus(Map<String, Object> list){
 		List<DeliveryStateDTO> result = dssm.shipstatus(list);
 		return result;
-	}
+	};
 	
 	@Override
 	public int stateCtn(Map<String, Object> ctn) {
 		int result = dssm.stateCtn(ctn);
 		return result;
-	}
-	
-	
-	
-	
-	
+	};
 }

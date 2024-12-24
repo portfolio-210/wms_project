@@ -4,7 +4,6 @@
 
 <mapper namespace="wms_project.mapper.DeliveryStateMapper">
 
-
 	<select id="shipstatus" resultType="wms_project.dto.DeliveryStateDTO" parameterType="Map">
 	SELECT didx,dcode,dname,dspot,dhp,dapprove,deliveredctn,lostctn
 	FROM shipstatus
@@ -27,9 +26,6 @@
 	LIMIT ${startno}, ${endno}
 	</select>
 
-
-
-	<!-- 카운트 -->
 	<select id="stateCtn" resultType="Integer" parameterType="Map">
 	SELECT COUNT(*) AS ctn
 	FROM shipstatus
@@ -49,6 +45,5 @@
 	</if>	
 	</where>	
 	</select>
-
 
 </mapper>

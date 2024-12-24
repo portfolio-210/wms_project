@@ -18,12 +18,8 @@ import wms_project.service.AccountService;
 
 @Service
 public class AccountServiceImp implements AccountService {
-
-
-	
 	@Autowired
 	private AccountMapper am;
-	
 
 		@Override
 		public int account_insert(AccountDTO dto) {
@@ -44,52 +40,39 @@ public class AccountServiceImp implements AccountService {
 			return result;
 		};
 		
-
-		// 리스트
 		@Override
 		public List<AccountDTO> accountList(Map<String, Object> paramValue) {
 			List<AccountDTO> result = am.accountList(paramValue);
 			return result;
-		}
+		};
 		
-		
-		// 리스트 ctn
 		@Override
 		public int accountCtn(Map<String, Object> paramValue) {
 			int result = am.accountCtn(paramValue);
 			return result;
-		}
-		
+		};
 
-		// modify 수정페이지
 		@Override
 		public AccountDTO accountIdx(String aidx) {
 			AccountDTO adto = am.accountIdx(aidx);
 			return adto;
 		};
 		
-		// modify 수정완료
 		@Override
 		public int accountModify(AccountDTO dto) {
 			int result = am.accountModify(dto);
 			return result;
 		};
 		
-		
 		@Override
 		public int accountDelete(String aidx) {
 			int result = am.accountDelete(aidx);
 			return result;
-		}
-		//페이징 카운트
+		};
+
 		@Override
 		public int accountListCtn() {
 			int result = am.accountListCtn();
 			return result;
-		}
-
-	
-		
-		
-	
+		};
 }

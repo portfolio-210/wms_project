@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 
-//@Slf4j
 @Controller
 public class ExceptionController {
 

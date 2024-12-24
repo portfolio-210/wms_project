@@ -2,29 +2,22 @@ function accountModify(aidx){
 	location.href='./accountModify.do?aidx='+aidx;
 }
 
-
 function accountDelete(aidx){
 	if (confirm("거래처를 삭제하시겠습니까? \n삭제시 데이터는 복구되지 않습니다.")) {
 	    location.href='./accountDelete.do?aidx='+aidx;
 	} else {
 	  return false;
 	}
-	
 }
 
 function page_go(n,search){
-	
-  //location.href ='./accountMain.do?pageno='+n;
-  
   var url ="./accountMain.do?pageno="+ n;
    if (search) {
 	url+= "&search=" + encodeURIComponent(search);
 		}
 		location.href = url
-	
 }
 	  
-  
 function sh(p){
 	if(p==1){
 		if(frm.search.value==""){
@@ -44,6 +37,3 @@ function sh(p){
 			location.href='./accountMain.do'
    }
 }	
-
-
-

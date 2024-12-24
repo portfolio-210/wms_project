@@ -4,27 +4,16 @@
 
 <mapper namespace="wms_project.mapper.MemberMapper">
 
- 	<!-- 회원기입 -->
 	<insert id="member_join" parameterType="String">
 		insert into member values ('0', #{mpart}, #{mspot}, #{mname}, #{mjob}, #{mid}, #{mpass}, #{memail}, #{mhp},'대기', now())
 	</insert>
 
-	 <!-- 
-		insert into member values ('0','본사', '본사', '최고관리자', '임원', 'admin','cfc8f995650ff6bddc783357f12232', 'admin@webmaster.com', '01000000000', '근무',now());
-	 -->
-	 
-	 
-	 <!-- 중복체크 -->
 	<select id="search_id" resultType="String" parameterType="String">
 		select count(*) as ctn from member where mid=#{mid} order by midx desc 
 	</select>
 	
-	
-	
-	<!-- 로그인 -->
 	 <select id="login_id" resultType="wms_project.dto.MemberDTO">
 		select mpart, mspot, mid, mpass, mname, memail, mhp, approve from member where mid=#{mid}
 	</select>
-	 
 
 </mapper>

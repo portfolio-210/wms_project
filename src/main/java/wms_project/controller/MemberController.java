@@ -43,8 +43,6 @@ public class MemberController implements security {
         return "/member/wmsMain"; 
     }
     
-    
-    
     @GetMapping("/member/wmsJoin.do")
     public String wmsJoin(Model m) {
     	List<OfficeDTO> all = os.office_list();
@@ -76,6 +74,8 @@ public class MemberController implements security {
  		m.addAttribute("output", output);
  		return "output";
  	}
+ 	
+ 	
  	@CrossOrigin("*")
  	@PostMapping("/member/idcheck.do")
  	public String idcheck(@RequestParam("mid") String mid, 

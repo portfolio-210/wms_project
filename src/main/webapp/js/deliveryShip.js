@@ -1,5 +1,3 @@
-
-// 이미지 클릭 이벤트를 동적으로 처리하기 위해 이벤트 위임 사용
 document.body.addEventListener('click', function(event) {
     if (event.target && event.target.id === 'showImageBtn') {
         event.preventDefault();
@@ -12,45 +10,32 @@ document.body.addEventListener('click', function(event) {
     }
 });
 
+function toggleSelectAll() {
+        const selectAll = document.getElementById('selectAll');
+        const checkboxes = document.querySelectorAll('.checkbox');
+        
+        checkboxes.forEach(checkbox => {
+            checkbox.checked = selectAll.checked;
+        });
+    }
 
-	// 체크박스
-	
-	function toggleSelectAll() {
-	        const selectAll = document.getElementById('selectAll');
-	        const checkboxes = document.querySelectorAll('.checkbox');
-	        
-	        // 전체 선택/해제 상태에 따라 체크박스 모두 선택/해제
-	        checkboxes.forEach(checkbox => {
-	            checkbox.checked = selectAll.checked;
-	        });
-	    }
+const checkboxes = document.querySelectorAll('.checkbox');
+checkboxes.forEach(checkbox => {
+    checkbox.addEventListener('change', function() {
+        const selectAll = document.getElementById('selectAll');
+        const checkedCheckboxes = document.querySelectorAll('.checkbox:checked');
 
-	    // 개별 체크박스 클릭 시, 전체 체크박스를 업데이트
-	    const checkboxes = document.querySelectorAll('.checkbox');
-	    checkboxes.forEach(checkbox => {
-	        checkbox.addEventListener('change', function() {
-	            const selectAll = document.getElementById('selectAll');
-	            const checkedCheckboxes = document.querySelectorAll('.checkbox:checked');
-
-	            // 하나라도 체크가 해제되면 전체 체크박스도 해제
-	            if (checkedCheckboxes.length === checkboxes.length) {
-	                selectAll.checked = true; // 모든 체크박스가 체크되면 전체 체크박스도 체크
-	            } else {
-	                selectAll.checked = false; // 하나라도 체크가 해제되면 전체 체크박스 해제
-	            }
-	        });
-	    });
+        if (checkedCheckboxes.length === checkboxes.length) {
+            selectAll.checked = true; // 모든 체크박스가 체크되면 전체 체크박스도 체크
+        } else {
+            selectAll.checked = false; // 하나라도 체크가 해제되면 전체 체크박스 해제
+        }
+    });
+});
 
 
 
 
-
-
-
-
-
-
-//배송 기사별 현황 버튼
 function btn(a){
 	
 	var start = document.getElementById("start").value;
@@ -74,12 +59,9 @@ function btn(a){
 		else{
 		//location.href = "/deliveryShip/deliveryShip.do?start="+start+"&end="+end;
 			location.href = "/deliveryShip/deliveryShip.do?start="+start+"&end="+end;
-
 		}				
-		
 	}
 	
-	// 배송기사별 현황 검색
 	if(a == 2 ){
 		
 		if(dcode == ""){
@@ -99,8 +81,6 @@ function tracking(){
 	   document.querySelectorAll('.checkbox:checked').forEach(function(checkbox) {
 	       selectedAidxs.push(checkbox.getAttribute('aidx'));
 	   });
-
-	   // 선택된 aidx 값이 없으면 알림
 	   if (selectedAidxs.length === 0) {
 	       alert("운송장번호 생성할 오더를 선택해주세요.");
 	       return;
@@ -116,26 +96,20 @@ function tracking(){
 
 	   }
 
-	   
-	   // 체크박스 체크 초기화
 	      document.querySelectorAll('.checkbox').forEach(function(checkbox) {
 	          checkbox.checked = false;
 	      });
-		  
-	  // selectAll 체크박스도 초기화
 	      document.getElementById('selectAll').checked = false;
 }
 
 
-// qr생성
 function qrmake(){
 	
 var selectedAidxs = [];
 	   document.querySelectorAll('.checkbox:checked').forEach(function(checkbox) {
 	       selectedAidxs.push(checkbox.getAttribute('aidx'));
 	   });
-
-	   // 선택된 aidx 값이 없으면 알림
+	   
 	   if (selectedAidxs.length === 0) {
 	       alert("운송장번호 생성할 오더를 선택해주세요.");
 	       return;
@@ -150,20 +124,11 @@ var selectedAidxs = [];
 	   f1.submit();
 
 	   }
-
-	   
-	   // 체크박스 체크 초기화
 	      document.querySelectorAll('.checkbox').forEach(function(checkbox) {
 	          checkbox.checked = false;
 	      });
-		  
-	  // selectAll 체크박스도 초기화
 	      document.getElementById('selectAll').checked = false;
 }
-
-
-
-
 
 
 function go_page(i, search){
@@ -171,6 +136,3 @@ function go_page(i, search){
 
     location.href = url;
 }
-
-
-

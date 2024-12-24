@@ -2,7 +2,6 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="wms_project.mapper.DeliveryShipMapper">
 
-
 	<select id="ShipList" resultType="wms_project.dto.DeliveryShipDTO" parameterType="Map">
 	    SELECT aidx, aordercode, aproductcode, aproduct, acustomer, ahp, 
 	           date, deliveryname, dcode,
@@ -22,8 +21,6 @@
 	    LIMIT ${startno},${endno}
 	</select>
 	
-	
-	<!-- 전체 카운트 -->
 	<select id="ShipCtn" resultType="Integer" parameterType="Map">
 	    SELECT COUNT(*) AS ctn
 	    FROM shipping
@@ -38,10 +35,6 @@
 	      </if>
 	</select>
 	
-	
-	
-	
-	<!-- shipping 테이블에서 배정된 기사만  select 옵션에 출력 -->
 	<select id="ShipName" resultType="wms_project.dto.DeliveryShipDTO">
 	        SELECT s.aidx, s.deliveryname, s.dcode, s.dspot
 	        FROM shipping s
@@ -54,25 +47,18 @@
 	        ORDER BY s.aidx DESC;
 	</select>
 
-	
-
-
-	<!-- 운송장 번호 생성 -->
 	<update id="ShipTracking" parameterType="wms_project.dto.DeliveryShipDTO">
 		UPDATE shipping
 		SET stracking=#{stracking}
 		WHERE aidx=#{aidx} AND stracking = 'N'
 	</update>
 
-	<!-- 운송장 번호 조회(있으면 업데이트 안되게) -->
 	<select id="ShipTR" parameterType="String" resultType="String">
 		SELECT stracking, aidx
 		FROM shipping
 		WHERE aidx=#{aidx} 
 	</select>
 
-
-	<!-- QR만들기전 운송장 번호 조회-->
 	<select id="ShipQR" resultType="String" parameterType="String">
 		SELECT sqrimg
 		FROM shipping
@@ -82,15 +68,10 @@
 		AND aidx=#{aidx}
 	</select>
 	 
-	 
-	<!-- QR생성 -->
 	<update id="QRmake" parameterType="wms_project.dto.DeliveryShipDTO">
 	UPDATE shipping
 	SET sqrimg=#{sqrimg}, sqrurl=#{sqrurl}
 	WHERE aidx=#{aidx} AND stracking != 'N'
 	</update>
-
-	
-
 
 </mapper>

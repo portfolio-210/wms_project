@@ -11,7 +11,6 @@ public class DeliveryListDTO {
 	String dcode, dspot, dname, dpass, demail, dhp, didnum;
 	String dimgnm, dimgrenm, dimgurl, dimgck;
 	String dapprove, ddate, dmodify;
-	
 	String spot,search,part,mspot;
 
 }

@@ -32,16 +32,14 @@ public class DeliveryStateController {
 			@RequestParam(value = "search", required = false) String search,
 			Model m) {
 		
-		int startno = 0;    //글 시작 번호
-        int endno = 15;     //한 페이지에 출력될 행 개수
+		int startno = 0; 
+        int endno = 15;    
         if(pageno == null){
             pageno = 1;
         } else {
             startno = (pageno-1) * 15;
         }
 	  
-        
-        //ctn
         Map<String, Object> ctn = new HashMap<>();
         ctn.put("part", part);
         ctn.put("search", search);
@@ -51,31 +49,15 @@ public class DeliveryStateController {
         int total = dsss.stateCtn(ctn);
         m.addAttribute("total", total);
         
-        
         Map<String, Object> list = new HashMap<>();
 		list.put("part", part);
 		list.put("search", search);
 		list.put("startno", startno);
 		list.put("endno", endno);
         
-		//전체 리스트 출력!
 		List<DeliveryStateDTO> result = dsss.shipstatus(list);
 		m.addAttribute("result", result);
-
 		
 		return null;
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 }
