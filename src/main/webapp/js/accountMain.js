@@ -34,6 +34,7 @@ function sh(p){
 		}
 		else{
 			frm.search.value = frm.search.value.replaceAll(" ", "");
+			frm.search.value = frm.search.value.replace(/\s+/g, ''); 
 			frm.method = "get";
 			frm.action ="./accountMain.do?search=" + 1;
 			frm.submit();

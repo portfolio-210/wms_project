@@ -141,7 +141,7 @@
      
      <div class="mb-3">
         <ul class="pageing">
-        <c:set var="pages" value="${total / 15 + (1 - (total / 15) % 1)}"/>
+        <c:set var="pages" value="${total%15 == 0? total/15 : total/15 + (1-((total/15)%1))}"/>
         <c:forEach var="no" begin="1" end="${pages}" step="1">
           <li onclick="page_go(${no}, '${search}')" style="cursor: pointer;">${no}</li>
          </c:forEach>

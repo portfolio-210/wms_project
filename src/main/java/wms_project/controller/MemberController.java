@@ -37,10 +37,9 @@ public class MemberController implements security {
 	String output = null;
 	javascript js = new javascript();
 	
-	 // 메인페이지
+
     @GetMapping("/member/wmsMain.do")
     public String main(Model m, HttpServletRequest req) {    
-
         return "/member/wmsMain"; 
     }
     
@@ -53,22 +52,15 @@ public class MemberController implements security {
     	return null;
     }
     
-    
-    
- // 회원가입
  	@PostMapping("/member/wmsJoinok.do")
  	public String joinok(@ModelAttribute("join") MemberDTO dto,
  							Model m)throws Exception {	
- 	
- 		// mspot 값이 "N"이라면 "본사"로 변경
  	    if ("N".equals(dto.getMspot())) {
  	        dto.setMspot("본사");
  	    }
- 		//md5
  		String userpw = dto.getMpass();	
  		StringBuilder repass = secode(userpw);
  		dto.setMpass(repass.toString());
- 		
  		try {
  			int result = ms.member_join(dto);
  				if(result > 0) {
@@ -84,8 +76,6 @@ public class MemberController implements security {
  		m.addAttribute("output", output);
  		return "output";
  	}
- 	
- // 아이디 중복체크
  	@CrossOrigin("*")
  	@PostMapping("/member/idcheck.do")
  	public String idcheck(@RequestParam("mid") String mid, 
@@ -97,14 +87,12 @@ public class MemberController implements security {
  		}
  		else {
  			result = ms.search_id(mid);
- 			//System.out.println("중복체크"+result);
  			pw.print(result);
  			pw.close();
  		}
  		return null;
  	}
  	
- 	// 로그인OK.do
     @PostMapping("/member/wmsLoginok.do")
     public String loginok(@RequestParam("mid") String mid, 
     						@RequestParam("mpass") String mpass,
@@ -113,22 +101,12 @@ public class MemberController implements security {
     						Model m) {
         
         List<MemberDTO> member_dto = ms.login_id(mid);
-        //System.out.println(member_dto);
-        
-        
-        
         if (member_dto.size() == 0) { 
-        	//System.out.println(member_dto.size());	// 아이디로 정보를 가져온다!
-        	this.output=this.js.ok("아이디 및 패스워드를 다시 확인해주세요.","./wmsLogin.jsp");	// 아이디 로 정보를 못가져올때 체크!!
+        	this.output=this.js.ok("아이디 및 패스워드를 다시 확인해주세요.","./wmsLogin.jsp");	
         } else {
-        	//System.out.println("member 사이즈는?" +member_dto.size());	// 로그인 성고이 1이라고 나온다
-	       
-        	///////////위에서 가져온 아이디 정보들 핸들링 하기!!!
         	try {
-  
-        			StringBuilder repass = secode(mpass);  // 로그인 pw 보안
+        			StringBuilder repass = secode(mpass); 
 		            if (member_dto.get(0).getMpass().equals(repass.toString())) {   
-		            	
 		            	if(!member_dto.get(0).getApprove().equals("근무")) {
 		        			this.output=this.js.ok("관리자의 승인이 필요합니다. 센터로 문의해주세요.","./wmsLogin.jsp");
 		        		}else {
@@ -139,30 +117,20 @@ public class MemberController implements security {
 		                session.setAttribute("mpart", member_dto.get(0).getMpart());      
 		                session.setAttribute("mspot", member_dto.get(0).getMspot());
 		                session.setAttribute("mhp", member_dto.get(0).getMhp());
-
-		                this.output=this.js.ok("로그인되었습니다. 환영합니다","./wmsMain.do");	// 위에서 핸들링한걸로 로그인을 한다!!!
+		                this.output=this.js.ok("로그인되었습니다. 환영합니다","./wmsMain.do");	
 		        		}
-		        	}	// if end 
-		            
+		        	}
 		            else {  
 		                	this.output=this.js.ok("아이디 및 패스워드를 다시 확인해주세요.","./wmsLogin.jsp");
 		            }
-		            
-        		
-		            
-		            
-		            
-		            
-		            
 	        } catch (Exception e) {
 	            this.output=this.js.no("데이터 오류로 인하여 다시 시도해 주세요.");
 	        	}
-    }
-        m.addAttribute("output", this.output);
-        return "output"; 
-    }
-    
-    //로그아웃
+	    }
+	        m.addAttribute("output", this.output);
+	        return "output"; 
+	    }
+	    
   	@GetMapping("/member/logout.do")
   	public String logout(HttpServletRequest req, 
   						Model m) {
@@ -175,11 +143,9 @@ public class MemberController implements security {
   		session.removeAttribute("mspot");
   		session.removeAttribute("mhp");
   		
-  		
-  		//세션없음 로그아웃 안됨!! 이거 핸들링!!!!!!!!!!
   		try {
   			if (session.getAttribute("id") == null) {
-  				this.output = this.js.ok("로그아웃 되었습니다","./wmsLogin.jsp");	// 이거 메인페이지 do로 만들면 핸들링
+  				this.output = this.js.ok("로그아웃 되었습니다","./wmsLogin.jsp");	
   			} else {
   			    this.output = this.js.no("로그인 실패! 다시시도해주세요.");
   			}

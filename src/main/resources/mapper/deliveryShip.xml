@@ -2,20 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="wms_project.mapper.DeliveryShipMapper">
 
-	<!-- 리스트 + 페이징 + 검색 
-	<select id="ShipList" resultType="wms_project.dto.DeliveryShipDTO" parameterType="Map">
-		SELECT aidx, aordercode, aproductcode, aproduct, acustomer, ahp, 
-				date, deliveryname, dcode,
-				bapprove,dapprove, 
-				stracking, sqrimg, sqrurl, shipstate
-		FROM shipping
-	
-		WHERE dcode != 'N' AND bapprove != 'Y' AND dapprove !='Y'
-		ORDER BY aidx DESC
-		LIMIT 0, 15
-	</select>
-	-->
-	
+
 	<select id="ShipList" resultType="wms_project.dto.DeliveryShipDTO" parameterType="Map">
 	    SELECT aidx, aordercode, aproductcode, aproduct, acustomer, ahp, 
 	           date, deliveryname, dcode,

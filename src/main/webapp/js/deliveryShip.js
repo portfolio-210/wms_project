@@ -1,27 +1,4 @@
 
-/*
-	// QR이미지
-	document.getElementById('showImageBtn').addEventListener('click', function(event) {
-	    event.preventDefault(); 
-	    document.getElementById('imageWrapper').style.display = 'block'; // 이미지 보여주기
-	});
-
-	document.getElementById('closeBtn').addEventListener('click', function() {
-		event.preventDefault(); 
-	    document.getElementById('imageWrapper').style.display = 'none';
-	});
-
-
-	document.getElementById('showImageBtn').addEventListener('click', function() {
-	    document.getElementById('imageWrapper').style.display = 'block';
-	    document.getElementById('closeBtn').style.display = 'block';
-	});
-	
-	document.getElementById('closeBtn').addEventListener('click', function() {
-	    document.getElementById('imageWrapper').style.display = 'none';
-	    document.getElementById('closeBtn').style.display = 'none';
-	});
-*/
 // 이미지 클릭 이벤트를 동적으로 처리하기 위해 이벤트 위임 사용
 document.body.addEventListener('click', function(event) {
     if (event.target && event.target.id === 'showImageBtn') {
