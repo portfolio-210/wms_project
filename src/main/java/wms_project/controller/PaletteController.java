@@ -34,6 +34,8 @@ public class PaletteController {
     public String palette_list(Model m, @RequestParam(value = "search", required = false) String search,
                                @RequestParam(value = "pageno", required = false) Integer pageno){
         String mspot = (String)this.session.getAttribute("mspot");
+        System.out.println(search);
+        System.out.println(mspot);
 
         Map<String, Object> paramValue = new HashMap<>();
         paramValue.put("search", search);
