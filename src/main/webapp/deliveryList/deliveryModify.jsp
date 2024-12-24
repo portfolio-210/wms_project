@@ -17,6 +17,7 @@
     left: 50%;
     transform: translate(-50%, -50%);
     z-index: 1000;
+     box-shadow: 5px 5px 3px #ccc;
 }
 
 

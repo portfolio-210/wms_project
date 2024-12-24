@@ -21,6 +21,7 @@
     transform: translate(-50%, -50%);
     z-index: 1000;
     background: white;
+    box-shadow: 5px 5px 3px #ccc;
 }
 
 
@@ -159,8 +160,6 @@
 						        </div>
 			                </c:otherwise>
 			            </c:choose>
-
-
 			             
                     </td>
                     <td>${list.shipstate}</td>

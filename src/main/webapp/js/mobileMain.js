@@ -1,6 +1,30 @@
+function copyAddress(address) {
+      var tempInput = document.createElement('textarea');
+      document.body.appendChild(tempInput);
+      tempInput.value = address;
+      tempInput.select();
+      tempInput.setSelectionRange(0, 99999); 
+      document.execCommand('copy');
+      document.body.removeChild(tempInput);
+      alert('주소가 복사되었습니다\n[' + address+']');
+  }
+
+
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+
+
 $(function(){
-    
-    /* 햄버그버튼 */
+
     $("#menus").click(function(){
         var $screen = $("#blackscreen").css("display");
         if($screen=="none"){
@@ -24,7 +48,7 @@ $(function(){
     //로그아웃
     $("#login_out").click(function(){
         if(confirm("로그아웃 하시겠습니까?")){
-            location.href="";
+            location.href="/deliveryMobile/logout.do";
         }
     });
 
@@ -46,3 +70,32 @@ $(function(){
     });
 
 });
+
+	//배송준비
+	function ma(state){
+		alert("배송준비");
+		location.href = "/deliveryMobile/mobileMain.do?state="+state;
+	}
+	
+	//배송중
+	function mb(){
+		alert("배송중");
+	}
+	
+	//촬영하기
+	function mc(){
+		alert("촬영하기");
+		
+	}
+
+	//완료하기
+	function md(){
+		alert("완료하기");
+	}
+
+	
+	
+	function repage(){
+		location.href="/deliveryMobile/mobileMain.do";
+		
+	}
