@@ -179,13 +179,13 @@ public class OrderController {
             sdto.setBstoragecode("N");
             sdto.setBpalett("N");
             sdto.setBpalettcode("N");
-            sdto.setBapprove("Y");
+            sdto.setBapprove("N");
         }
         if(sdto.getDcode() == null){
             sdto.setDcode("N");
             sdto.setDeliveryname("N");
             sdto.setDspot("N");
-            sdto.setDapprove("N");
+            sdto.setDapprove("Y");
         }
         if(sdto.getStracking() == null){
             sdto.setStracking("N");
