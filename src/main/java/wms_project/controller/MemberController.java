@@ -37,7 +37,13 @@ public class MemberController implements security {
 	String output = null;
 	javascript js = new javascript();
 	
+	//LoginCheck lc = new LoginCheck();
+	//lc.checkLogin();
 
+	//@Autowired
+    //private LoginCheck loginCheck;
+	//loginCheck.checkLogin();
+	
     @GetMapping("/member/wmsMain.do")
     public String main(Model m, HttpServletRequest req) {    
         return "/member/wmsMain"; 

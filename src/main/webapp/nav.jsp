@@ -25,15 +25,7 @@ if (session == null ||
 	String mpart = (String)sess.getAttribute("mpart");
 	String mspot = (String)sess.getAttribute("mspot");
 	String mhp = (String)sess.getAttribute("mhp");
-	
-	//out.print("　　　--세션값 참고하세요--　　　");
-	//out.print("id("+ sess.getAttribute("id")+ ")　　");	//수원지점
-	//out.print("name("+sess.getAttribute("name")+ ")　　");	// 이름
-	//out.print("email("+sess.getAttribute("email")+ ")　　");	//이메일
-	//out.print("mpart("+sess.getAttribute("mpart")+ ")　　"); // 본사
-	//out.print("mspot("+sess.getAttribute("mspot")+ ")　　");	// 지점 이름
-	//out.print("전화번호 : mhp("+sess.getAttribute("mhp")+ ")　　");	// 전화번호
-	//out.print("　>> 앞에있는값이 세션 id값입니다!!");
+
 %>
 
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="cr" %>
@@ -90,28 +82,11 @@ if (session == null ||
           <a class="dropdown-item" href="../palette/paletteMain.do">팔레트 현황</a>
         </div>
       </li>
-      
-   
-       <li class="nav-item dropdown" >
-        <a class="nav-link dropdown-toggle" href="" target="_blank" id="sss"  aria-expanded="false">모바일 페이지</a>
-          <a href="" target="_blank" id="sss"></a>
-          <div id="iii" style="display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); max-width: 80%; max-height: 80%; z-index: 1000;">
-            <img id="views" src="" style="width: 400px; height: 400px;">
-            <button id="ccc" style="position: absolute;  top: 0; right: 0; background: none; border: none; color: gray; font-size: 40px; cursor: pointer;">☒</button>
-       	 </div>
-      </li>
-      
-      
+
     </ul>
     
-     <!-- <span style="color: white; margin-right: 5px;">[<%=mpart%>]&nbsp;&nbsp;<a href="#"><%=name%> (<%=id%>)</a> 님 환영합니다.</span> --> 
-     	<cr:if test="${sessionScope.mpart == '본사'}">
-    		<span style="color: white; margin-right: 5px;">[${mpart}]&nbsp;&nbsp;<a href="../config/configMain.do">${name} (${id})</a> 님 환영합니다.</span>
-		</cr:if>
-
-		<cr:if test="${sessionScope.mpart == '지점'}">
-    		<span style="color: white; margin-right: 5px;">[${mspot}]&nbsp;&nbsp;<a href="../config/configMain.do">${name} (${id})</a> 님 환영합니다.</span>
-		</cr:if>
+  	<span style="color: white; margin-right: 5px;">[<%=mpart%>]&nbsp;&nbsp;<a><%=name%></a> 님 환영합니다.</span>
+     
 	
 	
 	
@@ -119,4 +94,4 @@ if (session == null ||
   </div>
 </nav>
 
-<script src="/js/nav.js"></script>
+

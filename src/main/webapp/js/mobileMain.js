@@ -60,7 +60,7 @@ $(function(){
 		//대기
 		if(state == "대기"){
 			f1.method = "post";
-			f1.action = "/deliveryMobile/mobileState.do?state=배송중&idx="+idx;
+			f1.action = "/deliveryMobile/mobileState.do?state=대기&idx="+idx;
 			f1.submit();
 		}
 		else{
@@ -73,7 +73,7 @@ $(function(){
 	function mb(state,idx){
 		if(state == "배송중"){
 			f1.method = "post";
-			f1.action = "/deliveryMobile/mobileState.do?state=촬영하기&idx="+idx;
+			f1.action = "/deliveryMobile/mobileState.do?state=배송중&idx="+idx;
 			f1.submit();
 		}
 		else{
@@ -88,7 +88,7 @@ $(function(){
 			console.log(f1.cam.value);
 			//만약 저 밸류값 사진이 없음!!! 핸들링 XX
 			f1.method = "post";
-			f1.action = "/deliveryMobile/mobileState.do?state=송장확인&idx="+idx;
+			f1.action = "/deliveryMobile/mobileState.do?state=촬영하기&idx="+idx;
 			//f1.submit();
 		}
 		else{

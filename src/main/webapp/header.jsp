@@ -26,11 +26,8 @@
     <link rel="stylesheet" href="/css/jumbotron.css">
     <link rel="stylesheet" href="/css/nav.css">  
     
-   
     
-    
-     
-    <!--  -->
+
     
     <style>
       .bd-placeholder-img {
