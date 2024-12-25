@@ -70,7 +70,12 @@
      </div>
      <div class="mb-3">
         <ul class="pageing">
-          <li>1</li>
+          <c:set var="pages" value="${total%20 == 0? total/20 : total/20 + (1-((total/20)%1))}"/>
+           <c:forEach begin="1" end="${pages}" var="i">
+           <li style="cursor: pointer;" onclick="goToPage(${i},'${sname}','${pname}')">
+      		${i}
+            </li>
+          </c:forEach>
         </ul>
       </div>
       <div class="mb-3" style="text-align: right;">
@@ -83,12 +88,29 @@
 <!-- Footer -->
 <%@ include file="../footer.jsp" %>
 <script>
+function goToPage(i, sname, pname) {
+	
+	
+    let url = 'storagePalette.do?pageno=' + i;
+    
+    if (sname) {
+        url += '&sname=' + encodeURIComponent(sname);
+    }
+    if (pname) {
+        url += '&pname=' + encodeURIComponent(pname);
+    }
+       
+    location.href = url; // 페이지 이동
+}
+
+
 function toggleAll(source) {
     const checkboxes = document.querySelectorAll('.product-checkbox');
     checkboxes.forEach((checkbox) => {
         checkbox.checked = source.checked; // 전체 선택 체크박스의 상태로 설정
     });
 }
+
 //개별 체크박스의 상태를 확인하는 함수
 function updateToggleAll() {
     const checkboxes = document.querySelectorAll('.product-checkbox');

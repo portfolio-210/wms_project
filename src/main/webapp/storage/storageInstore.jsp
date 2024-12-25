@@ -39,6 +39,7 @@
         </ul> 
      </div>
      <div class="mb-3">
+     <input type="hidden" id="mspot" value="${sessionScope.mspot}">
         <table class="table font12">
             <thead>
               <tr align="center" style="line-height: 30px;">
@@ -55,7 +56,7 @@
             </thead>
             <tbody style="background-color: #f1f1ef;">
              <c:forEach var="index" begin="0" end="14">
-                <tr align="center" style="line-height: 30px;" class="row1">
+                <tr align="center" style="line-height: 30px;" class="row1">  
                     <td><input type="text" id="acompany" name="acompany"  style="width: 100px; height: 40px;" class="form-control font12"></td>
                     <td><input type="text" id="acode" name="acode" style="width: 100px; height: 40px;" class="form-control font12" ></td>
                     <td><input type="text" id="pdname" name="pdname" style="width: 200px; height: 40px;" class="form-control font12"></td>

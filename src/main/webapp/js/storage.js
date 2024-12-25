@@ -393,9 +393,11 @@ var sname = document.getElementsByName("sname");
 var scode = document.getElementsByName("scode");
 var pname = document.getElementsByName("pname");
 var pddate = document.getElementsByName("pddate");
+var mspot = document.getElementById("mspot").value;
 let rowFull = false; // 최소한 하나의 유효한 행이 있는지 체크
 let rowEmpty = false; // 유효하지 않은 행이 있는지 체크
 const insert= [];
+console.log(mspot);
 	
 		for (let i = 0; i < acompany.length; i++) {
 			
@@ -418,7 +420,8 @@ const insert= [];
 				"sname":snameVal,
 				"scode":scodeVal,
 				"pname":pnameVal,
-				"pddate":pddateVal});	
+				"pddate":pddateVal,
+				"mspot":mspot});	
 								
 			}	        						
 	        // 모든 필드가 채워진 경우
@@ -581,12 +584,36 @@ function handleFile(e) {
      const wsname = wb.SheetNames[0];
      const ws = wb.Sheets[wsname];
      const data = XLSX.utils.sheet_to_json(ws, { header: 1 }); // header: 1은 첫 번째 행을 헤더로 사용
-
+	 var mspot = document.getElementById("mspot").value;
 	 const headers = data[0];
 	         const insert = [];
+			 const storageOptions = Array.from(document.getElementById('storage').options).map(option => option.value).filter(value => value !== "");
+			 const paletteOptions = Array.from(document.getElementById('palette').options).map(option => option.value).filter(value => value !== "");
 
 	         for (let i = 1; i < data.length; i++) {
 	             const row = data[i];
+				 if (row.length !== headers.length) {			              
+				                     alert(`엑셀 파일 형식이 올바르지 않습니다. 확인해주세요.`);
+				                     return;
+				                 }
+				const sname = row[5];
+				const pname = row[7];
+				
+				if (!storageOptions.includes(sname)) {
+				                    alert(`${i + 2}번째 행의 창고 "${sname}"이(가) 가용 가능하지 않습니다.`);
+				                    document.getElementById("excelFile").value = "";
+				                    return;
+				                }
+
+				                if (!paletteOptions.includes(pname)) {
+				                    alert(`${i + 2}번째 행의 파렛트 "${pname}"이(가) 가용 가능하지 않습니다.`);
+				                    document.getElementById("excelFile").value = "";
+				                    return;
+				                }
+				                 if(row[4] && isNaN(row[4])){
+				                    alert("수량은 숫자로 입력해야 합니다.")
+				                    return;
+				                }
 	             if (row.length === headers.length) {
 	                 const rowData = {
 	                     "acompany": row[0],
@@ -594,10 +621,11 @@ function handleFile(e) {
 	                     "pdname": row[2],
 	                     "pdcode": row[3],
 	                     "pdamount": row[4],
-	                     "sname": row[5],
+	                     "sname": sname,
 	                     "scode": row[6],
-	                     "pname": row[7],
-	                     "pddate": row[8]
+	                     "pname": pname,
+	                     "pddate": row[8],
+						 "mspot" : mspot
 	                 };
 	                 insert.push(rowData);
 	             }

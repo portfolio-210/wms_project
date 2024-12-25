@@ -16,22 +16,43 @@
         WHERE scode = #{scode}
     </select>
 
-    <select id="searchall" parameterType="String" resultType="wms_project.dto.StorageDTO">
+    <select id="searchall" parameterType="Map" resultType="wms_project.dto.StorageDTO">
         select *
         from storage
-        <if test="mspot != null and mspot != ''">
-        where sspot = #{mspot}
+        where sspot = #{mspot}	
+        <if test="startno !='' and startno != null and endno !='' and endno !=''">
+		LIMIT #{startno}, #{endno}
 		</if>
+    </select>
+    <!-- 사용중인 창고만 표출하게 하는 sql -->
+     <select id="searchalluse" parameterType="Map" resultType="wms_project.dto.StorageDTO">
+        select *
+        from storage
+        where sspot = #{mspot}
+        and suse = 1	
+    </select>
+    
+    <select id="storageTotal" parameterType="Map" resultType="Integer" >
+    	
+    	select count(*)
+    	from storage
+    	where sspot = #{mspot}
+    	<if test="search != '' and search != null ">
+    	AND sname LIKE CONCAT('%', #{search}, '%')
+    	</if>
+    
     </select>
     
     <select id="searchto" parameterType="String" resultType="wms_project.dto.StorageDTO">
         select *
         from storage
-		where scode != #{selectstorage}		
+		where scode != #{selectstorage}
+		and suse = 1	
     </select>
     
-	<select id="all" parameterType="String" resultType="wms_project.dto.StorageDTO">
-		select * from storage where sname LIKE CONCAT('%', #{search}, '%')               
+	<select id="all" parameterType="Map" resultType="wms_project.dto.StorageDTO">
+		select * from storage where sspot = #{mspot} AND sname LIKE CONCAT('%', #{search}, '%')
+		LIMIT #{startno}, #{endno}               
 	</select>
 
 
@@ -71,8 +92,8 @@
 				
     <!-- 상품 입고 -->
     <insert id="insertStore" parameterType="Map">
-    INSERT INTO product (acompany, acode, pdcode, pdname, pdamount, sname, scode, pname, pddate)
-    VALUES (#{acompany}, #{acode}, #{pdcode}, #{pdname}, #{pdamount}, #{sname}, #{scode}, #{pname}, #{pddate})
+    INSERT INTO product (acompany, acode, pdcode, mspot, pdname, pdamount, sname, scode, pname, pcode, pddate)
+    VALUES (#{acompany}, #{acode}, #{pdcode}, #{mspot}, #{pdname}, #{pdamount}, #{sname}, #{scode}, #{pname}, #{pcode}, #{pddate})
     ON DUPLICATE KEY UPDATE
     pdamount = pdamount + VALUES(pdamount),
     pddate = VALUES(pddate);    	    
@@ -88,6 +109,13 @@
     </choose>        
     </select>
     
+    <!-- 사용자가 선택한 창고의 리스트 갯수 -->
+    <select id="productlistotal" parameterType="Map" resultType="Integer">
+    SELECT count(*)
+    FROM product
+    WHERE scode = #{selectstorage}           
+    </select>
+    
     <!-- 상품 출고 -->
     <update id="updateProduct" parameterType="Map">
         UPDATE product
@@ -97,8 +125,8 @@
     
     <!-- 입고하는 창고에 같은 물건이 없거나 있어도 다른 파레트에 있을 때 -->
     <insert id="moveProduct" parameterType="wms_project.dto.ProductDTO">
-    	INSERT INTO product (acompany, acode, pdcode, pdname, pdamount, sname, scode, pname, pddate)
-    	VALUES (#{acompany}, #{acode}, #{pdcode}, #{pdname}, #{quantity}, #{instorename}, #{instorecode}, #{pname}, now())
+    	INSERT INTO product (acompany, acode, pdcode, mspot, pdname, pdamount, sname, scode, pname, pcode, pddate)
+    	VALUES (#{acompany}, #{acode}, #{pdcode}, #{mspot}, #{pdname}, #{quantity}, #{instorename}, #{instorecode}, #{pname}, #{pcode}, now())
     </insert>
     <!-- 입고하는 창고에 같은 물건이 있고 같은 파레트에 있을 때 -->
     <update id="updateProduct1" parameterType="wms_project.dto.ProductDTO">
@@ -108,7 +136,7 @@
 	</update>
       
     <select id="selectProduct" parameterType="String" resultType="wms_project.dto.ProductDTO">
-    SELECT acompany, acode, pdname, pdcode, pname
+    SELECT acompany, acode, pdname, pdcode, pname, pcode
     FROM product
     WHERE pdidx = #{pdidx}   
     </select>
@@ -135,13 +163,21 @@
 	FROM product p
 	JOIN palette p2 ON p.pname = p2.pname
 	WHERE p.sname = #{sname} AND p.pname = #{pname} AND p.pdamount > 0
+	LIMIT #{startno}, #{endno}
+    </select>
+    
+    <select id="paletteSearchallCount" resultType="Integer">
+	SELECT count(*) 
+	FROM product p
+	JOIN palette p2 ON p.pname = p2.pname
+	WHERE p.sname = #{sname} AND p.pname = #{pname} AND p.pdamount > 0
     </select>
     
     
      <!-- 옮기는 팔레트가 기존 팔레트와 이름이 다르며 같은 물건이 없을 때 -->
     <insert id="movePalette" parameterType="wms_project.dto.ProductDTO">
-    	INSERT INTO product (acompany, acode, pdcode, pdname, pdamount, sname, scode, pname, pddate)
-    	VALUES (#{acompany}, #{acode}, #{pdcode}, #{pdname}, #{quantity}, #{instorename}, #{instorecode}, #{instorepalette}, now())
+    	INSERT INTO product (acompany, acode, pdcode, pdname, pdamount, sname, scode, pname, pcode, pddate)
+    	VALUES (#{acompany}, #{acode}, #{pdcode}, #{pdname}, #{quantity}, #{instorename}, #{instorecode}, #{instorepalette}, #{pcode}, now())
     </insert>
     <!-- 입고하는 창고에 같은 물건이 있고 같은 파레트에 있을 때 -->
     <update id="updateProduct2" parameterType="wms_project.dto.ProductDTO">
@@ -149,6 +185,22 @@
     SET pdamount = pdamount + #{quantity}
     WHERE pdcode = #{pdcode} AND scode = #{instorecode} AND pname = #{instorepalette};
 	</update>
+	
+	
+	<select id="palettelist" parameterType="String" resultType="wms_project.dto.PaletteDTO">
+        select pidx, pname, pcode, psize, pcolor, pusing 
+        from palette 
+        where mspot = #{mspot} 
+        and pusing = 'Y'
+    </select>
+    
+    <select id="palettecode" parameterType="String" resultType="String">
+    	select pcode
+    	from palette
+    	where pname = #{pname}
+    </select>
+	
+	
     
     
 </mapper>

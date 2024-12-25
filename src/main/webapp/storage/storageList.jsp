@@ -78,9 +78,14 @@
           </table>
      </div>
      <div class="mb-3">
-        <ul class="pageing">
-          <li>1</li>
-        </ul>
+     <ul class="pageing">
+       <c:set var="pages" value="${total%20 == 0? total/20 : total/20 + (1-((total/20)%1))}"/>
+           <c:forEach begin="1" end="${pages}" var="i">
+           <li style="cursor: pointer;" onclick="goToPage(${i},'${selectstorage}','${storageto}')">
+      		${i}
+            </li>
+          </c:forEach>
+         </ul>
       </div>
       <input type="hidden" id="hiddenStoragename" name="storagename" value="">
       <div class="mb-3" style="text-align: right;">
@@ -93,6 +98,21 @@
 <%@ include file="../footer.jsp"%>
 
 <script>
+function goToPage(i, selectstorage, storageto) {
+	
+	
+    let url = 'storageList.do?pageno=' + i;
+    
+    if (selectstorage) {
+        url += '&selectstorage=' + encodeURIComponent(selectstorage);
+    }
+    if (storageto) {
+        url += '&storageto=' + encodeURIComponent(storageto);
+    }
+       
+    location.href = url; // 페이지 이동
+}
+
 function toggleAll(source) {
     const checkboxes = document.querySelectorAll('.product-checkbox');
     checkboxes.forEach((checkbox) => {

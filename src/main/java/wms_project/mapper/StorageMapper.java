@@ -6,6 +6,8 @@ import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import wms_project.dto.AccountDTO;
+import wms_project.dto.PaletteDTO;
 import wms_project.dto.ProductDTO;
 import wms_project.dto.StorageDTO;
 
@@ -16,7 +18,9 @@ public interface StorageMapper {
 
     int checkCode(String scode);
 
-    List<StorageDTO> searchall(String mspot);
+    List<StorageDTO> searchall(Map<String, Object> params);
+    
+    List<StorageDTO> searchalluse(Map<String, Object> params);
     
     List<StorageDTO> searchto(String selectstorage); //전체 창고 리스트
 
@@ -24,7 +28,11 @@ public interface StorageMapper {
 
     int updateByID(StorageDTO storageDTO);
     
-    List<StorageDTO> all(String search);
+    Integer productlistotal(Map<String, Object> params);
+    
+    Integer storageTotal(Map<String, Object> params);
+    
+    List<StorageDTO> all(Map<String, Object> params);
     
     int deleteByID(String scode);
     
@@ -47,10 +55,18 @@ public interface StorageMapper {
     
     void updateProduct(Map<String, String> params);
     //사용자에 맞는 창고 안에 있는 모든 파레트의 정보
-    List<Map<String, Object>> paletteall(String mspot);   
+    List<Map<String, Object>> paletteall(String mspot);
+    //선택한 파레트에 맞는 물건의 행 갯수
+    int paletteSearchallCount(Map<String, Object> params);
     //선택되지 않은 모든 파레트의 정보
-    List<Map<String, String>> paletteAnother(Map<String, String> params);
+    List<Map<String, String>> paletteAnother(Map<String, Object> params);
     //모든 파레트의 정보
-    List<Map<String, Object>> paletteSearchall(Map<String, String> params);
+    List<Map<String, Object>> paletteSearchall(Map<String, Object> params);
+    //사용자에 맞는 파레트의 정보
+    List<PaletteDTO> palettelist(String mspot);
+    
+    //사용자가 입고한 팔레트의 코드 정보
+    String palettecode(String pname);
+   
     	
 }

@@ -96,6 +96,7 @@
                         </ul>
                     </div>
                     <div class="mb-3" style="text-align: right;">
+                    
                         <button type="submit" class="btn btn-danger font12"
                                 style="width: 100px; height: 40px; margin-right: 5px;">수정완료
                         </button>
