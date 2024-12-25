@@ -118,19 +118,40 @@ public class StorageController {
 	@GetMapping("/storage/storagePalette.do")
 	public String storagePaletteString(@RequestParam(value ="sname", required = false) String sname,
 									@RequestParam(value ="pname", required = false) String pname,
+									@RequestParam(value = "pageno",required = false) Integer pageno,
 			HttpServletRequest req, Model m) {
 		HttpSession sess = req.getSession();
 		String mspot = (String) sess.getAttribute("mspot");
-		Map<String, String> params = new HashMap<>();
+		Map<String, Object> params = new HashMap<>();
+		params.put("mspot", mspot);
 		params.put("sname", sname);
 		params.put("pname", pname);
+		   int total = 0;
+	       int startno = 0;
+	       int endno = 20;
+	       
+	       if(pageno == null) {
+	    	   startno = 0;
+	    	   pageno = 1;
+	       }else {
+			startno = (pageno-1) * 20;
+	       }
+	    params.put("startno", startno);
+		params.put("endno", endno);
+		
+		
 		
 		
 		List<Map<String, Object>> all = ss.paletteall(mspot);
 		List<Map<String, Object>> paletteall = ss.paletteSearchall(params);
 		List<Map<String, String>> palettAnother = ss.paletteAnother(params);
-
+		total = ss.paletteSearchallCount(params);
+		System.out.println(total);
 		
+		
+		m.addAttribute("pname", pname);
+		m.addAttribute("sname",sname);
+		m.addAttribute("total",total);
 		m.addAttribute("all", all);
 		m.addAttribute("paletteall", paletteall);
 		m.addAttribute("params",params);
@@ -200,20 +221,45 @@ public class StorageController {
 
 	@GetMapping("/storage/storageList.do")
 	public String productList(@RequestParam(value = "selectstorage", required = false) String selectstorage,
-			@RequestParam(value = "storageto", required = false) String storageto, HttpServletRequest req, Model m) {
+			@RequestParam(value = "storageto", required = false) String storageto, 
+			@RequestParam(value = "pageno",required = false) Integer pageno, HttpServletRequest req, Model m) {
 		HttpSession sess = req.getSession();
 		String mspot = (String) sess.getAttribute("mspot");
 		Map<String, Object> params = new HashMap<>();
 		params.put("selectstorage", selectstorage);
 		params.put("storageto", storageto);
-
-		List<StorageDTO> members = ss.searchall(mspot);
+		params.put("mspot", mspot);
+		
+		   int total =0;
+	       int startno = 0;
+	       int endno = 20;
+	       
+	       if(pageno == null) {
+	    	   startno = 0;
+	    	   pageno = 1;
+	       }else {
+			startno = (pageno-1) * 20;
+	       }
+	    params.put("startno", startno);
+		params.put("endno", endno);
+	       	
+		List<StorageDTO> members = ss.searchalluse(params);
 		List<StorageDTO> membersall = ss.searchto(selectstorage);
 		List<ProductDTO> list = new ArrayList<>();
 
 		if (selectstorage != null && !selectstorage.isEmpty()) {
 			list = ss.productlist(selectstorage);
+			
 		}
+		total = ss.productlistotal(params);
+		System.out.println("total" + total);
+		
+		m.addAttribute("storageto", storageto);
+		m.addAttribute("selectstorage",selectstorage);
+		m.addAttribute("total", total); // 전체 멤버 수
+        m.addAttribute("pageno", pageno); // 현재 페이지 번호
+        m.addAttribute("startno", startno);
+        m.addAttribute("endno", endno);
 		m.addAttribute("product", list);// 사용자가 선택한 창고 상품 리스트
 		m.addAttribute("members", members); // 사용자와 맞는 창고 리스트
 		m.addAttribute("membersall", membersall); // 첫번째 선택한 창고를 제외한 전체 창고 리스트
@@ -242,6 +288,9 @@ public class StorageController {
 				String scode = jo.get("scode").toString();
 				String pname = jo.get("pname").toString();
 				String pddate = jo.get("pddate").toString();
+				String mspot = jo.get("mspot").toString();
+				
+				String pcode = ss.palettecode(pname);
 				
 				params.put("acompany", acompany);
 				params.put("acode", acode);
@@ -252,7 +301,9 @@ public class StorageController {
 				params.put("scode", scode);
 				params.put("pname", pname);
 				params.put("pddate", pddate);
-				
+				params.put("mspot", mspot);
+				params.put("pcode", pcode);
+;				
 				ss.insertStore(params);
 			
 			w++;
@@ -285,12 +336,17 @@ public class StorageController {
 	//
 	@GetMapping("/storage/storageInstore.do")
 	public String storageInstore1(@RequestParam(value = "acompany", required = false) String acompany,
-			StorageDTO storageDTO, HttpServletRequest req, Model m) {
+			StorageDTO storageDTO,
+			HttpServletRequest req, Model m) {
 		HttpSession sess = req.getSession();
 		String mspot = (String) sess.getAttribute("mspot");
-		List<StorageDTO> members = ss.searchall(mspot);
-		List<PaletteDTO> palette = ps.palette_list(mspot);
+		Map<String, Object> params = new HashMap<>();
+		params.put("mspot", mspot);
+		List<StorageDTO> members = ss.searchalluse(params);
+		List<PaletteDTO> palette = ss.palettelist(mspot);
+		
 
+		m.addAttribute("mspot",mspot);
 		m.addAttribute("palette", palette);// 사용자와 맞는 팔레트 리스트
 		m.addAttribute("members", members);
 
@@ -353,20 +409,45 @@ public class StorageController {
 
 	@GetMapping("/storage/storageMain.do")
 	public String showMembers(@RequestParam(value = "mspot", required = false) String mspot,
-			@RequestParam(value = "search", required = false) String search, Model m, HttpServletRequest req) {
+			@RequestParam(value = "search", required = false) String search, 
+			@RequestParam(value = "pageno",required = false) Integer pageno,
+			Model m, HttpServletRequest req) {
 		HttpSession sess = req.getSession();
 		String sessionMspot = (String) sess.getAttribute("mspot");
+		Map<String, Object> params = new HashMap<>();
 		mspot = sessionMspot;
-
-		if (search == null) {
-			List<StorageDTO> members = ss.searchall(mspot); // 전체 멤버 가져오기
+		int total = 0;
+	    int startno = 0;
+	    int endno = 15;
+	    
+	    params.put("mspot", mspot);
+	    params.put("startno", startno);
+	    params.put("endno", endno);
+	    params.put("search", search);
+	    
+	    
+		if (search == "" || search == null) {
+			List<StorageDTO> members = ss.searchall(params); // 전체 창고 가져오기
 			m.addAttribute("members", members); // 모델에 추가
 		} else {
 
-			List<StorageDTO> all = ss.all(search);
+			List<StorageDTO> all = ss.all(params);
 			m.addAttribute("members", all);
 		}
-
+		if(pageno == null) {
+	    startno = 0;
+	    pageno = 1;
+		}else {
+			startno = (pageno-1) * 15;
+	       }
+		total = ss.storageTotal(params);
+		System.out.println(total);
+		
+		m.addAttribute("total", total); // 전체 멤버 수
+        m.addAttribute("pageno", pageno); // 현재 페이지 번호
+        m.addAttribute("startno", startno);
+        m.addAttribute("endno", endno);
+        m.addAttribute("search", search); 
 		return null; // JSP 페이지 이름 반환
 	}
 

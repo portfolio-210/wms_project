@@ -88,12 +88,7 @@
      </div>
      <div class="mb-3">
         <ul class="pageing">
-			        <c:if test="${total%15 == 0}">
-			    <c:set var="pages" value="${total/15}"/>
-			</c:if>
-			<c:if test="${total != endno}">
-			    <c:set var="pages" value="${total / 15 + (1 - (total / 15) % 1)}"/>
-			</c:if>
+			<c:set var="pages" value="${total%15 == 0? total/15 : total/15 + (1-((total/15)%1))}"/>
            <c:forEach begin="1" end="${pages}" var="i">
            <li style="cursor: pointer;" onclick="goToPage(${i}, '${part1}', '${part2}', '${search}')">
       		${i}

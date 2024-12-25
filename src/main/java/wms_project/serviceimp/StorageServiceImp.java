@@ -6,7 +6,9 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import wms_project.dto.AccountDTO;
 import wms_project.dto.ConfigDTO;
+import wms_project.dto.PaletteDTO;
 import wms_project.dto.ProductDTO;
 import wms_project.dto.StorageDTO;
 import wms_project.mapper.StorageMapper;
@@ -32,9 +34,27 @@ public class StorageServiceImp implements StorageService {
     }
 
     @Override
-    public List<StorageDTO> searchall(String mspot) {
+    public List<StorageDTO> searchall(Map<String, Object> params) {
 
-        return sm.searchall(mspot);
+        return sm.searchall(params);
+    }
+    
+    @Override
+    public List<StorageDTO> searchalluse(Map<String, Object> params) {
+    	
+    	return sm.searchalluse(params);
+    }
+    
+    @Override
+    public Integer productlistotal(Map<String, Object> params) {
+    	
+    	return sm.productlistotal(params);
+    }
+    
+    @Override
+    public Integer storageTotal(Map<String, Object> params) {
+    	
+    	return sm.storageTotal(params);
     }
     
     @Override
@@ -55,9 +75,9 @@ public class StorageServiceImp implements StorageService {
     }
     
     @Override
-    public List<StorageDTO> all(String search) {
+    public List<StorageDTO> all(Map<String, Object> params) {
     	
-    	return sm.all(search);
+    	return sm.all(params);
     }
     
     @Override
@@ -76,7 +96,9 @@ public class StorageServiceImp implements StorageService {
     //상품 입고
     @Override
     public int insertStore(Map<String, Object> params){   	   	
-	    return sm.insertStore(params);
+	   
+    	
+    	return sm.insertStore(params);
 	    
 	    
     }
@@ -125,17 +147,36 @@ public class StorageServiceImp implements StorageService {
     public List<Map<String, Object>> paletteall(String mspot) {
     	return sm.paletteall(mspot);
     }
+    
+    @Override
+    public int paletteSearchallCount(Map<String, Object> params) {
+    	
+    	return sm.paletteSearchallCount(params);
+    }
     //선택되지 않은 모든 파레트의 정보
     @Override
-    public List<Map<String, String>> paletteAnother(Map<String, String> params) {
+    public List<Map<String, String>> paletteAnother(Map<String, Object> params) {
     	
     	return sm.paletteAnother(params);
     }
     
     //모든 파레트의 정보
     @Override
-    public List<Map<String, Object>> paletteSearchall(Map<String, String> params) {
+    public List<Map<String, Object>> paletteSearchall(Map<String, Object> params) {
     	return sm.paletteSearchall(params);
     }
-
+    
+    @Override
+    public List<PaletteDTO> palettelist(String mspot) {
+    	
+    	return sm.palettelist(mspot);
+    }
+    //입고시 선택한 파레트의 코드
+    @Override
+    public String palettecode(String pname) {
+    	
+    	return sm.palettecode(pname);
+    }
+    
+  
 }

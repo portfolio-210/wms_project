@@ -87,7 +87,12 @@
 
      <div class="mb-3">
         <ul class="pageing">
-          <li>1</li>
+          <c:set var="pages" value="${total%15 == 0? total/15 : total/15 + (1-((total/15)%1))}"/>
+           <c:forEach begin="1" end="${pages}" var="i">
+           <li style="cursor: pointer;" onclick="goToPage(${i}, '${search}')">
+      		${i}
+            </li>
+          </c:forEach>
         </ul>
       </div>
       <div class="mb-3" style="text-align: right;">
@@ -96,7 +101,20 @@
     </div>
   </div>
 </main>
+<script>
+function goToPage(i, search) {
+	
+	
+    let url = 'storageMain.do?pageno=' + i;
 
+    if (search) {
+        url += '&search=' + encodeURIComponent(search);
+    }
+
+    
+    location.href = url; // 페이지 이동
+}
+</script>
 <!-- Footer -->
 <%@ include file="../footer.jsp"%>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
