@@ -47,7 +47,8 @@ public interface StorageService {
     void updateProduct(Map<String, String> params);
     
     //새로운 창고로 물건 이동시키기    
-    void moveProduct(ProductDTO newProduct);        
+    void moveProduct(ProductDTO newProduct); 
+    String searchmspot(Map<String, String> params);
    
    
     

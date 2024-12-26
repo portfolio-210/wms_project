@@ -286,16 +286,7 @@ document.getElementById("storage").addEventListener("change", function () {
 		   
 		   // 창고명 및 창고코드 필드에 값 설정
 		           snameInput.value = sname;
-		           scodeInput.value = scode;
-				   
-			if (sname !== "") {
-				snameInput.readOnly = true;
-				scodeInput.readOnly = true;
-	        } else {
-	            // 선택된 창고명이 비어 있으면 readonly 해제
-				snameInput.readOnly = false;
-				scodeInput.readOnly = false;
-	        }
+		           scodeInput.value = scode;				   	        
 	}else {
             // 선택된 행이 없을 경우 첫 번째 행에 값 설정
 			const firstRow = document.querySelector('.row1');
@@ -304,13 +295,7 @@ document.getElementById("storage").addEventListener("change", function () {
 			snameInput.value = sname; // 첫 번째 행에 창고명 설정
 			       scodeInput.value = scode; // 첫 번째 행에 창고코드 설정
 			       // 읽기 전용 설정
-			       if (sname !== "") {
-			           snameInput.readOnly = true; // 읽기 전용 설정
-			           scodeInput.readOnly = true; // 읽기 전용 설정
-			       } else {
-			           snameInput.readOnly = false; // 읽기 전용 해제
-			           scodeInput.readOnly = false; // 읽기 전용 해제
-			       }
+					      
         }
 		
 		
@@ -326,16 +311,13 @@ document.getElementById("palette").addEventListener("change", function () {
 		        const pnameInput = selectedRow.querySelector('input[name="pname"]');
 				// 파렛트 이름 필드에 값 설정
 				pnameInput.value = pname;				       
-				// 읽기 전용 설정
-				pnameInput.readOnly = pname !== "";
 	}else {
         // 선택된 행이 없을 경우 첫 번째 행에 값 설정
 		const firstRow = document.querySelector('.row1'); // 첫 번째 행 선택
 		const pnameInput = firstRow.querySelector('input[name="pname"]');
 
-		 pnameInput.value = pname; // 첫 번째 행에 파렛트 이름 설정
-		 // 읽기 전용 설정
-		 pnameInput.readOnly = pname !== ""; // pname이 비어 있지 않으면 읽기 전용
+		 pnameInput.value = pname; // 첫 번째 행에 파렛트 이름 설정		
+		 
         }
 });
 
@@ -368,7 +350,7 @@ document.querySelectorAll('input[name^="acompany"]').forEach(input => {
             })
             .then(acode => {
                 acodeInput.value = acode; // 거래처 코드 입력
-				acodeInput.readOnly = true; // 읽기 전용으로 설정
+			
             })
             .catch(error => {
                 console.error("오류 발생:", error);
@@ -376,7 +358,6 @@ document.querySelectorAll('input[name^="acompany"]').forEach(input => {
             });
     } else {
         acodeInput.value = ""; // 입력값이 비어 있을 경우 초기화
-		acodeInput.readOnly = false; // 오류 발생 시 읽기 전용 해제
     }
 	});
 });
@@ -689,7 +670,7 @@ function handleFile(e) {
 	 const selectElement = document.getElementById('paletteFrom');
 	     // 선택된 값 가져오기
 	 const selectedValue = selectElement.value;
-	 const [sname2, pname2, scode2] = selectedValue.split(',');
+	 const [pname2, pcode2] = selectedValue.split(',');
 	  
      const checked = [];
  	let empty = false;
@@ -708,7 +689,7 @@ function handleFile(e) {
  				          nocheck = true; // 체크되지 않은 상태 기록
  				      } else if (checkboxes[i].checked) {
  	             if (quantity) {
- 	                 checked.push({ "pdidx": pdidx, "quantity": quantity, "instorename" : sname2, "instorecode": scode2, "instorepalette": pname2 });
+ 	                 checked.push({ "pdidx": pdidx, "quantity": quantity, "instorepalette": pname2, "instorepcode": pcode2 });
  					 }
  	             } else {
  	                 empty = true; // 수량이 비어있는 경우
@@ -717,7 +698,7 @@ function handleFile(e) {
  	     }
 
  	if (selectedValue === ""){
- 		alert('물건을 이동할 창고를 선택해주세요.');
+ 		alert('물건을 이동할 팔레트를 선택해주세요.');
  		return false; // 체크된 제품이 없으면 제출하지 않음		
  	}
              

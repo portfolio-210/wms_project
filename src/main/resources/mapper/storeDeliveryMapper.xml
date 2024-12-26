@@ -4,7 +4,7 @@
 
 <select id="order_list" parameterType="Map" resultType="wms_project.dto.ShippingDTO">
         select aidx, aordercode, aproduct, aproductcode, acustomer, ahp, addr, date, adeliveryck, shipstate from shipping
-        where shipstate != '배송완료' AND dapprove = "Y"
+        where shipstate != '배송완료' AND dapprove = "N"
         <if test="radio != null and radio != 'undefined'">
         AND adeliveryck = #{radio}
     	</if>
@@ -27,9 +27,10 @@
     WHERE aidx = #{aidx}	
 </update>
 
+<!-- 배송기사 목록에서 삭제 -->
 <update id="DeleteDeliverymen" parameterType="Int">
 	UPDATE shipping
-    SET dapprove = "N" , adeliveryck = "N"
+    SET dapprove = "Y" , adeliveryck = "N"
     WHERE aidx = #{aidx} AND shipstate != "배송중"	
 </update>
 

@@ -46,6 +46,7 @@ public interface StorageMapper {
     //체크한 행의 컬럼값들 가져오기
     ProductDTO selectProduct(String pdidx);
     //새로운 창고로 물건 이동시키기    
+    String searchmspot(Map<String, String> params);
     void moveProduct(ProductDTO newProduct);
     int	updateProduct1(ProductDTO newProduct);
     

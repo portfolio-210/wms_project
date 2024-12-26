@@ -73,10 +73,10 @@ public class StorageController {
 				JSONObject jo = (JSONObject) ja.getJSONObject(w);
 				String pdidx = jo.get("pdidx").toString();
 				String quantity = jo.get("quantity").toString();
-				String instorename = jo.get("instorename").toString();
-				String instorecode = jo.get("instorecode").toString();
 				String instorepalette = jo.get("instorepalette").toString();
-				System.out.println(pdidx + ":" + quantity + ":" + instorename + ":" + instorecode+":"+instorepalette);
+				String pcode = (String) jo.get("instorepcode");
+				
+				System.out.println(pdidx + ":" + quantity + ":"+instorepalette + ":" + pcode);
 
 				params.put("pdidx", pdidx);
 				params.put("quantity", quantity);
@@ -91,10 +91,13 @@ public class StorageController {
 				newProduct.setPdcode(productInfo.getPdcode());
 				newProduct.setPdname(productInfo.getPdname());
 				newProduct.setQuantity(quantity); // 이동할 수량
-				newProduct.setInstorename(instorename);
-				newProduct.setInstorecode(instorecode);
+				newProduct.setSname(productInfo.getSname());
+				newProduct.setScode(productInfo.getScode());
 				newProduct.setInstorepalette(instorepalette);
+				newProduct.setPcode(pcode);
+				newProduct.setMspot(productInfo.getMspot());
 
+				
 				ss.movePalette(newProduct);
 
 				w++;
@@ -190,8 +193,8 @@ public class StorageController {
 				params.put("instorecode", instorecode);
 
 				ss.updateProduct(params); // 선택한 창고에서 이동시키기(수량감소)
-				ProductDTO productInfo = ss.selectProduct(pdidx); // 이동한 상품의 정보들 추출
-
+				ProductDTO productInfo = ss.selectProduct(pdidx); // 이동할 상품의 정보들 추출
+				String mspot = ss.searchmspot(params);
 				// 새로운 창고에 재고 추가
 				ProductDTO newProduct = new ProductDTO();
 				newProduct.setAcompany(productInfo.getAcompany());
@@ -201,7 +204,9 @@ public class StorageController {
 				newProduct.setQuantity(quantity); // 이동할 수량
 				newProduct.setInstorename(instorename);
 				newProduct.setInstorecode(instorecode);
-				newProduct.setPname(productInfo.getPname());
+				//newProduct.setPname(productInfo.getPname());
+				//newProduct.setPcode(productInfo.getPcode());
+				newProduct.setMspot(mspot);
 
 				ss.moveProduct(newProduct);
 

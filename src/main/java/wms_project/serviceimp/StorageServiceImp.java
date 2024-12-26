@@ -123,6 +123,12 @@ public class StorageServiceImp implements StorageService {
     	sm.moveProduct(newProduct);
     	}
     }
+    @Override
+    public String searchmspot(Map<String, String> params) {
+    	
+    	return sm.searchmspot(params);
+    }
+    
     //새로운 팔레트로 물건 이동시키기
     @Override
     public void movePalette(ProductDTO newProduct) {

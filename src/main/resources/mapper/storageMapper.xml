@@ -122,21 +122,26 @@
         SET pdamount = pdamount - #{quantity}
         WHERE pdidx = #{pdidx}
     </update>
-    
-    <!-- 입고하는 창고에 같은 물건이 없거나 있어도 다른 파레트에 있을 때 -->
+    <!-- 이동하려는 창고의 mspot값 가져오기  -->
+    <select id="searchmspot" parameterType="map" resultType="String">
+    	select sspot
+    	from storage
+    	where scode = #{instorecode}
+    </select> 
+    <!-- 입고하는 창고에 같은 물건이 없을 때 -->
     <insert id="moveProduct" parameterType="wms_project.dto.ProductDTO">
     	INSERT INTO product (acompany, acode, pdcode, mspot, pdname, pdamount, sname, scode, pname, pcode, pddate)
-    	VALUES (#{acompany}, #{acode}, #{pdcode}, #{mspot}, #{pdname}, #{quantity}, #{instorename}, #{instorecode}, #{pname}, #{pcode}, now())
+    	VALUES (#{acompany}, #{acode}, #{pdcode}, #{mspot}, #{pdname}, #{quantity}, #{instorename}, #{instorecode}, '재고파레트', '00000', now())
     </insert>
-    <!-- 입고하는 창고에 같은 물건이 있고 같은 파레트에 있을 때 -->
+    <!-- 입고하는 창고에 같은 물건 있을 때 -->
     <update id="updateProduct1" parameterType="wms_project.dto.ProductDTO">
     UPDATE product
     SET pdamount = pdamount + #{quantity}
-    WHERE pdcode = #{pdcode} AND scode = #{instorecode} AND pname = #{pname}
+    WHERE pdcode = #{pdcode} AND scode = #{instorecode}
 	</update>
       
     <select id="selectProduct" parameterType="String" resultType="wms_project.dto.ProductDTO">
-    SELECT acompany, acode, pdname, pdcode, pname, pcode
+    SELECT acompany, acode, pdcode, pdname, sname, scode, mspot
     FROM product
     WHERE pdidx = #{pdidx}   
     </select>
@@ -145,45 +150,48 @@
     <select id="paletteall" resultType="Map">
 	SELECT p.pname, p.sname
     FROM product p
-    JOIN storage s ON p.scode = s.scode
-    WHERE s.sspot = #{mspot}
+    LEFT JOIN palette s ON p.pcode = s.pcode
+    WHERE (s.mspot = #{mspot} AND s.pusing = 'Y') OR (p.pname = '재고파레트' AND p.mspot = #{mspot})
     GROUP BY p.pname, p.sname 
     </select>
     
     <!-- 선택되지 않은 모든 파레트의 정보 -->
     <select id="paletteAnother" resultType="Map">
-    SELECT pname, sname, scode
-	FROM product	
-	WHERE NOT (sname = #{sname} AND pname = #{pname})
-	GROUP BY pname, sname, scode
+    SELECT p.pname, p.pcode
+    FROM palette p
+    LEFT OUTER JOIN product pr ON p.pcode = pr.pcode
+    WHERE p.mspot = #{mspot} AND p.pname != #{pname} AND p.pusing = 'Y'
+    <if test="scode != null and scode != ''">
+        AND (pr.sname = #{sname} OR pr.scode IS NULL)
+    </if>
+    GROUP BY p.pname, p.pcode
     </select>
     
     <select id="paletteSearchall" resultType="Map">
-	SELECT p.* , p2.pcode 
-	FROM product p
-	JOIN palette p2 ON p.pname = p2.pname
-	WHERE p.sname = #{sname} AND p.pname = #{pname} AND p.pdamount > 0
+	SELECT * 
+	FROM product
+	WHERE sname = #{sname} AND pname = #{pname} AND pdamount > 0
 	LIMIT #{startno}, #{endno}
     </select>
     
+    
     <select id="paletteSearchallCount" resultType="Integer">
 	SELECT count(*) 
-	FROM product p
-	JOIN palette p2 ON p.pname = p2.pname
-	WHERE p.sname = #{sname} AND p.pname = #{pname} AND p.pdamount > 0
+	FROM product 	
+	WHERE sname = #{sname} AND pname = #{pname} AND pdamount > 0
     </select>
     
     
      <!-- 옮기는 팔레트가 기존 팔레트와 이름이 다르며 같은 물건이 없을 때 -->
     <insert id="movePalette" parameterType="wms_project.dto.ProductDTO">
-    	INSERT INTO product (acompany, acode, pdcode, pdname, pdamount, sname, scode, pname, pcode, pddate)
-    	VALUES (#{acompany}, #{acode}, #{pdcode}, #{pdname}, #{quantity}, #{instorename}, #{instorecode}, #{instorepalette}, #{pcode}, now())
+    	INSERT INTO product (acompany, acode, pdcode, pdname, pdamount, sname, scode, pname, pcode, mspot, pddate)
+    	VALUES (#{acompany}, #{acode}, #{pdcode}, #{pdname}, #{quantity}, #{sname}, #{scode}, #{instorepalette}, #{pcode}, #{mspot}, now())
     </insert>
     <!-- 입고하는 창고에 같은 물건이 있고 같은 파레트에 있을 때 -->
     <update id="updateProduct2" parameterType="wms_project.dto.ProductDTO">
     UPDATE product
     SET pdamount = pdamount + #{quantity}
-    WHERE pdcode = #{pdcode} AND scode = #{instorecode} AND pname = #{instorepalette};
+    WHERE pdcode = #{pdcode} AND pname = #{instorepalette};
 	</update>
 	
 	

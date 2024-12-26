@@ -58,13 +58,13 @@
              <c:forEach var="index" begin="0" end="14">
                 <tr align="center" style="line-height: 30px;" class="row1">  
                     <td><input type="text" id="acompany" name="acompany"  style="width: 100px; height: 40px;" class="form-control font12"></td>
-                    <td><input type="text" id="acode" name="acode" style="width: 100px; height: 40px;" class="form-control font12" ></td>
+                    <td><input type="text" id="acode" name="acode" style="width: 100px; height: 40px;" class="form-control font12" readonly></td>
                     <td><input type="text" id="pdname" name="pdname" style="width: 200px; height: 40px;" class="form-control font12"></td>
                     <td><input type="text" id="pdcode" name="pdcode" style="width: 100px; height: 40px;" class="form-control font12"></td>                  
                     <td><input type="text" id="pdamount" name="pdamount" style="width: 70px; height: 40px;" class="form-control font12" maxlength="5"></td>
-                    <td><input type="text" id="sname" name="sname" style="width: 100px; height: 40px;" class="form-control font12"></td>
-                    <td><input type="text" id="scode" name="scode" style="width: 80px; height: 40px;" class="form-control font12"></td>
-                    <td><input type="text" id="pname" name="pname" style="width: 100px; height: 40px;" class="form-control font12"></td>
+                    <td><input type="text" id="sname" name="sname" style="width: 100px; height: 40px;" class="form-control font12" readonly></td>
+                    <td><input type="text" id="scode" name="scode" style="width: 80px; height: 40px;" class="form-control font12" readonly></td>
+                    <td><input type="text" id="pname" name="pname" style="width: 100px; height: 40px;" class="form-control font12" readonly></td>
                     <td><input type="text" id="pddate" name="pddate" style="width: 100px; height: 40px;" class="form-control font12" readonly></td>
                   </tr>
                   </c:forEach>
