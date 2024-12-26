@@ -130,13 +130,13 @@
     </select> 
     <!-- 입고하는 창고에 같은 물건이 없을 때 -->
     <insert id="moveProduct" parameterType="wms_project.dto.ProductDTO">
-    	INSERT INTO product (acompany, acode, pdcode, mspot, pdname, pdamount, sname, scode, pname, pcode, pddate)
-    	VALUES (#{acompany}, #{acode}, #{pdcode}, #{mspot}, #{pdname}, #{quantity}, #{instorename}, #{instorecode}, '재고파레트', '00000', now())
+    	INSERT INTO product (acompany, acode, pdcode, mspot, pdname, pdamount, sname, scode, lastmove, pname, pcode, pddate)
+    	VALUES (#{acompany}, #{acode}, #{pdcode}, #{mspot}, #{pdname}, #{quantity}, #{instorename}, #{instorecode}, #{lastmove}, '재고파레트', '00000', now())
     </insert>
     <!-- 입고하는 창고에 같은 물건 있을 때 -->
     <update id="updateProduct1" parameterType="wms_project.dto.ProductDTO">
     UPDATE product
-    SET pdamount = pdamount + #{quantity}
+    SET pdamount = pdamount + #{quantity}, pddate = now(), lastmove = #{lastmove}
     WHERE pdcode = #{pdcode} AND scode = #{instorecode}
 	</update>
       
@@ -207,7 +207,13 @@
     	from palette
     	where pname = #{pname}
     </select>
-	
+	<!-- 메인페이지용 최근 5개 순서 출력 -->
+	<select id="newProduct" resultType="wms_project.dto.ProductDTO">
+    	select *
+    	from product   	
+    	order by pddate desc
+    	limit 0, 5
+    </select>
 	
     
     

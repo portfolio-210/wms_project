@@ -68,6 +68,8 @@ public interface StorageMapper {
     
     //사용자가 입고한 팔레트의 코드 정보
     String palettecode(String pname);
+    //메인페이지용 최근 5개 출력
+    List<ProductDTO> newProduct();
    
     	
 }

@@ -183,6 +183,11 @@ public class StorageServiceImp implements StorageService {
     	
     	return sm.palettecode(pname);
     }
-    
+    //메인페이지용 최근 5개 출력
+    @Override
+    public List<ProductDTO> newProduct() {
+    	
+    	return sm.newProduct();
+    }
   
 }

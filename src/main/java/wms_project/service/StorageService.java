@@ -70,5 +70,8 @@ public interface StorageService {
     //입고시 선택한 파레트의 코드 
     String palettecode(String pname);
     
+    //메인페이지용 최근 5개 출력
+    List<ProductDTO> newProduct();
+    
     
 }

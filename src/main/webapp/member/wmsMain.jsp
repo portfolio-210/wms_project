@@ -2,11 +2,13 @@
 
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="f" %>
 <!-- Header -->
 <%@ include file="../header.jsp"%>
 <!-- Nav -->
 <%@ include file="../nav.jsp"%>   
+
    
 
 <main role="main" style="height: 850px;">
@@ -18,12 +20,14 @@
            <ul>
               <li class="ad_maintitle font14">입고현황</li>
               <li class="ad_mainbox">
+                <c:forEach var="p" items="${product}">
                  <ol>
                     <li class="bgcolor1">
-                       본사창고 &gt; 컴퓨터5(a123459) &gt; 
-                       5 EA &gt; 세종지점창고2 &gt; T-12 
+                       ${p.lastmove} &gt; ${p.pdname}(${p.pdcode}) &gt; 
+                       ${p.pdamount}EA &gt;${p.sname} &gt; ${p.pname} 
                     </li>
                  </ol>
+                 </c:forEach>
               </li>
            </ul>
         </div>
