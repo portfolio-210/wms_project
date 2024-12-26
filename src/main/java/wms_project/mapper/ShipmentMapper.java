@@ -17,4 +17,6 @@ public interface ShipmentMapper {
     ProductDTO apply_product(String pdidx);
     //물품 창고명, 팔레트명 저장
     int save_shipment(Map<String, Object> paramValue);
+    //물품 삭제
+    int delete_shipment(String aidx);
 }

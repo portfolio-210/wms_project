@@ -14,7 +14,7 @@
     <!-- 물품 검색 팝업 상품 리스트 출력 -->
     <select id="product_list" parameterType="Map" resultType="wms_project.dto.ProductDTO">
         select pdidx, sname, pname, pdcode, pdname, pdamount, pddate from product
-        where pdcode = #{aproductcode} and mspot = #{mspot}
+        where pdcode = #{aproductcode} and mspot = #{mspot} and pdamount > 0 and pname != '재고파레트'
         <choose>
             <when test="part == '상품명'">
                 and pdname like concat('%',#{search},'%')
@@ -36,6 +36,12 @@
     <update id="save_shipment" parameterType="Map">
         update shipping set bstorage = #{bstorage}, bpalett = #{bpalett}, bstoragecode = #{bstoragecode}, bpalettcode = #{bpalettcode}, dapprove='N'
         where aidx = #{aidx}
+    </update>
+
+    <!-- 물품 삭제 -->
+    <update id="delete_shipment" parameterType="String">
+        update shipping set bapprove = 'Y', dapprove = 'Y', adeliveryck = 'N'
+        where aidx = #{adix} and shipstate != '배송중'
     </update>
 
 </mapper>
