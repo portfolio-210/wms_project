@@ -57,8 +57,8 @@
                     <td>${shipment.acustomer}</td>
                     <td>${shipment.ahp}</td>
                     <td style="display: flex; flex-direction: row; justify-content: center;">
-                      <input type="text" name="bstorage" style="width: 120px; height: 40px; margin-right: 5px;" class="form-control font12" placeholder="창고명">
-                      <input type="text" name="bpalett" style="width: 120px; height: 40px; margin-right: 5px;" class="form-control font12" placeholder="파렛트명">
+                      <input type="text" name="bstorage" style="width: 120px; height: 40px; margin-right: 5px;" value="${shipment.bstorage == 'N' ? '' : shipment.bstorage}" <cr:if test="${shipment.bstorage != 'N'}">readOnly</cr:if> class="form-control font12" placeholder="창고명">
+                      <input type="text" name="bpalett" style="width: 120px; height: 40px; margin-right: 5px;" value="${shipment.bpalett == 'N' ? '' : shipment.bpalett}" <cr:if test="${shipment.bpalett != 'N'}">readOnly</cr:if> class="form-control font12" placeholder="파렛트명">
                       <input type="hidden" name="bstoragecode" value="${shipment.bstoragecode}">
                       <input type="hidden" name="bpalettcode" value="${shipment.bpalettcode}">
                     </td>
