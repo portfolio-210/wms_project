@@ -38,7 +38,7 @@
 
     <!-- 팔레트 수정 -->
     <update id="update_palette" parameterType="wms_project.dto.PaletteDTO">
-        update palette set psize = #{psize}, pcolor = #{pcolor} where pidx = #{pidx}
+        update palette set psize = #{psize}, pcolor = #{pcolor}, pusing = #{pusing} where pidx = #{pidx}
     </update>
 
     <!-- 팔레트 삭제 -->

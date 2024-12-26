@@ -72,6 +72,7 @@ public class PaletteController {
     //팔레트 수정 완료
     @PostMapping("/palette/palette_modifyok.do")
     public String palette_modifyok(@ModelAttribute PaletteDTO pdto, HttpServletResponse res){
+        System.out.println(pdto);
         res.setContentType("text/html;charset=utf-8");
         try {
             this.pw = res.getWriter();
