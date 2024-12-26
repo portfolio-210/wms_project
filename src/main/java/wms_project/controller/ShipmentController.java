@@ -73,7 +73,7 @@ public class ShipmentController {
     //물품 검색 팝업 물품 적용 버튼 클릭
     @PostMapping("/shipment/apply_product.do")
     @ResponseBody
-    public Map<String, Object> apply_product(@RequestParam String pdidx, @RequestParam String pdcode){
+    public Map<String, Object> apply_product(@RequestParam("pdidx") String pdidx, @RequestParam("pdcode") String pdcode){
         Map<String, Object> response = new HashMap<>();
         //System.out.println(pdidx);
         //System.out.println(pdcode);
