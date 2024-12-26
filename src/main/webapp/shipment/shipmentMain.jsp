@@ -49,7 +49,7 @@
             </thead>
             <tbody style="background-color: #f1f1ef;">
                 <cr:forEach var="shipment" items="${all}">
-                <tr align="center" style="line-height: 30px;">
+                <tr align="center" style="line-height: 30px;" class="shipment_row">
                     <td><input name="product" class="product" onchange="one_select()" value="${shipment.aproductcode}" type="checkbox"></td>
                     <td>${shipment.aordercode}</td>
                     <td align="left">${shipment.aproduct}</td>
@@ -57,12 +57,15 @@
                     <td>${shipment.acustomer}</td>
                     <td>${shipment.ahp}</td>
                     <td style="display: flex; flex-direction: row; justify-content: center;">
-                      <input type="text" style="width: 120px; height: 40px; margin-right: 5px;" class="form-control font12" placeholder="창고명">
-                      <input type="text" style="width: 120px; height: 40px; margin-right: 5px;" class="form-control font12" placeholder="파렛트명"></td>
+                      <input type="text" name="bstorage" style="width: 120px; height: 40px; margin-right: 5px;" class="form-control font12" placeholder="창고명">
+                      <input type="text" name="bpalett" style="width: 120px; height: 40px; margin-right: 5px;" class="form-control font12" placeholder="파렛트명">
+                      <input type="hidden" name="bstoragecode" value="${shipment.bstoragecode}">
+                      <input type="hidden" name="bpalettcode" value="${shipment.bpalettcode}">
+                    </td>
                     <td>${shipment.date.substring(0,10)}</td>
                     <td>N</td>
                     <td>
-                      <button type="button" class="btn btn-success font12" style="width: 50px; height: 30px;">
+                      <button type="button" onclick="save_shipment(${shipment.aidx})" class="btn btn-success font12" style="width: 50px; height: 30px;">
                         저장
                       </button>
                         <button type="button" class="btn btn-danger font12" style="width: 50px; height: 30px;">

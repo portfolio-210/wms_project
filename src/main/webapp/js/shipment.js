@@ -5,15 +5,7 @@ function search_shipment(){
     var end_date = search_frm.end_date.value;
     console.log(start_date);
     console.log(end_date);
-/*
-    if(search_ck){
-        start_date = "";
-        end_date = "";
-        console.log("날짜 초기화");
-        search_ck = false;
-        location.href="/shipment/shipmentMain.do";
-    }
-*/
+
     if(!start_date){
         alert("시작 날짜를 입력해주셔야 합니다.");
     }else if(!end_date){
@@ -24,8 +16,6 @@ function search_shipment(){
         if(start > end){
             alert("시작 날짜가 종료 날짜보다 늦을 수 없습니다.");
         }else{
-            //search_ck = true;
-            //console.log(search_ck);
             search_frm.method="get";
             search_frm.action="../shipment/shipmentMain.do";
             search_frm.submit();
@@ -58,6 +48,8 @@ function one_select(){
     }
 }
 
+
+
 //물품 검색 - 팝업 오픈
 function open_popup(){
     var pd_check = document.getElementsByName("product");
@@ -66,6 +58,7 @@ function open_popup(){
     //console.log(pd_check[0].getAttribute("value"));
     for(var i=0; i<pd_check.length; i++){
         if(pd_check[i].checked == true){
+            //상품 번호 배열에 저장
             pdcodes[index] = pd_check[i].getAttribute("value");
             index++;
         }
@@ -74,7 +67,7 @@ function open_popup(){
         alert("검색할 물품을 선택해주세요.");
     }
     else{
-        //console.log(pdcode);
+        console.log(pdcodes);
         let url = "shipmentPopList.do?pdcodes=" + encodeURIComponent(pdcodes.join(","));
         console.log(pdcodes.join(","));
         window.open(url, "popupWindow", "width=750px, height=500px");
@@ -96,7 +89,70 @@ function search_product(){
     }
 }
 
+//물품 검색 팝업 물품 적용 버튼 클릭
+function apply_product(pdidx, pdcode){
+    console.log(pdidx);
+    console.log(pdcode);
+    var http, result;
+    http = new XMLHttpRequest();
+    http.onreadystatechange = function () {
+        if (http.readyState === 4) { // 요청 완료
+            if (http.status === 200) { // HTTP 상태 코드 확인
+                try {
+                    result = JSON.parse(http.responseText);
+                    if(result.error){
+                        alert(result.error);
+                    }
+                    else{
+                        if(confirm(result.sname + " " + result.pdname + " 제품을 적용하시겠습니까?")){
+                            var rows = window.opener.document.getElementsByClassName("shipment_row");
+                            for (var i = 0; i < rows.length; i++) {
+                                var checkbox = rows[i].querySelector("input[type='checkbox']");
+                                console.log(checkbox);
+                                if (checkbox.checked && pdcode == result.pdcode) {
+                                    console.log("조건 통과:", result.sname, result.pname, result.scode, result.pcode);
+                                    rows[i].querySelector("input[name='bstorage']").value = result.sname;
+                                    rows[i].querySelector("input[name='bpalett']").value = result.pname;
+                                    rows[i].querySelector("input[name='bstoragecode']").value = result.scode;
+                                    rows[i].querySelector("input[name='bpalettcode']").value = result.pcode;
+
+                                    rows[i].querySelector("input[name='bstorage']").readOnly = true;
+                                    rows[i].querySelector("input[name='bpalett']").readOnly = true;
+
+                                    console.log(rows[i].querySelector("input[name='bstorage']").value);
+
+                                    //window.close();
+                                }
+                            }
+                        }
+                    }
+                } catch (e) {
+                    console.error("JSON 파싱 에러:", e.message, http.responseText);
+                }
+            } else {
+                console.error("HTTP 요청 실패:", http.status, http.statusText);
+            }
+        }
+    };
+    http.open("post", "../shipment/apply_product.do", true);
+    http.setRequestHeader("content-type", "application/x-www-form-urlencoded");
+    http.send("pdidx=" + pdidx + "&pdcode=" + pdcode);
+}
+
 //팝업 창닫기
 function close_popup(){
     window.close();
+}
+
+//체크한 주문 저장 - 개별 저장
+function save_shipment(aidx){
+    console.log(aidx);
+    var bstorage = document.querySelector("input[name='bstorage']").value;
+    var bpalett = document.querySelector("input[name='bpalett']").value;
+    var bstoragecode = document.querySelector("input[name='bstoragecode']").value;
+    var bstoragecode = document.querySelector("input[name='bstoragecode']").value;
+    console.log(bstorage);
+    console.log(bpalett);
+    console.log(bstoragecode);
+    console.log(bstoragecode);
 }

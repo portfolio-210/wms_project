@@ -47,9 +47,9 @@
                 <td>${product.pdcode}</td>
                 <td align="left">${product.pdname}</td>
                 <td>${product.pdamount}</td>
-                <td>${product.pddate}</td>
+                <td>${product.pddate.substring(0,10)}</td>
                 <td style="text-align: center;">
-                    <button type="button" class="btn btn-dark font12" style="width: 50px; height: 30px; margin-right: 10px;">적용</button>
+                    <button type="button" onclick="apply_product(${product.pdidx}, '${product.pdcode}')" class="btn btn-dark font12" style="width: 50px; height: 30px; margin-right: 10px;">적용</button>
                 </td>
               </tr>
               </cr:forEach>
