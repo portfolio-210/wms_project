@@ -1,7 +1,10 @@
 package wms_project.controller;
 
 import jakarta.annotation.Resource;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -72,20 +75,20 @@ public class ShipmentController {
     @ResponseBody
     public Map<String, Object> apply_product(@RequestParam String pdidx, @RequestParam String pdcode){
         Map<String, Object> response = new HashMap<>();
-        System.out.println(pdidx);
-        System.out.println(pdcode);
+        //System.out.println(pdidx);
+        //System.out.println(pdcode);
         try {
             if(pdidx == null){
                 response.put("error", "존재하지 않는 상품입니다.\n잠시 후 다시 이용해주세요.");
             }
             else{
                 ProductDTO product = ss.apply_product(pdidx);
-                System.out.println(product);
+                //System.out.println(product);
                 sdto.setBstorage(product.getSname());
                 sdto.setBpalett(product.getPname());
                 sdto.setBstoragecode(product.getScode());
                 sdto.setBpalettcode(product.getPcode());
-                System.out.println(sdto);
+                //System.out.println(sdto);
 
                 response.put("pdcode", pdcode);
                 response.put("pname", product.getPname());
@@ -97,32 +100,41 @@ public class ShipmentController {
         } catch (Exception e) {
             response.put("error", "시스템 오류로 인해 적용되지 않았습니다.\n잠시 후 다시 이용해주세요.");
         }
-        System.out.println(response);
+        //System.out.println(response);
         return response;
     }
 
     //물품 창고명, 파렛트명 저장
-    @PostMapping("/shipping/save_shipping.do")
-    public String save_shipping(@ModelAttribute ShippingDTO sdto){
-        System.out.println(sdto);
+    @PostMapping("/shipment/save_shipping.do")
+    public String save_shipping(@RequestBody String product, HttpServletResponse res){
+        //System.out.println(product);
         try {
-            int result = ss.save_shipment(sdto);
-            if(result > 0){
-                this.pw.print("<script>" +
-                        "alert('시스템 오류로 창고 및 파렛트 저장에 실패했습니다.\n잠시 후 다시 시도해주세요.');" +
-                        "location.href='/shipment/shipmentMain.do';" +
-                        "</script>");
-            } else {
-                this.pw.print("<script>" +
-                        "alert('저장 실패\n잠시 후 다시 시도해주세요.');" +
-                        "history.go(-1);" +
-                        "</script>");
+            this.pw = res.getWriter();
+            JSONArray jsonArray = new JSONArray(product);
+            int i = 0;
+
+            while(i < jsonArray.length()){
+                Map<String, Object> paramValue = new HashMap<>();
+                JSONObject jsonObject = (JSONObject)jsonArray.getJSONObject(i);
+                System.out.println(jsonObject);
+                String aidx = jsonObject.get("aidx").toString();
+                String bstorage = jsonObject.get("bstorage").toString();
+                String bpalett = jsonObject.get("bpalett").toString();
+                String bstoragecode = jsonObject.get("bstoragecode").toString();
+                String bpalettcode = jsonObject.get("bpalettcode").toString();
+
+                paramValue.put("aidx", aidx);
+                paramValue.put("bstorage", bstorage);
+                paramValue.put("bpalett", bpalett);
+                paramValue.put("bstoragecode", bstoragecode);
+                paramValue.put("bpalettcode", bpalettcode);
+
+                ss.save_shipment(paramValue);
+                i++;
             }
+            this.pw.print("ok");
         } catch (Exception e) {
-            this.pw.print("<script>" +
-                    "alert('시스템 오류로 창고 및 파렛트 저장에 실패했습니다.\n잠시 후 다시 시도해주세요.');" +
-                    "history.go(-1);" +
-                    "</script>");
+            this.pw.print("error");
         } finally {
             this.pw.close();
         }

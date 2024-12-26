@@ -116,12 +116,12 @@ function apply_product(pdidx, pdcode){
                                     rows[i].querySelector("input[name='bstoragecode']").value = result.scode;
                                     rows[i].querySelector("input[name='bpalettcode']").value = result.pcode;
 
-                                    rows[i].querySelector("input[name='bstorage']").readOnly = true;
-                                    rows[i].querySelector("input[name='bpalett']").readOnly = true;
+                                    //rows[i].querySelector("input[name='bstorage']").readOnly = true;
+                                    //rows[i].querySelector("input[name='bpalett']").readOnly = true;
 
                                     console.log(rows[i].querySelector("input[name='bstorage']").value);
 
-                                    //window.close();
+                                    window.close();
                                 }
                             }
                         }
@@ -147,12 +147,37 @@ function close_popup(){
 //체크한 주문 저장 - 개별 저장
 function save_shipment(aidx){
     console.log(aidx);
-    var bstorage = document.querySelector("input[name='bstorage']").value;
-    var bpalett = document.querySelector("input[name='bpalett']").value;
-    var bstoragecode = document.querySelector("input[name='bstoragecode']").value;
-    var bstoragecode = document.querySelector("input[name='bstoragecode']").value;
-    console.log(bstorage);
-    console.log(bpalett);
-    console.log(bstoragecode);
-    console.log(bstoragecode);
+    const pd_check = document.getElementsByName("product");
+    const bstorage = document.getElementsByName("bstorage");
+    const bpalett = document.getElementsByName("bpalett");
+    const bstoragecode = document.getElementsByName("bstoragecode");
+    const bpalettcode = document.getElementsByName("bpalettcode");
+    const product = [];
+
+    for(let i = 0; i < pd_check.length; i++){
+        if (pd_check[i].checked){
+            var bstorageValue = bstorage[i].value;
+            var bpalettValue = bpalett[i].value;
+            var bstoragecodeValue = bstoragecode[i].value;
+            var bpalettcodeValue = bpalettcode[i].value;
+            if(!bstorageValue || !bpalettcodeValue){
+                alert("창고와 파렛트를 적용시키셔야합니다.");
+            }else{
+                product.push({"aidx":aidx, "bstorage":bstorageValue, "bpalett":bpalettValue, "bstoragecode":bstoragecodeValue, "bpalettcode":bpalettcodeValue});
+            }
+        }
+    }
+    var http;
+    http = new XMLHttpRequest();
+    http.onreadystatechange = function (){
+        if(http.readyState == 4 && http.status == 200){
+            if(this.response == "ok"){
+                alert("창고와 파렛트 정보가 저장되었습니다.");
+                location.href="../shipment/shipmentMain.do";
+            }
+
+        }
+    }
+    http.open("post", "../shipment/save_shipping.do", true);
+    http.send(JSON.stringify(product));
 }

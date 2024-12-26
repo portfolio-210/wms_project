@@ -38,8 +38,8 @@ public class ShipmentServiceImp implements ShipmentService {
 
     //물품 창고명, 팔레트명 저장
     @Override
-    public int save_shipment(ShippingDTO sdto) {
-        int result = sm.save_shipment(sdto);
+    public int save_shipment(Map<String, Object> paramValue) {
+        int result = sm.save_shipment(paramValue);
         return result;
     }
 
