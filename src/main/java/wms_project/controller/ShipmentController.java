@@ -53,7 +53,7 @@ public class ShipmentController {
                            @RequestParam(value = "part", required = false) String part,
                            @RequestParam(value = "search", required = false) String search,
                            Model m){
-        System.out.println(pdcodes);
+        //System.out.println(pdcodes);
         String mspot = (String)session.getAttribute("mspot");
         String[] aproductcodes = pdcodes.split(",");
         Map<String, Object> paramValue = new HashMap<>();

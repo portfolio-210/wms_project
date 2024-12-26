@@ -18,8 +18,11 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import wms_project.dto.MemberDTO;
 import wms_project.dto.OfficeDTO;
+import wms_project.dto.ProductDTO;
+import wms_project.dto.StorageDTO;
 import wms_project.service.MemberService;
 import wms_project.service.OfficeService;
+import wms_project.service.StorageService;
 
 @Controller
 public class MemberController implements security {
@@ -34,6 +37,9 @@ public class MemberController implements security {
 	@Autowired
     OfficeService os;
 	
+	@Autowired
+	StorageService ss;
+	
 	String output = null;
 	javascript js = new javascript();
 	
@@ -45,9 +51,13 @@ public class MemberController implements security {
 	//loginCheck.checkLogin();
 	
     @GetMapping("/member/wmsMain.do")
-    public String main(Model m, HttpServletRequest req) {    
+    public String main(Model m, HttpServletRequest req) {
+    	List<ProductDTO> product = ss.newProduct();
+    	
+    	m.addAttribute("product",product);
         return "/member/wmsMain"; 
     }
+    
     
     @GetMapping("/member/wmsJoin.do")
     public String wmsJoin(Model m) {

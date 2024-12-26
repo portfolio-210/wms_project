@@ -168,7 +168,7 @@ public class StorageController {
 	@PostMapping("/storage/moveProduct.do")
 	public String moveProduct(@RequestBody String data, HttpServletResponse res) {
 
-		// System.out.println(data);
+		System.out.println("="+data);
 		try {
 			this.pw = res.getWriter();
 			JSONArray ja = new JSONArray(data);
@@ -204,6 +204,7 @@ public class StorageController {
 				newProduct.setQuantity(quantity); // 이동할 수량
 				newProduct.setInstorename(instorename);
 				newProduct.setInstorecode(instorecode);
+				newProduct.setLastmove(productInfo.getSname());
 				//newProduct.setPname(productInfo.getPname());
 				//newProduct.setPcode(productInfo.getPcode());
 				newProduct.setMspot(mspot);

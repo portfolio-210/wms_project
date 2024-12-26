@@ -97,7 +97,7 @@ function apply_product(pdidx, pdcode){
     http = new XMLHttpRequest();
     http.onreadystatechange = function () {
         if (http.readyState === 4) { // 요청 완료
-            if (http.status === 200) { // HTTP 상태 코드 확인
+            /*if (http.status === 200) { // HTTP 상태 코드 확인
                 try {
                     result = JSON.parse(http.responseText);
                     if(result.error){
@@ -131,7 +131,7 @@ function apply_product(pdidx, pdcode){
                 }
             } else {
                 console.error("HTTP 요청 실패:", http.status, http.statusText);
-            }
+            }*/
         }
     };
     http.open("post", "../shipment/apply_product.do", true);
