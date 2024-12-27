@@ -12,5 +12,5 @@ public class MobileDTO {
 	String dspot, demail, dhp, dcode, dname, dpass, dimgck, dapprove;
 	String aordercode, acustomer, ahp, addr, adeliveryck, bapprove;
 	String b_dcode, d_approve, stracking, shipstate, mobileck;
-	String state,idx,sts;
+	String state,idx,sts,tracking;
 }

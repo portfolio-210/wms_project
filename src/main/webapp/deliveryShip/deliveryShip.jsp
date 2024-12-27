@@ -22,6 +22,7 @@
     z-index: 1000;
     background: white;
     box-shadow: 5px 5px 3px #ccc;
+    border:1px solid #ccc;
 }
 
 
@@ -148,8 +149,10 @@
                     <td>${list.ahp}</td>
                     <td><c:out value="${f:substring(list.date, 0, 10)}" /></td>
                     <td>${list.deliveryname}</td>
+                    
+                    <!-- 
                     <td>
-           
+
                     	<c:choose>
 			                <c:when test="${list.sqrimg == 'N'}">-</c:when>
 			                <c:otherwise>
@@ -159,9 +162,29 @@
 						            <button id="closeBtn" style="position: absolute;  top: 0; right: 0; background: none; border: none; color: gray; font-size: 40px; cursor: pointer;">☒</button>
 						        </div>
 			                </c:otherwise>
-			            </c:choose>
-			             
+			            </c:choose> 
                     </td>
+                     -->
+        <td>
+    <c:choose>
+        <c:when test="${list.sqrimg == 'N'}">-</c:when>
+        <c:otherwise>
+            <!-- showImageBtn의 id를 동적으로 설정 -->
+            <a href="javascript:void(0);" id="showImageBtn_${list.aidx}">[QR보기]</a>
+            
+            <!-- 이미지와 닫기 버튼을 감싸는 div에도 고유한 id를 설정 -->
+            <div id="imageWrapper_${list.aidx}" style="display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); max-width: 80%; max-height: 80%; z-index: 1000;">
+                <img id="views_${list.aidx}" src=".${list.sqrurl}${list.sqrimg}" style="width: 400px; height: 400px;">
+                <button id="closeBtn_${list.aidx}" style="position: absolute; top: 0; right: 0; background: none; border: none; color: gray; font-size: 40px; cursor: pointer;">☒</button>
+            </div>
+        </c:otherwise>
+    </c:choose>
+</td>
+
+	                    
+                    
+                    
+                    
                     <td>${list.shipstate}</td>
                   </tr>
                 </c:forEach>

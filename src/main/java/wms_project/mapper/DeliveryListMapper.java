@@ -16,4 +16,5 @@ public interface DeliveryListMapper {
 	public int deliveryApprove(DeliveryListDTO dto);
 	public DeliveryListDTO deliveryModifyIdx(String didx);
 	public int deliveryModify(DeliveryListDTO dto);
+	public DeliveryListDTO approveCk(String dcode);
 }

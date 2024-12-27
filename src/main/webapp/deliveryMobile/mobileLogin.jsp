@@ -19,7 +19,7 @@
 </head>
 <body>
     <div class="Mbody">
-       <div class="Mtitle">DELYVERY<br>SYSTEM<br>(DEMO)</div>
+       <div class="Mtitle">DELYVERY<br>SYSTEM<br>(배송기사 모바일 전용)</div>
        <form name="fm" id="fm">
        <div class="Mlogin">
            <ul>

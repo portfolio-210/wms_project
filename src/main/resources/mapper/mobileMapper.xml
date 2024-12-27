@@ -21,10 +21,31 @@
 		AND mobileck != 'N' 
 	</select>
 	
+	
+	<select id="QrCk" resultType="wms_project.dto.MobileDTO" parameterType="String">
+		SELECT shipstate, aordercode, acustomer, ahp, addr, shipstate,mobileck,stracking
+		FROM mobile
+		WHERE stracking = #{tracking}	
+		AND adeliveryck = 'Y'
+		AND bapprove != 'Y'
+		AND b_dapprove != 'Y'
+	</select>
+	
+	
+	<update id="QrUpdate" parameterType="wms_project.dto.MobileDTO">
+		UPDATE mobile
+		SET mobileck ='배송중', shipstate = '배송중'
+		WHERE stracking = #{tracking}
+		AND stracking != 'N'
+	</update>
+	
+	
+	
 	<update id="MobileState" parameterType="wms_project.dto.MobileDTO">
 		UPDATE mobile
-		SET mobileck =#{state}, shipstate=#{sts}
-		WHERE didx=#{idx}
+		SET mobileck = #{state}, shipstate = #{sts}
+		WHERE stracking= #{tracking}
+		AND stracking != 'N'
 	</update>
 
 </mapper>

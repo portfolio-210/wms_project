@@ -56,11 +56,11 @@ $(function(){
 });
 
 	//배송준비
-	function ma(state,idx){
+	function ma(tracking,state){
 		//대기
 		if(state == "대기"){
 			f1.method = "post";
-			f1.action = "/deliveryMobile/mobileState.do?state=대기&idx="+idx;
+			f1.action = "/deliveryMobile/mobileState.do?state=대기&tracking="+tracking;
 			f1.submit();
 		}
 		else{
@@ -70,10 +70,10 @@ $(function(){
 	}
 	
 	//배송중
-	function mb(state,idx){
+	function mb(tracking,state){
 		if(state == "배송중"){
 			f1.method = "post";
-			f1.action = "/deliveryMobile/mobileState.do?state=배송중&idx="+idx;
+			f1.action = "/deliveryMobile/mobileState.do?state=배송중&tracking="+tracking;
 			f1.submit();
 		}
 		else{
@@ -83,27 +83,21 @@ $(function(){
 	}
 	
 	//촬영하기
-	function mc(state,idx){
+	function mc(tracking,state){
 		if(state == "촬영하기"){
-			console.log(f1.cam.value);
-			//만약 저 밸류값 사진이 없음!!! 핸들링 XX
-			f1.method = "post";
-			f1.action = "/deliveryMobile/mobileState.do?state=촬영하기&idx="+idx;
-			//f1.submit();
-		}
-		else{
-			alert("시스템 오류입니다. 다시 시도해주세요");
-			return false;
-		}
+			
+		f1.method = "post";
+		f1.action = "/deliveryMobile/mobileState.do?state=촬영하기&tracking="+tracking;
+		f1.submit();
 	
 	}
-
+}
 	//완료하기
-	function md(state,idx){
+	function md(tracking,state){
 		if(state == "완료하기"){
 			if(confirm("배송 완료 처리하시겠습니까?")){
 			f1.method = "post";
-			f1.action = "/deliveryMobile/mobileState.do?state=완료하기&idx="+idx;
+			f1.action = "/deliveryMobile/mobileState.do?state=완료하기&tracking="+tracking;
 			f1.submit();
 			}
 		}

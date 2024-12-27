@@ -62,4 +62,10 @@ public class DeliveryListServiceImp implements DeliveryListService{
 		int result = dm.deliveryModify(dto);
 		return result;
 	};
+	
+	@Override
+	public DeliveryListDTO approveCk(String dcode) {
+		DeliveryListDTO result = dm.approveCk(dcode);
+		return result;
+	}
 }

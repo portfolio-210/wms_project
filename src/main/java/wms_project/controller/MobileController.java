@@ -9,7 +9,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
@@ -113,37 +115,144 @@ public class MobileController implements security {
 	}
 	
 	
-	
-	@PostMapping("/deliveryMobile/mobileState.do")
-	public String mobileState(
-			@RequestParam(value = "state", required = false) String state,
-			@RequestParam(value = "idx", required = false) Integer idx,
+	@GetMapping("deliveryShip/QrCheck.do")
+	public String QrCheck(
+			@RequestParam(value = "tracking", required = false) String tracking,
 			Model m) {
-		dto.setMobileck(state);
-		dto.setDidx(idx);
+		System.out.println("파라미터값 : " +tracking);
 		
-		if(state == "배송중") {
-			dto.setSts(state);
-			dto.setMobileck(state);
-			dto.setDidx(idx);
+		//파라미터 값없을때!!
+		if(tracking.equals("")) {
+			this.output = this.js.ok("비정상적인 접근입니다.\\n배송기사 모바일 전용 페이지를 이용해주세요.","/deliveryMobile/mobileLogin.jsp");
 		}
-		else if(state== "촬영하기") {
+		else {
 			
-		}
+			//얼럿에 같이 출력할애!!
+	        List<MobileDTO> md = ms.QrCk(tracking);
+	        if (md != null && !md.isEmpty()) {
+	            // 예시로 첫 번째 결과의 값들을 출력
+	        	//System.out.println("shipstate: " + md.get(0).getShipstate());
+	            //System.out.println("aordercode: " + md.get(0).getAordercode());
+	            //System.out.println("acustomer: " + md.get(0).getAcustomer());
+	            //System.out.println("ahp: " + md.get(0).getAhp());
+	            //System.out.println("addr: " + md.get(0).getAddr());
+	            //System.out.println("shipstate: " + md.get(0).getShipstate());
+	            //System.out.println("mobileck: " + md.get(0).getMobileck());
+	            //System.out.println("stracking: " + md.get(0).getStracking());
+	            
+	            if(!md.get(0).getShipstate().equals("대기") || !md.get(0).getMobileck().equals("대기")) {
+	            	this.output = this.js.ok("운송장번호 : ["+md.get(0).getStracking()+"]\\n고객명 : "+md.get(0).getAcustomer()+"\\n연락처 : "+md.get(0).getAhp()+"\\n주소 : "+md.get(0).getAddr()+"\\n\\n배송상태는 이미 [ "+md.get(0).getShipstate() +" ] 이며,\\n배송현황 업데이트가 불가능합니다.", "/deliveryMobile/mobileLogin.jsp");
+	            }
+	            else {
+	            	 dto.setTracking(tracking);
+	 	            try {
+	 	            	int result = ms.QrUpdate(dto);
+	 	            
+	 	            	if(result > 0) {
+	 	            		System.out.println("result 값 : " +result);
+	 	            		this.output = this.js.ok("운송장번호 : ["+md.get(0).getStracking()+"]\\n고객명 : "+md.get(0).getAcustomer()+"\\n연락처 : "+md.get(0).getAhp()+"\\n주소 : "+md.get(0).getAddr()+"\\n\\n배송을 시작합니다.","/deliveryMobile/mobileLogin.jsp");
+	 	            	}
+	 	            	else {
+	 	            		this.output = this.js.ok("QR코드 오류입니다.\\n다시 시도해주세요.","/deliveryMobile/mobileLogin.jsp");
+	 	            	}
+	 					
+	 				} catch (Exception e) {
+	 					e.printStackTrace();
+	 					this.output = this.js.ok("QR코드 스캔 오류입니다.\\n다시 시도해주세요.","/deliveryMobile/mobileLogin.jsp");
+	 				}
+	            }
+	        } else {
+	        	this.output = this.js.ok("비정상적인 QR코드 입니다.\\n관리자에게 문의해주세요.","/deliveryMobile/mobileLogin.jsp");
+	        }
+	    }
 		
-		
-		try {
-			
-		} catch (Exception e) {
-			// TODO: handle exception
-		}
-		
-		return null;
+		m.addAttribute("output", this.output);
+  		return "output";
 	}
 	
 	
 	
-	
+	@PostMapping("/deliveryMobile/mobileState.do")
+	public String mobileState(
+			@RequestParam(value = "state", required = false) String state,
+			@RequestParam(value = "tracking", required = false) String tracking,
+			@RequestParam(value = "img", required = false) MultipartFile img,
+			Model m) {
+		System.out.println("state : " + state);
+		System.out.println("tracking: " + tracking);
+		
+		
+		if(tracking.equals("")) {
+			this.output = this.js.ok("비정상적인 접근입니다.\\n배송기사 모바일 전용 페이지를 이용해주세요.","/deliveryMobile/mobileLogin.jsp");
+		}
+		else {
+			//얼럿에 같이 출력할애!!
+	        List<MobileDTO> md = ms.QrCk(tracking);
+	        if (md != null && !md.isEmpty()) {
+	            // 예시로 첫 번째 결과의 값들을 출력
+	        	System.out.println("1.shipstate: " + md.get(0).getShipstate());
+	            System.out.println("2.aordercode: " + md.get(0).getAordercode());
+	            System.out.println("3.acustomer: " + md.get(0).getAcustomer());
+	            System.out.println("4.ahp: " + md.get(0).getAhp());
+	            System.out.println("5.addr: " + md.get(0).getAddr());
+	            System.out.println("6.shipstate: " + md.get(0).getShipstate());
+	            System.out.println("7.mobileck: " + md.get(0).getMobileck());
+	            System.out.println("8.stracking: " + md.get(0).getStracking());
+		
+	            
+	       if(state.equals("대기")) {
+	    	  dto.setState("배송중");
+	    	  dto.setSts("배송중");
+	    	  dto.setTracking(tracking);
+	       }
+	       else if(state.equals("배송중")) {
+	    	  dto.setState("촬영하기");
+	    	  dto.setSts("배송중");
+	    	  dto.setTracking(tracking);
+	       }
+	       else if(state.equals("촬영하기")) {
+	    	   dto.setState("완료하기");
+	    	   dto.setSts("배송완료");
+	    	   dto.setTracking(tracking);
+	       }
+	       else if(state.equals("완료하기")) {
+	    	   dto.setState("N");
+	    	   dto.setSts("배송완료");
+	    	   dto.setTracking(tracking);
+	       }
+	      
+	       
+			
+			try {
+				int result = ms.MobileState(dto);
+				if(result > 0) {
+					
+					if(state.equals("대기")) {
+						this.output = this.js.ok("운송장번호 : ["+md.get(0).getStracking()+"]\\n고객명 : "+md.get(0).getAcustomer()+"\\n연락처 : "+md.get(0).getAhp()+"\\n주소 : "+md.get(0).getAddr()+"\\n\\n배송상태가 [ "+dto.getState() +" ] 로 변경되었습니다.", "/deliveryMobile/mobileMain.do");
+					}
+					else if(state.equals("배송중")) {
+						this.output = this.js.ok("운송장번호 : ["+md.get(0).getStracking()+"]\\n고객명 : "+md.get(0).getAcustomer()+"\\n연락처 : "+md.get(0).getAhp()+"\\n주소 : "+md.get(0).getAddr()+"\\n\\n배송을 완료하셨다면 사진촬영을 해주세요.", "/deliveryMobile/mobileMain.do");
+					}
+					else if(state.equals("촬영하기")) {
+							this.output = this.js.ok("운송장번호 : ["+md.get(0).getStracking()+"]\\n고객명 : "+md.get(0).getAcustomer()+"\\n연락처 : "+md.get(0).getAhp()+"\\n주소 : "+md.get(0).getAddr()+"\\n\\배송이 완료되었습니다!", "/deliveryMobile/mobileMain.do");
+					
+					}
+				
+				}
+				else {
+					System.out.println("실패");
+				}
+			} catch (Exception e) {
+				System.out.println("DB 오류");
+			}
+	    }	
+     }//list end
+		
+		
+		
+	  m.addAttribute("output", this.output);
+	  return "output";
+	}
 	
 	
 }
