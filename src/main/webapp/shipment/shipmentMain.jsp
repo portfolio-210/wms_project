@@ -81,8 +81,12 @@
      <div class="mb-3">
         <!-- 페이징 시작 -->
         <ul class="pageing">
-
-          <li>1</li>
+            <cr:set var="page" value="${total%15 == 0? total/15 : total/15 + (1-((total/15)%1))}"/>
+            <cr:forEach var="i" begin="1" end="${page}">
+                <li style="cursor: pointer;" onclick="go_page(${i}, '${start_date}', '${end_date}'})">
+                    ${i}
+                </li>
+            </cr:forEach>
         </ul>
         <!-- 페이징 끝 -->
       </div>
