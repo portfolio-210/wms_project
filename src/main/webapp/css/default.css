@@ -286,3 +286,10 @@ ul {
     color: white;
     border: 0px;
 }
+.admintxt{
+	color: gray;
+	text-align: center;
+	line-height: -10px;
+	font-family: sans-serif;
+}
+

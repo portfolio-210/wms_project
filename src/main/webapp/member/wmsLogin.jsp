@@ -14,8 +14,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>이행 물류 시스템</title>
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="../css/bootstrap.css?v=1">
-    <link rel="stylesheet" href="../css/default.css?v=20241124">
+    <link rel="stylesheet" href="../css/bootstrap.css?v=<%=sf.format(today)%>">
+    <link rel="stylesheet" href="../css/default.css?v=<%=sf.format(today)%>">
     <script src="../js/wmsLogin.js?v=<%=sf.format(today)%>"></script>
 </head>
 <body style="position: relative;">
@@ -27,6 +27,7 @@
         <h6 style="text-align: center; height: 40px; line-height: 40px;">
             <u>ADMINISTRATOR</u>
         </h6>
+ 
             <div class="mb-3" style="position: relative;">
                <div class="input-group" style="height: 40px;">
                 <span class="input-group-text" id="basic-addon1">
@@ -34,7 +35,7 @@
                     <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6"></path>
                     </svg>
                   </span>
-                  <input type="text" name="mid" style="height: 40px;" value="admin" class="form-control font12" placeholder="아이디를 입력하세요">
+                  <input type="text" name="mid" style="height: 40px;"  class="form-control font12" placeholder="아이디를 입력하세요">
                </div>
             </div>
             <div class="mb-3">
@@ -45,9 +46,10 @@
                             <path d="M4 8a1 1 0 1 1-2 0 1 1 0 0 1 2 0"/>
                         </svg>
                       </span>
-                      <input type="password" name="mpass" value="admin" style="height: 40px;" class="form-control font12" placeholder="패스워드를 입력하세요">
+                      <input type="password" name="mpass" style="height: 40px;" class="form-control font12" placeholder="패스워드를 입력하세요">
                    </div>
             </div>
+            <p class="admintxt">[최고관리자 계정]&nbsp&nbsp 아이디 : admin &nbsp 패스워드 : admin</p>
             <div class="mb-3">
             <button type="submit" class="btn btn-primary font12" style="width: 100%; height: 40px;">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-box-arrow-in-right" viewBox="0 0 16 16">
@@ -57,6 +59,7 @@
                 로그인
             </button>   
             </div>
+            
             <div class="mb-3">
             <button type="button" class="btn btn-secondary font12" style="width: 100%; height: 40px;" onclick="location.href='./wmsJoin.do'">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-plus-fill" viewBox="0 0 16 16">

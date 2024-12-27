@@ -46,8 +46,11 @@ public class MobileController implements security {
 			try {
 				StringBuilder repass = secode(deliver_pw);
 				if(result.get(0).getDpass().equals(repass.toString())) {
+					
+					
 					if(!result.get(0).getDapprove().equals("근무중")) {
-						this.output=this.js.ok("현재 '근무중'인 기사님만 로그인이 가능합니다. 센터로 문의해주세요.","./mobileLogin.jsp");
+						System.out.println("배송기사 상태는? : " + result.get(0).getDapprove());
+						this.output=this.js.ok("현재 [근무중] 인 기사님만 로그인이 가능합니다.\\n관리자 센터로 문의해주세요.","./mobileLogin.jsp");
 					}
 					else {
 						HttpSession session = req.getSession();
@@ -141,7 +144,7 @@ public class MobileController implements security {
 	            //System.out.println("stracking: " + md.get(0).getStracking());
 	            
 	            if(!md.get(0).getShipstate().equals("대기") || !md.get(0).getMobileck().equals("대기")) {
-	            	this.output = this.js.ok("운송장번호 : ["+md.get(0).getStracking()+"]\\n고객명 : "+md.get(0).getAcustomer()+"\\n연락처 : "+md.get(0).getAhp()+"\\n주소 : "+md.get(0).getAddr()+"\\n\\n배송상태는 이미 [ "+md.get(0).getShipstate() +" ] 이며,\\n배송현황 업데이트가 불가능합니다.", "/deliveryMobile/mobileLogin.jsp");
+	            	this.output = this.js.ok("[배송정보]\\n운송장번호 : ["+md.get(0).getStracking()+"]\\n고객명 : "+md.get(0).getAcustomer()+"\\n연락처 : "+md.get(0).getAhp()+"\\n주소 : "+md.get(0).getAddr()+"\\n\\n배송상태는 이미 [ "+md.get(0).getShipstate() +" ] 이며,\\n▷ 배송현황 업데이트가 불가능합니다.", "/deliveryMobile/mobileLogin.jsp");
 	            }
 	            else {
 	            	 dto.setTracking(tracking);
@@ -150,7 +153,7 @@ public class MobileController implements security {
 	 	            
 	 	            	if(result > 0) {
 	 	            		System.out.println("result 값 : " +result);
-	 	            		this.output = this.js.ok("운송장번호 : ["+md.get(0).getStracking()+"]\\n고객명 : "+md.get(0).getAcustomer()+"\\n연락처 : "+md.get(0).getAhp()+"\\n주소 : "+md.get(0).getAddr()+"\\n\\n배송을 시작합니다.","/deliveryMobile/mobileLogin.jsp");
+	 	            		this.output = this.js.ok("[배송정보]\\n운송장번호 : "+md.get(0).getStracking()+"\\n고객명 : "+md.get(0).getAcustomer()+"\\n연락처 : "+md.get(0).getAhp()+"\\n주소 : "+md.get(0).getAddr()+"\\n\\n▷ 배송을 시작합니다.","/deliveryMobile/mobileLogin.jsp");
 	 	            	}
 	 	            	else {
 	 	            		this.output = this.js.ok("QR코드 오류입니다.\\n다시 시도해주세요.","/deliveryMobile/mobileLogin.jsp");
@@ -228,13 +231,13 @@ public class MobileController implements security {
 				if(result > 0) {
 					
 					if(state.equals("대기")) {
-						this.output = this.js.ok("운송장번호 : ["+md.get(0).getStracking()+"]\\n고객명 : "+md.get(0).getAcustomer()+"\\n연락처 : "+md.get(0).getAhp()+"\\n주소 : "+md.get(0).getAddr()+"\\n\\n배송상태가 [ "+dto.getState() +" ] 로 변경되었습니다.", "/deliveryMobile/mobileMain.do");
+						this.output = this.js.ok("[배송정보]\\n운송장번호 : "+md.get(0).getStracking()+"\\n고객명 : "+md.get(0).getAcustomer()+"\\n연락처 : "+md.get(0).getAhp()+"\\n주소 : "+md.get(0).getAddr()+"\\n\\n▷ 배송상태가 [ "+dto.getState() +" ] 로 변경되었습니다.", "/deliveryMobile/mobileMain.do");
 					}
 					else if(state.equals("배송중")) {
-						this.output = this.js.ok("운송장번호 : ["+md.get(0).getStracking()+"]\\n고객명 : "+md.get(0).getAcustomer()+"\\n연락처 : "+md.get(0).getAhp()+"\\n주소 : "+md.get(0).getAddr()+"\\n\\n배송을 완료하셨다면 사진촬영을 해주세요.", "/deliveryMobile/mobileMain.do");
+						this.output = this.js.ok("[배송정보]\\n운송장번호 : "+md.get(0).getStracking()+"\\n고객명 : "+md.get(0).getAcustomer()+"\\n연락처 : "+md.get(0).getAhp()+"\\n주소 : "+md.get(0).getAddr()+"\\n\\n▷ 배송을 완료하셨다면 사진촬영을 해주세요.", "/deliveryMobile/mobileMain.do");
 					}
 					else if(state.equals("촬영하기")) {
-							this.output = this.js.ok("운송장번호 : ["+md.get(0).getStracking()+"]\\n고객명 : "+md.get(0).getAcustomer()+"\\n연락처 : "+md.get(0).getAhp()+"\\n주소 : "+md.get(0).getAddr()+"\\n\\배송이 완료되었습니다!", "/deliveryMobile/mobileMain.do");
+							this.output = this.js.ok("[배송정보]\\n운송장번호 : "+md.get(0).getStracking()+"\\n고객명 : "+md.get(0).getAcustomer()+"\\n연락처 : "+md.get(0).getAhp()+"\\n주소 : "+md.get(0).getAddr()+"\\n\\n▷ 배송이 완료되었습니다!", "/deliveryMobile/mobileMain.do");
 					
 					}
 				

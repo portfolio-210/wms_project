@@ -6,7 +6,6 @@
 		SELECT dspot, demail, dhp, dcode, dname, dpass, dimgck, dapprove
 		FROM mobile
 		WHERE dcode=#{deliver_id}
-		AND dapprove='근무중'
 		AND dimgck='Y'   
 	</select>
 
