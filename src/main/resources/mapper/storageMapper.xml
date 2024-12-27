@@ -96,7 +96,8 @@
     VALUES (#{acompany}, #{acode}, #{pdcode}, #{mspot}, #{pdname}, #{pdamount}, #{sname}, #{scode}, #{pname}, #{pcode}, #{pddate})
     ON DUPLICATE KEY UPDATE
     pdamount = pdamount + VALUES(pdamount),
-    pddate = VALUES(pddate);    	    
+    pddate = VALUES(pddate),
+    idx = GREATEST(idx, VALUES(idx))   	    
     </insert>
     
     <select id="productlist" parameterType="Map" resultType="Map">
@@ -136,7 +137,7 @@
     <!-- 입고하는 창고에 같은 물건 있을 때 -->
     <update id="updateProduct1" parameterType="wms_project.dto.ProductDTO">
     UPDATE product
-    SET pdamount = pdamount + #{quantity}, pddate = now(), lastmove = #{lastmove}
+    SET pdamount = pdamount + #{quantity}, pddate = now(), lastmove = #{lastmove}, pdidx = (SELECT COALESCE(MAX(pdidx), 0) + 1 FROM product)
     WHERE pdcode = #{pdcode} AND scode = #{instorecode}
 	</update>
       
@@ -211,7 +212,27 @@
 	<select id="newProduct" resultType="wms_project.dto.ProductDTO">
     	select *
     	from product   	
-    	order by pddate desc
+    	order by pdidx desc
+    	limit 0, 5
+    </select>
+    <!-- 메인페이지용 기사별 배송현황1(배송기사목록)  -->
+    <select id="Deliveryman" resultType="wms_project.dto.DeliveryListDTO">
+    	select dcode, dname, dspot
+    	from delivery   	  	
+    </select> 
+    <!-- 메인페이지용 기사별 배송현황2(배송기사목록)  -->
+    <select id="Deliveryman2" resultType="wms_project.dto.ShippingDTO">
+    	select aordercode, aproduct, addr, shipstate, mobileck
+    	from shipping
+    	where deliveryname = #{z}
+    	order by aidx desc
+    	limit 0, 5   	  	
+    </select>         
+    <!-- 메인페이지용 최근 등록기사 5명 출력 -->
+    <select id="newDeliveryman" resultType="wms_project.dto.DeliveryListDTO">
+    	select dcode, dname, dspot, dhp
+    	from delivery   	
+    	order by didx desc
     	limit 0, 5
     </select>
 	

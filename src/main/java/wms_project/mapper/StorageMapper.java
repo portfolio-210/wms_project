@@ -7,8 +7,10 @@ import java.util.Map;
 import org.apache.ibatis.annotations.Mapper;
 
 import wms_project.dto.AccountDTO;
+import wms_project.dto.DeliveryListDTO;
 import wms_project.dto.PaletteDTO;
 import wms_project.dto.ProductDTO;
+import wms_project.dto.ShippingDTO;
 import wms_project.dto.StorageDTO;
 
 @Mapper
@@ -70,6 +72,9 @@ public interface StorageMapper {
     String palettecode(String pname);
     //메인페이지용 최근 5개 출력
     List<ProductDTO> newProduct();
-   
+    List<DeliveryListDTO> Deliveryman();
+    List<ShippingDTO> Deliveryman2(String z);
+    List<DeliveryListDTO> newDeliveryman();
+    
     	
 }

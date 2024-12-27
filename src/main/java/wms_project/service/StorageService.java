@@ -4,8 +4,10 @@ import java.util.List;
 import java.util.Map;
 
 import wms_project.dto.AccountDTO;
+import wms_project.dto.DeliveryListDTO;
 import wms_project.dto.PaletteDTO;
 import wms_project.dto.ProductDTO;
+import wms_project.dto.ShippingDTO;
 import wms_project.dto.StorageDTO;
 
 public interface StorageService {
@@ -72,6 +74,10 @@ public interface StorageService {
     
     //메인페이지용 최근 5개 출력
     List<ProductDTO> newProduct();
+    List<DeliveryListDTO> Deliveryman();
+    List<ShippingDTO> Deliveryman2(String z);
+    List<DeliveryListDTO> newDeliveryman();
+    
     
     
 }

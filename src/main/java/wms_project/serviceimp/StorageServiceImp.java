@@ -8,8 +8,10 @@ import org.springframework.stereotype.Service;
 
 import wms_project.dto.AccountDTO;
 import wms_project.dto.ConfigDTO;
+import wms_project.dto.DeliveryListDTO;
 import wms_project.dto.PaletteDTO;
 import wms_project.dto.ProductDTO;
+import wms_project.dto.ShippingDTO;
 import wms_project.dto.StorageDTO;
 import wms_project.mapper.StorageMapper;
 import wms_project.service.StorageService;
@@ -189,5 +191,19 @@ public class StorageServiceImp implements StorageService {
     	
     	return sm.newProduct();
     }
-  
+    @Override
+    public List<DeliveryListDTO> Deliveryman() {
+    
+    	return sm.Deliveryman();
+    }
+    @Override
+    public List<ShippingDTO> Deliveryman2(String z) {
+    	
+    	return sm.Deliveryman2(z);
+    }
+    @Override
+    public List<DeliveryListDTO> newDeliveryman() {
+	
+    	return sm.newDeliveryman();
+}
 }
