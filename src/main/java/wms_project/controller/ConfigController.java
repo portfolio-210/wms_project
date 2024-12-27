@@ -91,7 +91,7 @@ public class ConfigController {
                 this.output = this.js.no("변경 되었습니다.");
                
             } else {
-                this.output = this.js.no("변경 실패하였습니다.");
+                this.output = this.js.no("관리자 계정은 변경할 수 없습니다.");
             }
         } catch (Exception e) {
             System.out.println("변경 실패");

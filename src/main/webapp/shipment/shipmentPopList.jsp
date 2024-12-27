@@ -17,10 +17,10 @@
             <li style="width: 85%; display: flex; flex-direction: row;">
                 <input type="hidden" name="pdcodes" value="${pdcodes}">
                 <select name="part" style="width: 100px; height: 40px; margin-right: 5px;" class="form-control font12">
-                    <option value="상품명">상품명</option>
-                    <option value="상품코드">상품코드</option>
+                    <option value="상품명" <cr:if test="${part == '상품명'}">selected</cr:if>>상품명</option>
+                    <option value="상품코드" <cr:if test="${part == '상품코드'}">selected</cr:if>>상품코드</option>
                 </select>
-                <input type="text" name="search" style="width: 150px; height: 40px;" class="form-control font12" placeholder="검색어를 입력하세요">
+                <input type="text" value="${search =! ''? search : ''}" name="search" style="width: 150px; height: 40px;" class="form-control font12" placeholder="검색어를 입력하세요">
                 <button type="button" onclick="search_product()" class="btn btn-primary font12" style="width: 70px; height: 40px; margin-left:10px; margin-right: 10px;">검색</button>
             </li>
         </ul>

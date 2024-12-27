@@ -90,18 +90,19 @@ select::-ms-expand {
              </c:forEach>
              </select> 
              </div>         			
-             <div style="margin-left: 40px; margin-top: 15px;">
+             <div style="margin-left: 40px;">
+             	<p style="font-size: 10px;">*최근 순으로 5건까지 표출됩니다.</p>
              <c:choose>
 		    <c:when test="${empty deliveryList}">
 		        <p>현재 배송중인 배송건이 없습니다.</p>
 		    </c:when>
 		    <c:otherwise>
 		        <c:forEach var="l" items="${deliveryList}"> 
-		            <ol>
+		            <ul>
 		                <li class="bgcolor1">
-		                  주문번호 : ${l.aordercode} | 상품명 : ${l.aproduct} | 배송지 : ${l.addr} | 배송현황 : ${l.shipstate} | 📲 ${l.mobileck} 
+		                 주문번호 : ${l.aordercode} | 상품명 : ${l.aproduct} | 배송지 : ${l.addr} | 배송현황 : ${l.shipstate} | 📲
 		                </li>
-		            </ol>
+		            </ul>
 		        </c:forEach>
 		    </c:otherwise>
 		</c:choose>		

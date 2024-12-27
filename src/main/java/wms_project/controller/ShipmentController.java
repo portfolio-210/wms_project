@@ -34,15 +34,30 @@ public class ShipmentController {
     @GetMapping("/shipment/shipmentMain.do")
     public String shipment_list(@RequestParam(value = "start_date", required = false) String start_date,
                                 @RequestParam(value = "end_date", required = false) String end_date,
+                                @RequestParam(value = "pageno", required = false) Integer pageno,
                                 Model m){
         Map<String, Object> paramValue = new HashMap<>();
         paramValue.put("start_date", start_date);
         paramValue.put("end_date", end_date);
+
+        int total = ss.count_shipment(paramValue);
+        int items = 15;
+        int startno = 0;
+        if(pageno == null){
+            pageno = 1;
+        } else {
+            startno = (pageno-1) * 15;
+        }
+        paramValue.put("items", items);
+        paramValue.put("startno", startno);
+
         List<ShippingDTO> result = ss.shipment_list(paramValue);
 
         m.addAttribute("all", result);
         m.addAttribute("start_date", start_date);
         m.addAttribute("end_date", end_date);
+        m.addAttribute("total", total);
+        m.addAttribute("pageno", pageno);
 
         return null;
     }
@@ -52,21 +67,41 @@ public class ShipmentController {
     public String pop_list(@RequestParam(value = "pdcodes", required = false) String pdcodes,
                            @RequestParam(value = "part", required = false) String part,
                            @RequestParam(value = "search", required = false) String search,
+                           @RequestParam(value = "pageno", required = false) Integer pageno,
                            Model m){
-        //System.out.println(pdcodes);
         String mspot = (String)session.getAttribute("mspot");
         String[] aproductcodes = pdcodes.split(",");
+
         Map<String, Object> paramValue = new HashMap<>();
         paramValue.put("part", part);
         paramValue.put("search", search);
         paramValue.put("mspot", mspot);
+
+        int total = 0;
+        int startno = 0;
+        int items = 15;
+        if(pageno == null){
+            pageno = 1;
+        } else {
+            startno = (pageno-1)*15;
+        }
+
+        paramValue.put("items", items);
+        paramValue.put("startno", startno);
+
         Set<ProductDTO> all = new HashSet<>();
         for (String aproductcode : aproductcodes) {
             paramValue.put("aproductcode", aproductcode);
             List<ProductDTO> product = ss.product_list(paramValue);
             all.addAll(product);
+            total += ss.count_shipment(paramValue);
         }
         m.addAttribute("all", new ArrayList<>(all));
+        m.addAttribute("total", total);
+        m.addAttribute("pageno", pageno);
+        m.addAttribute("part", part);
+        m.addAttribute("search", search);
+        m.addAttribute("pdcodes", pdcodes);
         return null;
     }
 

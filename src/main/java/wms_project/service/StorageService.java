@@ -41,7 +41,7 @@ public interface StorageService {
     int insertStore(Map<String, Object> params);
     
     //창고에 따른 상품 리스트 출력하기
-    List<ProductDTO> productlist(String selectstorage);
+    List<ProductDTO> productlist(Map<String, Object> params);
     
     //기존 입고 테이블의 필요성분 가져오기
     ProductDTO selectProduct(String pdidx);

@@ -44,7 +44,7 @@ public interface StorageMapper {
     //상품 입고하기
     int insertStore(Map<String, Object> params);
     //창고에 따른 상품 리스트 출력하기
-    List<ProductDTO> productlist(String selectstorage);
+    List<ProductDTO> productlist(Map<String, Object> params);
     //체크한 행의 컬럼값들 가져오기
     ProductDTO selectProduct(String pdidx);
     //새로운 창고로 물건 이동시키기    

@@ -50,5 +50,17 @@ public class ShipmentServiceImp implements ShipmentService {
         return result;
     }
 
+    //등록된 오더 개수
+    @Override
+    public int count_shipment(Map<String, Object> paramValue) {
+        int result = sm.count_shipment(paramValue);
+        return result;
+    }
 
+    //팝업 물품 개수
+    @Override
+    public int count_product(Map<String, Object> paramValue) {
+        int result = sm.count_product(paramValue);
+        return result;
+    }
 }

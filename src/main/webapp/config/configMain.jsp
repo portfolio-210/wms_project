@@ -22,8 +22,8 @@
             <li class="num_font13_bold">소 속</li>
             <li>
                 <select name="part1" id="part1" style="width: 100px; height: 40px; margin-right: 5px;" class="form-control font12">
-                    <option value="본사">본사</option>
-                    <option value="지점">지점</option>
+                    <option value="본사"<c:if test="${part1 == '본사'}">selected</c:if>>본사</option>
+                    <option value="지점"<c:if test="${part1 == '지점'}">selected</c:if>>지점</option>
                 </select>
             </li>
             <li></li>
@@ -33,9 +33,9 @@
 		    <li class="num_font13_bold">검색형식</li>
 		    <li style="width: 85%; display: flex; flex-direction: row;">
 		        <select name="part2" id="part2" style="width: 100px; height: 40px; margin-right: 5px;" class="form-control font12">
-		            <option value="이름">이름</option>
-		            <option value="아이디">아이디</option>
-		            <option value="연락처">연락처</option>
+		            <option value="이름"<c:if test="${part2 == '이름'}">selected</c:if>>이름</option>
+		            <option value="아이디"<c:if test="${part2 == '아이디'}">selected</c:if>>아이디</option>
+		            <option value="연락처"<c:if test="${part2 == '연락처'}">selected</c:if>>연락처</option>
 		        </select>
 		        <input type="text" id="searchKeyword" name="search" style="width: 200px; height: 40px;" class="form-control font12" placeholder="검색어를 입력하세요">
 		        <button type="button" onclick="getFormInfo()" class="btn btn-primary font12" style="width: 70px; height: 40px; margin-left: 10px; margin-right: 10px;">검색</button>
@@ -79,7 +79,7 @@
                     </select>
                 </td>
                 <td style="text-align: center;">
-                    <button type="button" class="btn btn-dark font12" style="width: 50px; height: 30px; margin-right: 10px;" onclick="change4(${member.midx})">적용</button> 
+                    <button type="button" class="btn btn-dark font12" style="width: 50px; height: 30px; margin-right: 10px;" onclick="change4(${member.midx})"<c:if test="${member.midx == 1}">disabled</c:if> >적용</button> 
                 </td>
               </tr>
               </c:forEach>            
