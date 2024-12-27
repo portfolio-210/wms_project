@@ -17,4 +17,8 @@ public interface ShipmentService {
     int save_shipment(Map<String, Object> paramValue);
     //물품 삭제
     int delete_shipment(String aidx);
+    //등록된 오더 개수
+    int count_shipment(Map<String, Object> paramValue);
+    //팝업 물품 개수
+    int count_product(Map<String, Object> paramValue);
 }

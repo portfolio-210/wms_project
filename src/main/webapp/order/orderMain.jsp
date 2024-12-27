@@ -44,8 +44,8 @@
             <li>
                 <select name="accountnm" id="accountnm" onchange="search_account('${start_date}', '${end_date}')" style="width: 200px; height: 40px; margin-right: 5px;" class="form-control font12">
                     <option value="">거래처를 선택해주세요</option>
-                <cr:forEach var="account" items="${account_all}">
-                    <option value="${account}">${account}</option>
+                <cr:forEach var="accountList" items="${account_all}">
+                    <option value="${accountList}" ${accountList eq account ? 'selected' : ''}>${accountList}</option>
                 </cr:forEach>
                 </select>
             </li>

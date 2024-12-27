@@ -95,9 +95,7 @@ function complete_insert(){
 	var opost = frm.opost;
 	var oaddress = frm.oaddress;
 
-	if(!officenameCheck){
-	    alert("지점명 중복 확인을 해주세요.");
-	}
+
 	
 	if(officename.value == ""){
 		alert("등록할 지점명을 입력해주세요.");
@@ -115,15 +113,20 @@ function complete_insert(){
 		alert("상세 주소를 입력해주세요.");
 		oaddress.focus();
 	} else {
-		//대표 연락처 "-" 포함 되도록 검사
-		const pattern = /^\d{2,3}-\d{3,4}-\d{4}$/;
-		if(!pattern.test(otel.value)){
-		    alert("대표 연락처는 '-'를 포함하여 입력해주세요.\n 예)02-1212-3333");
+	    if(!officenameCheck){
+    	    alert("지점명 중복 확인을 해주세요.");
+    	}
+		else{
+		    //대표 연락처 "-" 포함 되도록 검사
+            const pattern = /^\d{2,3}-\d{3,4}-\d{4}$/;
+            if(!pattern.test(otel.value)){
+                alert("대표 연락처는 '-'를 포함하여 입력해주세요.\n 예)02-1212-3333");
+            }
+            //부가 유효 검사 후 submit
+            frm.action="../office/officeInsert.do";
+            frm.method="get";
+            frm.submit();
 		}
-		//부가 유효 검사 후 submit
-		frm.action="../office/officeInsert.do";
-		frm.method="get";
-		frm.submit();
 	}
 }
 
