@@ -97,7 +97,7 @@
     ON DUPLICATE KEY UPDATE
     pdamount = pdamount + VALUES(pdamount),
     pddate = VALUES(pddate),
-    idx = GREATEST(idx, VALUES(idx))   	    
+    pdidx = GREATEST(pdidx, VALUES(pdidx))   	    
     </insert>
     
     <select id="productlist" parameterType="Map" resultType="Map">
