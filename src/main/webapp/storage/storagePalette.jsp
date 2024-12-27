@@ -28,7 +28,7 @@
                 <select id="paletteFrom" style="width: 200px; height: 40px;" class="form-control font12">
                     <option>재고 이동할 파렛트명</option>
                     <c:forEach var="another" items="${palettAnother}">
-                    <option value="${another.sname},${another.pname},${another.scode}">${another.pname}(${another.sname})</option>
+                    <option value="${another.pname},${another.pcode}">${another.pname}</option>
                     </c:forEach>
                 </select>
             </li>

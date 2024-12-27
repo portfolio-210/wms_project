@@ -16,10 +16,15 @@ import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import wms_project.dto.DeliveryListDTO;
 import wms_project.dto.MemberDTO;
 import wms_project.dto.OfficeDTO;
+import wms_project.dto.ProductDTO;
+import wms_project.dto.ShippingDTO;
+import wms_project.dto.StorageDTO;
 import wms_project.service.MemberService;
 import wms_project.service.OfficeService;
+import wms_project.service.StorageService;
 
 @Controller
 public class MemberController implements security {
@@ -34,14 +39,29 @@ public class MemberController implements security {
 	@Autowired
     OfficeService os;
 	
+	@Autowired
+	StorageService ss;
+	
 	String output = null;
 	javascript js = new javascript();
 	
 	
     @GetMapping("/member/wmsMain.do")
-    public String main(Model m, HttpServletRequest req) {    
+    public String main(@RequestParam (value = "z", required = false) String z, Model m, HttpServletRequest req) {
+    	List<ProductDTO> product = ss.newProduct();
+    	List<DeliveryListDTO> deliveryman = ss.newDeliveryman();
+    	List<DeliveryListDTO> deliverymanList = ss.Deliveryman();
+    	List<ShippingDTO> deliveryList = ss.Deliveryman2(z);
+    	
+    	
+    	m.addAttribute("z",z);
+    	m.addAttribute("deliveryList",deliveryList);
+    	m.addAttribute("product",product);
+    	m.addAttribute("deliveryman",deliveryman);
+    	m.addAttribute("deliverymanList",deliverymanList);
         return "/member/wmsMain"; 
     }
+    
     
     @GetMapping("/member/wmsJoin.do")
     public String wmsJoin(Model m) {

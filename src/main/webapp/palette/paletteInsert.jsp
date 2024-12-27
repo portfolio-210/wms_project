@@ -25,7 +25,7 @@
                     </li>
                     <li class="num_font13_bold">파렛트 코드</li>
                     <li style="display: flex; flex-direction: row;">
-                        <input type="text" name="pcode" style="width: 100px; height: 40px;" class="form-control font12" maxlength="5"><font style="font-size: 12px; color: red;">&nbsp;&nbsp;※ 파렛트 코드는 최대 5개의 코드로 사용합니다.</font>
+                        <input type="text" name="pcode" style="width: 100px; height: 40px;" class="form-control font12" maxlength="5" placeholder="EX) P0000"><font style="font-size: 12px; color: red;">&nbsp;&nbsp;※ 파렛트 코드는 최대 5개의 코드로 사용합니다.</font>
                     </li>
                 </ul>
             </div>

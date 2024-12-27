@@ -8,8 +8,10 @@ import org.springframework.stereotype.Service;
 
 import wms_project.dto.AccountDTO;
 import wms_project.dto.ConfigDTO;
+import wms_project.dto.DeliveryListDTO;
 import wms_project.dto.PaletteDTO;
 import wms_project.dto.ProductDTO;
+import wms_project.dto.ShippingDTO;
 import wms_project.dto.StorageDTO;
 import wms_project.mapper.StorageMapper;
 import wms_project.service.StorageService;
@@ -123,6 +125,12 @@ public class StorageServiceImp implements StorageService {
     	sm.moveProduct(newProduct);
     	}
     }
+    @Override
+    public String searchmspot(Map<String, String> params) {
+    	
+    	return sm.searchmspot(params);
+    }
+    
     //새로운 팔레트로 물건 이동시키기
     @Override
     public void movePalette(ProductDTO newProduct) {
@@ -177,6 +185,25 @@ public class StorageServiceImp implements StorageService {
     	
     	return sm.palettecode(pname);
     }
+    //메인페이지용 최근 5개 출력
+    @Override
+    public List<ProductDTO> newProduct() {
+    	
+    	return sm.newProduct();
+    }
+    @Override
+    public List<DeliveryListDTO> Deliveryman() {
     
-  
+    	return sm.Deliveryman();
+    }
+    @Override
+    public List<ShippingDTO> Deliveryman2(String z) {
+    	
+    	return sm.Deliveryman2(z);
+    }
+    @Override
+    public List<DeliveryListDTO> newDeliveryman() {
+	
+    	return sm.newDeliveryman();
+}
 }

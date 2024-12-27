@@ -29,4 +29,26 @@ public class ShipmentServiceImp implements ShipmentService {
         return result;
     }
 
+    //물품 검색 팝업 물품 적용
+    @Override
+    public ProductDTO apply_product(String pdidx) {
+        ProductDTO result = sm.apply_product(pdidx);
+        return result;
+    }
+
+    //물품 창고명, 팔레트명 저장
+    @Override
+    public int save_shipment(Map<String, Object> paramValue) {
+        int result = sm.save_shipment(paramValue);
+        return result;
+    }
+
+    //물품 삭제
+    @Override
+    public int delete_shipment(String aidx) {
+        int result = sm.delete_shipment(aidx);
+        return result;
+    }
+
+
 }

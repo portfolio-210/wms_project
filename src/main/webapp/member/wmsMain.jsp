@@ -1,14 +1,57 @@
-
-
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="f" %>
 <!-- Header -->
 <%@ include file="../header.jsp"%>
 <!-- Nav -->
-<%@ include file="../nav.jsp"%>   
-   
+<%@ include file="../nav.jsp"%>  
+ 
+<style>
+select {
+  /* Reset Select */
+  appearance: none;
+  outline: 10px red;
+  box-shadow: none;
+  /* Personalize */
+  flex: 1;
+  padding: 0 1em;
+  color: #000;
+  background-color: var(--darkgray);
+  background-image: none;
+  cursor: pointer;
+   border: 2.5px solid #c0392b;
+  border-radius: .50em;
+}
+/* Remove IE arrow */
+select::-ms-expand {
+  display: none;
+}
+/* Custom Select wrapper */
+.select {
+  position: relative;
+  display: flex;
+  width: 15em;
+  height: 2em;
+  overflow: hidden;
+}
 
+/* Arrow */
+.select::after {
+  content: '\25BC';
+  position: absolute;
+  top: 3px;
+  right: 0;
+  padding-left: 1em;
+  padding-right: 1em;
+  transition: .25s all ease;
+  pointer-events: none;
+}
+/* Transition */
+.select:hover::after {
+  color: #f39c12;
+}
+</style>
 <main role="main" style="height: 850px;">
   <div class="container">
     <div class="row">
@@ -16,14 +59,16 @@
       <div class="ad_main">
         <div class="ad_main1">
            <ul>
-              <li class="ad_maintitle font14">입고현황</li>
+              <li class="ad_maintitle font14">🌟🎄입고현황🎄🌟</li>
               <li class="ad_mainbox">
+                <c:forEach var="p" items="${product}">
                  <ol>
                     <li class="bgcolor1">
-                       본사창고 &gt; 컴퓨터5(a123459) &gt; 
-                       5 EA &gt; 세종지점창고2 &gt; T-12 
+                       ${p.lastmove} &gt; ${p.pdname}(${p.pdcode}) &gt; 
+                       ${p.pdamount}EA &gt;${p.sname} &gt; ${p.pname} 
                     </li>
                  </ol>
+                 </c:forEach>
               </li>
            </ul>
         </div>
@@ -34,13 +79,33 @@
   <div class="ad_main">
     <div class="ad_main1">
        <ul>
-          <li class="ad_maintitle font14">배송현황</li>
-          <li class="ad_mainbox">
-             <ol>
-                <li class="bgcolor1">
-                  현재 등록된 배송 정보가 없습니다.
-                </li>
-             </ol>
+          <li class="ad_maintitle font14">❤️🎄배송현황🎄❤️</li>
+          <li class="ad_mainbox", style="display: flex; align-items: center;">   
+          <div class="select">                
+             <select id="deliveryList" onchange="Change(this.value);" >
+             <option value="">배송기사 선택해주세요</option>
+             <c:forEach var="d" items="${deliverymanList}">
+             <option value="${d.dcode}"
+             <c:if test="${d.dcode == param.z}">selected</c:if>>${d.dname} 기사님(${d.dspot})</option>
+             </c:forEach>
+             </select> 
+             </div>         			
+             <div style="margin-left: 40px; margin-top: 15px;">
+             <c:choose>
+		    <c:when test="${empty deliveryList}">
+		        <p>현재 배송중인 배송건이 없습니다.</p>
+		    </c:when>
+		    <c:otherwise>
+		        <c:forEach var="l" items="${deliveryList}"> 
+		            <ol>
+		                <li class="bgcolor1">
+		                  주문번호 : ${l.aordercode} | 상품명 : ${l.aproduct} | 배송지 : ${l.addr} | 배송현황 : ${l.shipstate} | 📲 ${l.mobileck} 
+		                </li>
+		            </ol>
+		        </c:forEach>
+		    </c:otherwise>
+		</c:choose>		
+	</div>
           </li>
        </ul>
     </div>
@@ -51,13 +116,16 @@
 <div class="ad_main">
   <div class="ad_main1">
      <ul>
-        <li class="ad_maintitle font14">신규등록 배송기사</li>
+        <li class="ad_maintitle font14">🎅🏻신규등록 배송기사🎅🏻</li>
         <li class="ad_mainbox">
-           <ol>
-              <li class="bgcolor1">
-                현재 등록된 배송 기사 정보가 없습니다.
-              </li>
-           </ol>
+          <c:forEach var="m" items="${deliveryman}">
+                 <ol>
+                    <li class="bgcolor1">
+                     🫅🏻 이름 : ${m.dname}( 사원코드 : ${m.dcode} ) | 
+                          &#128222;  ${m.dhp} | 소속 : ${m.dspot} 
+                    </li>
+                 </ol>
+          </c:forEach>
         </li>
      </ul>
   </div>
@@ -70,3 +138,12 @@
 
 <!-- Footer -->
 <%@ include file="../footer.jsp"%>
+<script>
+function Change(z) {
+    if (z != "") {
+        // GET 방식으로 서버에 요청
+        window.location.href = '/member/wmsMain.do?z=' + z;
+    }
+}
+
+</script>

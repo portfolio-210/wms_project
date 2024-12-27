@@ -167,6 +167,8 @@ document.addEventListener('DOMContentLoaded', function () {
 function complete_modify(){
     var psize = frm.psize;
     var pcolor = frm.pcolor;
+    var pusing = frm.pusing;
+    console.log(pusing);
     if(psize.value == ""){
         alert("수정하실 파렛트의 사이즈를 입력해주세요.");
         psize.focus();
