@@ -93,5 +93,3 @@ if (session == null ||
       <button class="btn btn-outline-success my-2 my-sm-0" type="button" onclick="location.href='/member/logout.do'">로그아웃</button>
   </div>
 </nav>
-
-

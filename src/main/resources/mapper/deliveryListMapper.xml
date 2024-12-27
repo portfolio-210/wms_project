@@ -86,4 +86,10 @@
 		WHERE didx = #{didx}
 	</update>
 	
+	<select id="approveCk" resultType="wms_project.dto.DeliveryListDTO" parameterType="String">
+		SELECT dcode, dapprove
+		FROM delivery
+		WHERE = #{dcode}
+	</select>
+	
 </mapper>

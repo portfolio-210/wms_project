@@ -18,6 +18,7 @@ import org.springframework.ui.Model;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -31,16 +32,20 @@ import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import wms_project.dto.DeliveryShipDTO;
+import wms_project.dto.MobileDTO;
 import wms_project.service.DeliveryShipService;
+import wms_project.service.MobileService;
 
 @Controller
 public class DeliveryShipController {
 
 	@Resource(name="dsdto")
 	DeliveryShipDTO dto;
-	
 	@Autowired
 	private DeliveryShipService dss;
+	
+	
+	
 	
 	String output = null;
 	javascript js = new javascript();
@@ -117,10 +122,8 @@ public class DeliveryShipController {
 	            try {
 	                int result = dss.ShipTracking(dto); // 운송장 번호 업데이트
 	                if (result > 0) {
-	                    System.out.println("운송장 번호 생성: " + trno);
 	                    this.output = this.js.ok("운송장 번호가 생성 되었습니다.", "/deliveryShip/deliveryShip.do");
 	                } else {
-	                    System.out.println("운송장 번호 생성 실패");
 	                    this.output = this.js.no("운송장 번호 생성에 실패하였습니다. 다시 시도해주세요.");
 	                }
 	            } catch (Exception e) {
@@ -166,7 +169,7 @@ public class DeliveryShipController {
     		this.output = this.js.no("이미 QR코드가 생성된 오더 입니다.");
     	}
     	else {
-    		String url = "http://localhost:8080/deliveryShip/deliveryQr.do?tacking="+trck;
+    		String url = "http://192.168.10.142:8080/deliveryShip/QrCheck.do?tracking="+trck;
     		int size = 300;
     		BitMatrix bm = new MultiFormatWriter().encode(url, BarcodeFormat.QR_CODE, size, size);
 
@@ -186,7 +189,6 @@ public class DeliveryShipController {
 				dto.setSqrimg(trck+".png");
 				dto.setSqrurl("./deliveryShip/qrImg/");
 				int result = dss.QRmake(dto);
-				System.out.println(result);
 				 if (result > 0) {
 	                    this.output = this.js.ok("QR코드가 생성되었습니다.", "/deliveryShip/deliveryShip.do");
 	                } else {
@@ -200,4 +202,7 @@ public class DeliveryShipController {
 	    m.addAttribute("output", output);
 	    return "output";
 	}
+
+	
+	
 }

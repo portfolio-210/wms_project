@@ -114,19 +114,18 @@ return;
                     <td style="width:20%;">
                      <c:choose>
 		                <c:when test="${list.mobileck == '대기'}">
-		                    <button type="button" value="${list.mobileck}" class="Mtabok start_btn" onclick="ma('${list.mobileck}','${list.didx}')">배송준비</button>
+		                    <button type="button" value="${list.mobileck}" class="Mtabok start_btn" onclick="ma('${list.stracking}','${list.mobileck}')">배송준비</button>
 		                </c:when>
 		                <c:when test="${list.mobileck == '배송중'}">
-		                    <button type="button" value="${list.mobileck}" class="Mtabok gostarts" onclick="mb('${list.mobileck}','${list.didx}')">배송중</button>
+		                    <button type="button" value="${list.mobileck}" class="Mtabok gostarts" onclick="mb('${list.stracking}','${list.mobileck}')">배송중</button>
 		                </c:when>
 		                <c:when test="${list.mobileck == '촬영하기'}">
-		                <!-- onclick="mc('${list.mobileck}','${list.didx}')" -->
-		                    <label value="${list.mobileck}" class="Mtabok3 color2 cks" for="cap${list.didx}" style="margin: 0 auto; line-height: 35px;" onclick="mc('${list.mobileck}','${list.didx}')">촬영하기
-		                    <div style="display:none;"><input type="file" name="cam" id="cap${list.didx}" accept="image/*" capture="camera"/></div>
+		                    <label value="${list.mobileck}" class="Mtabok3 color2 cks" for="cap${list.stracking}" style="margin: 0 auto; line-height: 35px;" onclick="mc('${list.stracking}','${list.mobileck}')">촬영하기
+		                    <div style="display:none;"><input type="file" name="cam" id="cap${list.stracking}" accept="image/*" capture="camera"/></div>
 		                    </label>
 		                </c:when>
 		                <c:when test="${list.mobileck == '완료하기'}">
-		                    <button type="button" value="${list.mobileck}" class="Mtabok3 color1" onclick="md('${list.mobileck}','${list.didx}')">완료하기</button>
+		                    <button type="button" value="${list.mobileck}" class="Mtabok3 color1" onclick="md('${list.stracking}','${list.mobileck}')">완료하기</button>
 		                </c:when>
            			</c:choose>
 	               </td>

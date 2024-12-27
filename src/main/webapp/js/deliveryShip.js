@@ -1,4 +1,24 @@
 document.body.addEventListener('click', function(event) {
+    // QR보기 버튼 클릭 시
+    if (event.target && event.target.id.startsWith('showImageBtn_')) {
+        event.preventDefault();
+        // 고유한 aidx를 추출하여 해당 imageWrapper를 표시
+        const aidx = event.target.id.split('_')[1]; // 'showImageBtn_' 뒤의 aidx 값 추출
+        document.getElementById(`imageWrapper_${aidx}`).style.display = 'block'; // 이미지 보여주기
+    }
+
+    // 닫기 버튼 클릭 시
+    if (event.target && event.target.id.startsWith('closeBtn_')) {
+        event.preventDefault();
+        // 고유한 aidx를 추출하여 해당 imageWrapper를 숨김
+        const aidx = event.target.id.split('_')[1]; // 'closeBtn_' 뒤의 aidx 값 추출
+        document.getElementById(`imageWrapper_${aidx}`).style.display = 'none'; // 이미지 숨기기
+    }
+});
+
+
+/*
+document.body.addEventListener('click', function(event) {
     if (event.target && event.target.id === 'showImageBtn') {
         event.preventDefault();
         document.getElementById('imageWrapper').style.display = 'block'; // 이미지 보여주기
@@ -9,6 +29,13 @@ document.body.addEventListener('click', function(event) {
         document.getElementById('imageWrapper').style.display = 'none'; // 이미지 닫기
     }
 });
+*/
+
+
+
+
+
+
 
 function toggleSelectAll() {
         const selectAll = document.getElementById('selectAll');

@@ -29,8 +29,23 @@ public class MobileServiceImp implements MobileService {
 	};
 	
 	@Override
+	public List<MobileDTO> QrCk(String tracking) {
+		List<MobileDTO> result = mm.QrCk(tracking);
+		return result;
+	}
+	
+
+
+	@Override
 	public int MobileState(MobileDTO dto) {
 		int result = mm.MobileState(dto);
 		return result;
 	};
+	
+	
+	@Override
+	public int QrUpdate(MobileDTO dto) {
+		int result = mm.QrUpdate(dto);
+		return result;
+	}
 }
