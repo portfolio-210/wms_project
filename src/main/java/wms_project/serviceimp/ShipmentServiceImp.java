@@ -43,6 +43,12 @@ public class ShipmentServiceImp implements ShipmentService {
         return result;
     }
 
+    //물품 삭제
+    @Override
+    public int delete_shipment(String aidx) {
+        int result = sm.delete_shipment(aidx);
+        return result;
+    }
 
 
 }

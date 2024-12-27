@@ -140,4 +140,35 @@ public class ShipmentController {
         }
         return null;
     }
+
+    //물품 삭제
+    @PostMapping("/shipment/delete_shipment.do")
+    public String delete_shipment(@RequestParam("aidx") String aidx, HttpServletResponse res){
+        res.setContentType("text/html;charset=utf-8");
+        try {
+            this.pw = res.getWriter();
+
+            int result = ss.delete_shipment(aidx);
+            if(result > 0){
+                this.pw.print("<script>" +
+                        "alert('물품 삭제가 완료되었습니다.');" +
+                        "location.href='/shipment/shipmentMain.do';" +
+                        "</script>");
+            }
+            else{
+                this.pw.print("<script>" +
+                        "alert('배송중인 물품은 삭제할 수 없습니다.');" +
+                        "history.go(-1);" +
+                        "</script>");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            this.pw.close();
+        }
+        return null;
+    }
+
+
+
 }
