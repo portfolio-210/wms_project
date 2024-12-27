@@ -40,7 +40,7 @@
 
     <!-- 물품 삭제 -->
     <update id="delete_shipment" parameterType="String">
-        update shipping set bapprove = 'Y', dapprove = 'Y', adeliveryck = 'N'
+        update shipping set bapprove = 'Y'
         where aidx = #{adix} and shipstate != '배송중'
     </update>
 

@@ -185,7 +185,7 @@ public class OrderController {
             sdto.setDcode("N");
             sdto.setDeliveryname("N");
             sdto.setDspot("N");
-            sdto.setDapprove("Y");
+            sdto.setDapprove("N");
         }
         if(sdto.getStracking() == null){
             sdto.setStracking("N");
