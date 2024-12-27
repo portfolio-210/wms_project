@@ -103,7 +103,7 @@
     <select id="productlist" parameterType="Map" resultType="Map">
     SELECT pd.*
     FROM product pd
-    JOIN palette p ON pd.pcode = p.pcode 
+    LEFT JOIN palette p ON pd.pcode = p.pcode 
     WHERE scode = #{selectstorage} AND p.pusing = 'Y'    
     ORDER BY pname 
     LIMIT #{startno}, #{endno}        
