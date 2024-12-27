@@ -44,6 +44,10 @@ public class StoerDeliverServiceImp implements StoreDeliveryService {
 		int result = sdm.DeleteDeliverymen(aidx);
 		return result;
 	}
-	
+	@Override
+	public int order_count(Map<String, Object> params) {
+		
+		return sdm.order_count(params);
+	}
 	
 }

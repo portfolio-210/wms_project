@@ -76,13 +76,13 @@ public class StoreDeliveryController {
 
 				JSONObject jo = (JSONObject) ja.getJSONObject(w);
 				String aidx = jo.get("aidx").toString();
-				String didx = jo.get("didx").toString();
+				String dcode = jo.get("dcode").toString();
 				String dname = jo.get("dname").toString();
 				String dspot = jo.get("dspot").toString();
 				
-				System.out.println(didx + ":" + aidx+ ":" + dname+ ":" + dspot );
+				System.out.println(dcode + ":" + aidx+ ":" + dname+ ":" + dspot );
 
-				params.put("didx", didx);
+				params.put("dcode", dcode);
 				params.put("aidx", aidx);
 				params.put("dspot", dspot);
 				params.put("dname", dname);
@@ -110,11 +110,25 @@ public class StoreDeliveryController {
 	@GetMapping("/storeDelivery/storeDelivery.do")
 	public String storeMain(@RequestParam(value = "startDate", required = false) String startDate,
 						 @RequestParam(value = "endDate", required = false) String endDate,	
-						 @RequestParam(value = "radio", required = false) String radio, HttpServletRequest req, Model m) {
+						 @RequestParam(value = "radio", required = false) String radio, 
+						 @RequestParam(value = "pageno",required = false) Integer pageno, HttpServletRequest req, Model m) {
 		HttpSession sess = req.getSession();
 		String mspot = (String) sess.getAttribute("mspot");
 		Map<String, Object> params = new HashMap<>();
 		
+			int total =0;
+			int startno = 0;
+			int endno = 20;
+			
+			if(pageno == null) {
+		    	   startno = 0;
+		    	   pageno = 1;
+		       }else {
+				startno = (pageno-1) * 15;
+		       }
+		    params.put("startno", startno);
+			params.put("endno", endno);
+			params.put("mspot", mspot);
 		params.put("startDate", startDate);
 		params.put("endDate", endDate);
 		params.put("radio", radio);
@@ -122,8 +136,15 @@ public class StoreDeliveryController {
 		
 		List<ShippingDTO>list = sds.order_list(params);
 		List<DeliveryListDTO>deliverymenlist = sds.deliverymenlist(mspot);
+		total = sds.order_count(params);
 		
-		
+		m.addAttribute("startDate", startDate); // 전체 멤버 수
+        m.addAttribute("endDate", endDate); // 현재 페이지 번호
+        m.addAttribute("radio", radio);
+		m.addAttribute("startno", startno);
+        m.addAttribute("endno", endno);
+		m.addAttribute("pageno",pageno);
+		m.addAttribute("total",total);
 		m.addAttribute("dlist",deliverymenlist);
 		m.addAttribute("list",list);
 		

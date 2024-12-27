@@ -27,7 +27,7 @@ function searchDate(radio) {
 function useDeliverymen() {
     const checkboxes = document.getElementsByName('checkbox');
 	var selectmen = document.getElementById("selectmen").value;
-	const [didx, dname, dspot] = selectmen.split(','); 
+	const [dcode, dname, dspot] = selectmen.split(','); 
     const checked = [];
 
 	
@@ -39,7 +39,7 @@ function useDeliverymen() {
 				 // 체크박스 확인
 				
 			if (checkboxes[i].checked) {
-	                 checked.push({ "aidx": aidx, "didx" : didx, "dname" : dname, "dspot" : dspot});
+	                 checked.push({ "aidx": aidx, "dcode" : dcode, "dname" : dname, "dspot" : dspot});
 					 }
 	             }
 	         

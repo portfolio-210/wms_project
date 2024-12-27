@@ -106,9 +106,9 @@ public class StorageServiceImp implements StorageService {
     }
     //선택 창고에 따른 리스트 출력
     @Override
-    public List<ProductDTO> productlist(String selectstorage) {
+    public List<ProductDTO> productlist(Map<String, Object> params) {
     	
-    	return sm.productlist(selectstorage);
+    	return sm.productlist(params);
     }
     
     @Override

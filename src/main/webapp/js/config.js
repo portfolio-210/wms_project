@@ -74,6 +74,12 @@ function searchall(){
 }
 
 function change4(mid){
+			if (mid == 1){
+				alert("관리자 상태는 수정할 수 없습니다.")
+				return;
+				
+			}
+			
 			frm.innerHTML = ""; // 이전 필드 제거
 	
 		   frm.method = "POST"; // 폼 메서드 설정

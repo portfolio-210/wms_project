@@ -101,13 +101,12 @@
     </insert>
     
     <select id="productlist" parameterType="Map" resultType="Map">
-    SELECT *
-    FROM product
-    <choose>
-     <when test="selectstorage !='' and storageto != null">
-     WHERE scode = #{storageto} 
-     </when>
-    </choose>        
+    SELECT pd.*
+    FROM product pd
+    JOIN palette p ON pd.pcode = p.pcode 
+    WHERE scode = #{selectstorage} AND p.pusing = 'Y'    
+    ORDER BY pname 
+    LIMIT #{startno}, #{endno}        
     </select>
     
     <!-- 사용자가 선택한 창고의 리스트 갯수 -->
@@ -222,9 +221,9 @@
     </select> 
     <!-- 메인페이지용 기사별 배송현황2(배송기사목록)  -->
     <select id="Deliveryman2" resultType="wms_project.dto.ShippingDTO">
-    	select aordercode, aproduct, addr, shipstate, mobileck
+    	select aordercode, aproduct, addr, shipstate
     	from shipping
-    	where deliveryname = #{z}
+    	where dcode = #{z}
     	order by aidx desc
     	limit 0, 5   	  	
     </select>         

@@ -254,7 +254,7 @@ public class StorageController {
 		List<ProductDTO> list = new ArrayList<>();
 
 		if (selectstorage != null && !selectstorage.isEmpty()) {
-			list = ss.productlist(selectstorage);
+			list = ss.productlist(params);
 			
 		}
 		total = ss.productlistotal(params);

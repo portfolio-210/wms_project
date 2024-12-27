@@ -17,4 +17,6 @@ public interface StoreDeliveryMapper {
 	void useDeliverymen(Map<String, Object> params);
 	
 	int DeleteDeliverymen(int aidx);
+	
+	int order_count(Map<String, Object> params);
 }

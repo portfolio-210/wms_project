@@ -32,7 +32,7 @@
             <li style="width: 85%; display: flex; flex-direction: row;">
                 <select id="selectmen" style="width: 200px; height: 40px; margin-right: 5px;" class="form-control font12">
                     <c:forEach var="dlist" items="${dlist}">
-                    	<option value="${dlist.didx},${dlist.dname},${dlist.dspot}" >${dlist.dname}(${dlist.dspot})</option>
+                    	<option value="${dlist.dcode},${dlist.dname},${dlist.dspot}" >${dlist.dname}(${dlist.dspot})</option>
                     </c:forEach>                   
                 </select>
                 <button type="button" class="btn btn-success font12" style="width: 100px; height: 40px; margin-left:10px; margin-right: 10px;" onclick="useDeliverymen()">기사 선택 완료</button><font style="font-size: 12px; color: red;">&nbsp;&nbsp;※ 근무하고 있는 배송기사만 출력 됩니다.</font>
@@ -72,14 +72,14 @@
             <c:forEach var="list" items="${list}">
                 <tr align="center" style="line-height: 30px;">
                     <td><input type="checkbox" name="checkbox" value="${list.aidx}" class="product-checkbox"></td>
-                    <td>"${list.aordercode}"</td>
-                    <td>"${list.aproduct}"</td>
-                    <td>"${list.aproductcode}"</td>
-                    <td>"${list.acustomer}"</td>
-                    <td>"${list.ahp}"</td>
-                    <td align="left">"${list.addr}"</td>
-                    <td>"${list.date}"</td>
-                    <td>"${list.adeliveryck}"</td>
+                    <td>${list.aordercode}</td>
+                    <td>${list.aproduct}</td>
+                    <td>${list.aproductcode}</td>
+                    <td>${list.acustomer}</td>
+                    <td>${list.ahp}</td>
+                    <td align="left">${list.addr}</td>
+                   	<td>${list.date.substring(0, 10)}</td>
+                    <td>${list.adeliveryck}</td>
                     <td>
                         <button type="button" class="btn btn-danger font12" style="width: 60px; height: 30px;" onclick="DeleteDeliverymen('${list.aidx}')">삭제</button> 
                     </td>
@@ -89,8 +89,13 @@
           </table>
      </div>
      <div class="mb-3">
-        <ul class="pageing">
-          <li>1</li>
+     <ul class="pageing">
+        <c:set var="pages" value="${total%15 == 0? total/15 : total/15 + (1-((total/15)%1))}"/>
+           <c:forEach begin="1" end="${pages}" var="i">
+           <li style="cursor: pointer;" onclick="goToPage(${i},'${startDate}','${endDate}','${radio}')">
+      		${i}
+            </li>
+          </c:forEach>
         </ul>
       </div>
     </div>
@@ -99,6 +104,25 @@
 <!-- Footer -->
 <%@ include file="../footer.jsp"%>
 <script>
+function goToPage(i, startDate, endDate, radio) {
+	
+	
+    let url = '/storeDelivery/storeDelivery.do?pageno=' + i;
+    
+    if (startDate) {
+        url += '&startDate=' + encodeURIComponent(startDate);
+    }
+    if (endDate) {
+        url += '&endDate=' + encodeURIComponent(endDate);
+    }
+     // radio가 undefined인 경우에도 추가됩니다.
+     if (radio) {
+    	 url += '&radio=' + encodeURIComponent(radio);
+    }
+	
+       
+    location.href = url; // 페이지 이동
+}
 function toggleAll(source) {
     const checkboxes = document.querySelectorAll('.product-checkbox');
     checkboxes.forEach((checkbox) => {
