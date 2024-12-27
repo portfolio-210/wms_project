@@ -1,5 +1,3 @@
-
-
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
@@ -7,9 +5,53 @@
 <!-- Header -->
 <%@ include file="../header.jsp"%>
 <!-- Nav -->
-<%@ include file="../nav.jsp"%>   
+<%@ include file="../nav.jsp"%>  
+ 
+<style>
+select {
+  /* Reset Select */
+  appearance: none;
+  outline: 10px red;
+  box-shadow: none;
+  /* Personalize */
+  flex: 1;
+  padding: 0 1em;
+  color: #000;
+  background-color: var(--darkgray);
+  background-image: none;
+  cursor: pointer;
+   border: 2.5px solid #c0392b;
+  border-radius: .50em;
+}
+/* Remove IE arrow */
+select::-ms-expand {
+  display: none;
+}
+/* Custom Select wrapper */
+.select {
+  position: relative;
+  display: flex;
+  width: 15em;
+  height: 2em;
+  overflow: hidden;
+}
 
-   
+/* Arrow */
+.select::after {
+  content: '\25BC';
+  position: absolute;
+  top: 3px;
+  right: 0;
+  padding-left: 1em;
+  padding-right: 1em;
+  transition: .25s all ease;
+  pointer-events: none;
+}
+/* Transition */
+.select:hover::after {
+  color: #f39c12;
+}
+</style>
 <main role="main" style="height: 850px;">
   <div class="container">
     <div class="row">
@@ -38,14 +80,16 @@
     <div class="ad_main1">
        <ul>
           <li class="ad_maintitle font14">❤️🎄배송현황🎄❤️</li>
-          <li class="ad_mainbox" style="display: flex; align-items: center;">                                     
-             <select id="deliveryList" onfocus="this.size=5;" onblur="this.size=1;" onchange="Change(this.value); this.size=1; this.blur();" >
-             <option value="">배송기사를 선택해주세요</option>
+          <li class="ad_mainbox", style="display: flex; align-items: center;">   
+          <div class="select">                
+             <select id="deliveryList" onchange="Change(this.value);" >
+             <option value="">배송기사 선택해주세요</option>
              <c:forEach var="d" items="${deliverymanList}">
              <option value="${d.dcode}"
              <c:if test="${d.dcode == param.z}">selected</c:if>>${d.dname} 기사님(${d.dspot})</option>
              </c:forEach>
-             </select>
+             </select> 
+             </div>         			
              <div style="margin-left: 40px; margin-top: 15px;">
              <c:choose>
 		    <c:when test="${empty deliveryList}">
@@ -60,8 +104,8 @@
 		            </ol>
 		        </c:forEach>
 		    </c:otherwise>
-		</c:choose>
-		</div>
+		</c:choose>		
+	</div>
           </li>
        </ul>
     </div>
@@ -101,4 +145,5 @@ function Change(z) {
         window.location.href = '/member/wmsMain.do?z=' + z;
     }
 }
+
 </script>
